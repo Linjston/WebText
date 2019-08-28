@@ -3,3 +3,4 @@
 3.git commit -m  "说明"  提交文件到仓库
 4.git status  告诉我们时刻掌握仓库当前的状态，并告诉我们修改了什么
 5.git diff <file> 告诉我们文件修改了哪些地方
+6.git log  看提交的版本
