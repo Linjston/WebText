@@ -24,6 +24,32 @@
 一是确实要从版本库中删除该文件，那就用命令git rm <file>删掉，并且git commit；
 二是是删错了，因为版本库里还有呢，所以可以很轻松地把误删的文件恢复到最新版本： git checkout -- <file>
 
+13.建立ssh加密  创建ssh公钥和密钥
+$ ssh-keygen -t rsa -C "youremail@example.com"  
+用户主目录里找到.ssh目录，里面有id_rsa和id_rsa.pub两个文件，这两个就是SSH Key的秘钥对，id_rsa是私钥，不能泄露出去，id_rsa.pub是公钥，可以放心地告诉任何人。
+然后在GitHub上创建ssh密钥，将公钥信息填上去。
+
+【为什么GitHub需要SSH Key呢？因为GitHub需要识别出你推送的提交确实是你推送的，而不是别人冒充的，而Git支持SSH协议，所以，GitHub只要知道了你的公钥，就可以确认只有你自己才能推送。
+当然，GitHub允许你添加多个Key。假定你有若干电脑，你一会儿在公司提交，一会儿在家里提交，只要把每台电脑的Key都添加到GitHub，就可以在每台电脑上往GitHub推送了。
+
+最后友情提示，在GitHub上免费托管的Git仓库，任何人都可以看到喔（但只有你自己才能改）。所以，不要把敏感信息放进去。
+
+如果你不想让别人看到Git库，有两个办法，一个是交点保护费，让GitHub把公开的仓库变成私有的，这样别人就看不见了（不可读更不可写）。另一个办法是自己动手，搭一个Git服务器，因为是你自己的Git服务器，所以别人也是看不见的。这个方法我们后面会讲到的，相当简单，公司内部开发必备。】
+
+
+14.在gitHub 建立一个仓库，eg.名字为Fire-TONG/WebText  
+把一个已有的本地仓库与之关联，然后，把本地仓库的内容推送到GitHub仓库。
+关联： git remote add origin https://github.com/Fire-TONG/WebText.git
+推送本地仓库：git push -u origin master
+【由于远程库是空的，我们第一次推送master分支时，加上了-u参数，Git不但会把本地的master分支内容推送的远程新的master分支，还会把本地的master分支和远程的master分支关联起来，在以后的推送或者拉取时就可以简化命令。】
+如果已经存在关联链接 可以先git remote rm origin 删除，再关联新的。
+
+15.将远程URL在SSH与HTTPS切换
+I.打开Git Bash;II.将当前工作目录更改为本地项目;III.$ git remote -v 列出现有的遥控器
+IV.git remote set-url命令有两个参数：
+		如果您要更新以使用HTTPS，则您的网址可能如下所示：https://github.com/USERNAME/REPOSITORY.git
+		如果您要更新以使用SSH，则您的网址可能如下所示：git@github.com:USERNAME/REPOSITORY.git
+eg.git remote set-url origin git@github:USERNAME/OTHERREPOSITROY.git
 
 
 工作区（Working Directory）:在电脑里能看到的目录

@@ -1,0 +1,4082 @@
+JavaScript:
+
+JavaScript 是属于 HTML 和 Web 的编程语言。
+JavaScript 在 1995 年由 Brendan Eich 发明，并于 1997 年成为一部 ECMA 标准。
+ECMA-262 是其官方名称。ECMAScript 6 （发布于 2015 年）是最新的 JavaScript 版本。
+
+
+I.
+JavaScript Array 对象:
+Array 对象
+Array 对象用于在单个的变量中存储多个值。
+数组是对象：数组是一种特殊类型的对象。在 JavaScript 中对数组使用 typeof 运算符会返回 "object"。但是，JavaScript 					   数组最好以数组来描述。
+		   因为对象使用名称来访问其“成员”(eg.person.firstName)，var person = {firstName:"John", lastName:"Doe", age:46};
+		   数组使用数字来访问其“元素”（eg.person[0]）,var person = ["Bill", "Gates", 62];
+
+数组和对象的区别
+在 JavaScript 中，数组使用数字索引。
+在 JavaScript 中，对象使用命名索引。
+数组是特殊类型的对象，具有数字索引。
+
+
+
+Array 对象属性：
+length				：设置或返回数组中元素的数目。
+constructor			：返回对创建此对象的数组函数的引用。
+					 eg.function employee(name,job,born)
+						{
+						this.name=name;
+						this.job=job;
+						this.born=born;
+						}
+						var bill=new employee("Bill Gates","Engineer",1985);
+						document.write(bill.constructor);
+					 结果：function employee(name, job, born)
+ 						  {this.name = name; this.job = job; this.born = born;}
+
+ 					 eg2.var test=new Array();test.constructor;  结果：function Array() { [native code] }
+ 
+
+prototype			：使您有能力向对象添加属性和方法。																						 prototype(原型)：是function对象的一个属性，它定义了构造函数制造出的对象的的公共祖先.
+					 通过该构造函数产生的对象，可以继承该原型的属性和方法。原型也是对象。
+
+					 eg.使用 prototype 属性来向对象添加属性
+					 function employee(name,job,born)
+					 {
+					 this.name=name;
+					 this.job=job;
+					 this.born=born;
+					 }
+
+					 var bill=new employee("Bill Gates","Engineer",1985); //使用构造函数 创建对象
+					 employee.prototype.salary=null;  //向prototype对象添加 属性，这样构造函数创建的对象都会继承这个属性
+					 bill.salary=20000;
+					 document.write(bill.salary);
+
+
+
+
+
+Array 对象方法：
+concat()	:连接两个或更多的数组，并返回结果。
+            该方法不会改变现有的数组，而仅仅会返回被连接数组的一个副本。
+            语法：arrayObject.concat(arrayX,arrayX,......,arrayX)
+            参数
+            arrayX	必需。该参数可以是具体的值，也可以是数组对象。可以是任意多个。
+            返回值
+			返回一个新的数组。该数组是通过把所有 arrayX 参数添加到 arrayObject 中生成的。如果要进行 concat() 操作的参数是数组，那么添加的是数组中的元素，而不是数组。
+			eg.var a = [1,2,3];document.write(a.concat(4,5));   结果：1,2,3,4,5
+
+			eg2.创建了两个数组，然后使用 concat() 把它们连接起来：
+			var arr = ["a","b","c"]; var arr2 = ["d","e","f"]; document.write(arr.concat(arr2));
+			结果：a,b,c,d,e,f
+
+join()		:把数组的所有元素放入一个字符串。元素通过指定的分隔符进行分隔。
+			语法：arrayObject.join(separator)
+			参数	
+			separator	可选。指定要使用的分隔符。如果省略该参数，则使用逗号作为分隔符。
+			返回值
+			返回一个字符串。该字符串是通过把 arrayObject 的每个元素转换为字符串，然后把这些字符串连接起来，在两个元素之间插入 separator 字符串而生成的。
+            eg.var arr = ["a","b","c"];  arr.join();     结果：a,b,c
+
+            eg2.用分隔符来分隔数组中的元素：
+            var arr = ["a","b","c"];  arr.join(".");     结果：a.b.c
+
+
+pop()		:删除并返回数组的最后一个元素  
+            语法：arrayObject.pop()
+            返回值 	arrayObject 的最后一个元素。
+            pop() 方法将删除 arrayObject 的最后一个元素，把数组长度减 1，并且返回它删除的元素的值。
+            如果数组已经为空，则 pop() 不改变数组，并返回 undefined 值。
+            eg.var arr = ["a","b","c"];  document.write(arr.pop());document.write("<br />")
+               document.write(arr);
+             结果：c
+                  a,b
+
+
+push()		:向数组的末尾添加一个或更多元素，并返回新的长度。
+ 			语法：arrayObject.push(newelement1,newelement2,....,newelementX)
+ 			返回值	把指定的值添加到数组后的新长度。
+ 			push() 方法可把它的参数顺序添加到 arrayObject 的尾部。
+ 			它直接修改 arrayObject，而不是创建一个新的数组。
+ 			push() 方法和 pop() 方法使用数组提供的先进后出栈的功能。
+ 			eg.eg.var arr = ["a","b","c"];  document.write(arr.push("d","e"));document.write("<br />")
+               document.write(arr);
+            结果：5
+            	 a,b,c,d,e
+
+shift()		:删除并返回数组的第一个元素,类似pop()
+
+unshift()	:向数组的开头添加一个或更多元素，并返回新的长度。
+			语法：arrayObject.unshift(newelement1,newelement2,....,newelementX)
+			参数
+			newelement1	必需。向数组添加的第一个元素。
+			newelement2	可选。向数组添加的第二个元素。
+			newelementX	可选。可添加若干个元素。
+			返回值
+			arrayObject 的新长度。
+			unshift() 方法将把它的参数插入 arrayObject 的头部，并将已经存在的元素顺次地移到较高的下标处，以便留出空间。
+			该方法的第一个参数将成为数组的新元素 0，如果还有第二个参数，它将成为新的元素 1，以此类推。
+			eg.var arr = ["a","b","c"];  document.write(arr.unshift("d","e"));document.write("<br />")
+               document.write(arr);
+            结果：5
+            	 d,e,a,b,c
+
+
+reverse()	：颠倒数组中元素的顺序。
+ 			 eg.<script type="text/javascript">
+				var arr = new Array(3)
+				arr[0] = "George"
+				arr[1] = "John"
+				arr[2] = "Thomas"
+				document.write(arr + "<br />")
+				document.write(arr.reverse())
+				</script>
+				输出：
+				George,John,Thomas
+				Thomas,John,George
+
+
+slice()		:从某个已有的数组返回选定的元素	
+			语法：arrayObject.slice(start,end)
+			参数	
+			start	必需。规定从何处开始选取。如果是负数，那么它规定从数组尾部开始算起的位置。也就是说，-1 指最后一个元素，-2 指倒数第二个元素，以此类推。
+			end	可选。规定从何处结束选取。该参数是数组片断结束处的数组下标。如果没有指定该参数，那么切分的数组包含从 start 到数组结束的所有元素。如果这个参数是负数，那么它规定的是从数组尾部开始算起的元素。			
+            返回值
+            返回一个新的数组，包含从 start 到 end （不包括该元素）的 arrayObject 中的元素。
+            该方法并不会修改数组，而是返回一个子数组。
+            eg.var arr = ["a","b","c","e","f"];   document.write(arr.slice(1,4));
+            结果：b,c,e 
+
+
+
+splice()	:删除元素，并向数组添加新元素。
+			向/从数组中添加/删除项目，然后返回被删除的项目,该方法会改变原始数组。
+			语法：arrayObject.splice(index,howmany,item1,.....,itemX)
+			参数
+			index	必需。整数，规定添加/删除项目的位置，使用负数可从数组结尾处规定位置。
+			howmany	必需。要删除的项目数量。如果设置为 0，则不会删除项目。
+			item1, ..., itemX	可选。向数组添加的新项目。
+			返回值
+            Array	包含被删除项目的新数组，如果有的话。
+            splice() 方法可删除从 index 处开始的零个或多个元素，并且用参数列表中声明的一个或多个值来替换那些被删除的元素。
+			如果从 arrayObject 中删除了元素，则返回的是含有被删除的元素的数组。
+			eg.var arr = ["a","b","c","e","f"];  document.write(arr.splice(3,0,"d"));document.write(arr);
+			 结果：(没删除，无返回值)    a,b,c,d,e,f
+
+			eg1.var arr = ["a","b","c","e","f"];  document.write(arr.splice(3,2,"d"));document.write(arr);
+			结果：e,f     a,b,c,d
+
+
+
+sort()		:对数组的元素进行排序
+			语法：arrayObject.sort(sortby)
+			参数
+			sortby	可选。规定排序顺序。必须是函数。
+
+			如果调用该方法时没有使用参数，将按字母顺序对数组中的元素进行排序，说得更精确点，是按照字符编码的顺序进行排序。要实现这一点，首先应把数组的元素都转换成字符串（如有必要），以便进行比较。
+
+			如果想按照其他标准进行排序，就需要提供比较函数，该函数要比较两个值，然后返回一个用于说明这两个值的相对顺序的数字。比较函数应该具有两个参数 a 和 b，其返回值如下：
+				若 a 小于 b，在排序后的数组中 a 应该出现在 b 之前，则返回一个小于 0 的值。
+				若 a 等于 b，则返回 0。
+				若 a 大于 b，则返回一个大于 0 的值。
+
+			返回值
+			对数组的引用。请注意，数组在原数组上进行排序，不生成副本。
+            当 sort() 函数比较两个值时，会将值发送到比较函数，并根据所返回的值（负、零或正值）对这些值进行排序。
+            当比较 40 和 100 时，sort() 方法会调用比较函数 function(40,100)。
+			该函数计算 40-100，然后返回 -60（负值）。
+			排序函数将把 40 排序为比 100 更低的值。
+
+			eg.排序数组的数字
+			var arr = [2,10,5,3,9];   
+			alert(arr.sort(function(a,b){       //升序   结果 2,3,5,9,10
+                return  a-b;       
+			}));
+            
+            alert(arr.sort(function(a,b){       //降序   结果 10，9,5,3,2
+                return  b-a;       
+			}));  
+           
+           eg2.按照数组对象中某个属性值进行排序
+           var arr1 = [{name:gg,age:30},{name:ll,age:34},{name:zz,age:26}];
+           function compare(arr){
+              return function(a,b){
+                   var v1 = a[arr];
+                   var v2 = b[arr];
+                   return  v1-v2;
+              }
+           }
+           arr1.sort(compare('age'));
+           结果：[{name:zz,age:26},{name:gg,age:30},{name:ll,age:34}]
+
+
+
+
+toSource()	:返回该对象的源代码。
+			该原始值由 Array 对象派生的所有对象继承。
+			toSource() 方法通常由 JavaScript 在后台自动调用，并不显式地出现在代码中。
+			(只有 Gecko 核心的浏览器（比如 Firefox）支持该方法，也就是说 IE、Safari、Chrome、Opera 等浏览器均不支持该方法。)
+			eg.
+			function employee(name,job,born)
+			{
+			this.name=name;
+			this.job=job;
+			this.born=born;
+			}
+			var bill=new employee("Bill Gates","Engineer",1985);
+			document.write(bill.toSource());
+			结果：({name:"Bill Gates", job:"Engineer", born:1985}) 
+
+
+toString()	:把数组转换为字符串，并返回结果。
+			返回值
+			arrayObject 的字符串表示。返回值与没有参数的 join() 方法返回的字符串相同。
+
+
+
+
+toLocaleString()	：把数组转换为本地数组，并返回结果。
+					返回值arrayObject 的本地字符串表示
+					首先调用每个数组元素的 toLocaleString() 方法，然后使用地区特定的分隔符把生成的字符串连接起来，形成一个字符串。
+   
+
+valueOf()	：返回数组对象的原始值
+			该原始值由 Array 对象派生的所有对象继承
+			valueOf() 方法通常由 JavaScript 在后台自动调用，并不显式地出现在代码中。
+			对象		返回值
+			Array	数组实例对象。
+			Boolean	布尔值。
+			Date	以毫秒数存储的时间值，从 UTC 1970 年 1 月 1 日午夜开始计算。
+			Function	函数本身。
+			Number	数字值。
+			Object	对象本身。这是默认设置。
+			String	字符串值。
+
+			eg.// Array：返回数组对象本身
+				var array = ["CodePlayer", true, 12, -5];
+				document.writeln( array.valueOf() === array ); // true
+
+				// Date：当前时间距1970年1月1日午夜的毫秒数
+				var date = new Date(2013, 7, 18, 23, 11, 59, 230);
+				document.writeln( date.valueOf() ); // 1376838719230
+
+				// Number：返回数字值
+				var num =  15.26540;
+				document.writeln( num.valueOf() ); // 15.2654
+
+				// 布尔：返回布尔值true或false
+				var bool = true;
+				document.writeln( bool.valueOf() === bool ); // true
+				// new一个Boolean对象
+				var newBool = new Boolean(true);
+				// valueOf()返回的是true，两者的值相等
+				document.writeln( newBool.valueOf() == newBool ); // true
+				// 但是不全等，两者类型不相等，前者是boolean类型，后者是object类型
+				document.writeln( newBool.valueOf() === newBool ); // false
+
+				// Function：返回函数本身
+				function foo(){ 
+				}
+				document.writeln( foo.valueOf() === foo ); // true
+				var foo2 =  new Function("x", "y", "return x + y;");
+				document.writeln( foo2.valueOf() === foo2 ); // true
+
+				// Object：返回对象本身
+				var obj = {name: "张三", age: 18};
+				document.writeln( obj.valueOf() === obj ); // true
+
+				// String：返回字符串值
+				var str = "http://www.365mini.com";
+				document.writeln( str.valueOf() === str ); // true
+				// new一个字符串对象
+				var str2 = new String("http://www.365mini.com");
+				// 两者的值相等，但不全等，因为类型不同，前者为string类型，后者为object类型
+				document.writeln( str2.valueOf() === str2 ); // false
+
+
+
+
+会返回新数组的方法：concat()、slice()、splice()【返回删除部分】
+
+
+
+
+
+
+
+创建数组:
+var array-name = [item1, item2, ...];   （一般使用这种）  
+eg. var cars = ["Saab", "Volvo", "BMW"];
+
+或
+
+new Array();
+//返回值 	如果调用构造函数 Array() 时没有使用参数，那么返回的数组为空，length 字段为 0。
+
+new Array(size);    
+//参数 		size 是期望的数组元素个数。返回的数组，length 字段将被设为 size 的值。
+//返回值 	当调用构造函数时只传递给它一个数字参数，该构造函数将返回具有指定个数、元素为 undefined 的数组。		
+
+new Array(element0, element1, ..., elementn); 
+//参数 		element ..., elementn 是参数列表。当使用这些参数来调用构造函数 Array() 时，新创建的数组的元素就会被初始化为这些值。它的 length 字段也会被设置为参数的个数
+eg.var cars = new Array("Saab", "Volvo", "BMW");
+
+//返回值		当其他参数调用 Array() 时，该构造函数将用参数指定的值初始化数组。
+			当把构造函数作为函数调用，不使用 new 运算符时，它的行为与使用 new 运算符调用它时的行为完全一样
+
+
+
+
+
+添加最高索引的元素可在数组中创建未定义的“洞”：
+
+eg.
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+fruits[6] = "Lemon";                 // 向 fruits 添加一个新元素 (Lemon)
+   
+输出：	Banana
+		Orange
+		Apple
+		Mango
+		undefined
+		undefined  
+		Lemon
+
+
+
+在 JavaScript 中，数组只能使用数字索引。
+
+
+如何识别数组：
+1.ECMAScript 5 定义了新方法 Array.isArray()：
+Array.isArray(fruits);     // 返回 true
+（此方案的问题在于 ECMAScript 5 不支持老的浏览器。）
+
+
+2.创建您自己的 isArray() 函数以解决此问题：
+function isArray(x) {
+    return x.constructor.toString().indexOf("Array") > -1;
+}
+
+
+假如参数为数组，则上面的函数始终返回 true。
+或者更准确的解释是：假如对象原型包含单词 "Array" 则返回 true。
+
+3.假如对象由给定的构造器创建，则 instanceof 运算符返回 true：
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+ 
+document.getElementById("demo").innerHTML = fruits instanceof Array;// 返回 true
+
+
+
+
+查找最高（或最低）的数组值：
+var points = [40, 100, 1, 5, 25, 10];
+points.sort(function(a, b){return a - b});
+// 现在 points[0] 包含最低值
+// 而 points[points.length-1] 包含最高值
+（如果您仅仅需要找到最高或最低值，对整个数组进行排序是效率极低的方法。）
+
+
+
+对数组使用 Math.max()
+您可以使用 Math.max.apply 来查找数组中的最高值：
+实例
+function myArrayMax(arr) {
+    return Math.max.apply(null, arr);
+}
+
+（Math.max.apply([1, 2, 3]) 等于 Math.max(1, 2, 3)。）
+
+对数组使用 Math.min()
+您可以使用 Math.min.apply 来查找数组中的最低值：
+实例
+function myArrayMin(arr) {
+    return Math.min.apply(null, arr);
+}
+
+（Math.min.apply([1, 2, 3]) 等于 Math.min(1, 2, 3)。）
+
+
+
+数组迭代方法：
+1.
+Array.forEach()   【所有浏览器都支持 Array.forEach()，除了 Internet Explorer 8 或更早的版本】
+forEach() 方法为每个数组元素调用一次函数（回调函数）。【无返回值】
+eg.
+var txt = "";
+var numbers = [45, 4, 9, 16, 25];
+numbers.forEach(myFunction);
+
+function myFunction(value) {
+  txt = txt + value + "<br>"; 
+}
+
+输出：	45
+		4
+		9
+		16
+		25
+
+注释：该函数接受 3 个参数：
+		项目值
+		项目索引
+		数组本身
+
+
+2.
+Array.map()
+map() 方法通过对每个数组元素执行函数来创建新数组。
+map() 方法不会对没有值的数组元素执行函数。
+map() 方法不会更改原始数组。
+eg.
+var numbers1 = [45, 4, 9, 16, 25];
+var numbers2 = numbers1.map(myFunction);
+function myFunction(value, index, array) {
+  return value * 2;
+}
+
+输出：numbers2为 ： [90,8,18,32,50]
+
+注释：该函数接受 3 个参数：
+		项目值
+		项目索引
+		数组本身
+
+
+3.
+Array.filter()
+filter() 方法创建一个包含通过测试的数组元素的新数组。
+eg.这个例子用值大于 18 的元素创建一个新数组：
+var numbers = [45, 4, 9, 16, 25];
+var over18 = numbers.filter(myFunction);
+function myFunction(value, index, array) {
+  return value > 18;
+}
+
+输出：over18为：[45,25]
+（通过返回的布尔值，选出新数组）
+
+注释：该函数接受 3 个参数：
+		项目值
+		项目索引
+		数组本身
+
+
+
+4.
+Array.reduce()
+reduce() 方法在每个数组元素上运行函数，以生成（减少它）单个值。
+reduce() 方法在数组中从左到右工作。另请参见 reduceRight（）。
+reduce() 方法不会减少原始数组。
+array.reduce(function(total, currentValue, currentIndex, arr), initialValue)
+参数
+initialValue	可选。传递给函数的初始值
+
+
+eg.这个例子确定数组中所有数字的总和：
+var numbers1 = [45, 4, 9, 16, 25];
+var sum = numbers1.reduce(myFunction);
+function myFunction(total, value, index, array) {
+  return total + value;
+}
+
+输出sum为：99
+
+
+eg2.给一个初始值
+var numbers1 = [45, 4, 9, 16, 25];
+var sum = numbers1.reduce(myFunction，100);   //给予一个初始值，即下面函数的total为100
+function myFunction(total, value, index, array) {
+  return total + value;
+}
+
+输出sum为：199
+
+请注意此函数接受 4 个参数：
+	总数（初始值/先前返回的值）上个数组元素运行函数后的返回值
+	项目值
+	项目索引
+	数组本身
+
+
+
+5.Array.reduceRight() 基本跟reduce相同，方向相反
+reduceRight() 方法在每个数组元素上运行函数，以生成（减少它）单个值。
+reduceRight() 方法在数组中从右到左工作。
+reduceRight() 方法不会减少原始数组。
+
+
+6.Array.every()
+every() 方法检查所有数组值是否通过测试。
+every()是对数组中每一项运行给定函数，如果该函数对每一项返回true,则返回true。
+
+eg.这个例子检查所有数组值是否大于 18：
+var numbers = [45, 4, 9, 16, 25];
+var allOver18 = numbers.every(myFunction);
+
+function myFunction(value, index, array) {
+  return value > 18;
+}
+
+输出：allOver18为：false
+
+请注意此函数接受 3 个参数：
+	项目值
+	项目索引
+	数组本身
+
+
+7.Array.some()
+some() 方法检查某些数组值是否通过了测试。
+some()是对数组中每一项运行给定函数，如果该函数对任一项返回true，则返回true。
+eg.检查某些数组值是否大于 18：
+var numbers = [45, 4, 9, 16, 25];
+var someOver18 = numbers.some(myFunction);
+function myFunction(value, index, array) {
+  return value > 18;
+}
+
+输出：someOver18为：true
+
+请注意此函数接受 3 个参数：
+	项目值
+	项目索引
+	数组本身
+
+
+8.Array.indexOf()
+indexOf() 方法在数组中搜索元素值并返回其位置。
+
+array.indexOf(item, start)
+参数
+item	必需。要检索的项目。
+start	可选。从哪里开始搜索。负值将从结尾开始的给定位置开始，并搜索到结尾。
+返回值
+第一个项目的位置是 0，第二个项目的位置是 1，以此类推。
+如果未找到项目，Array.indexOf() 返回 -1。
+如果项目多次出现，则返回第一次出现的位置。
+
+eg.
+var fruits = ["Apple", "Orange", "Apple", "Mango"];
+var a = fruits.indexOf("Apple");
+输出：a为：0
+
+
+9.Array.lastIndexOf()
+Array.lastIndexOf() 与 Array.indexOf() 类似，但是从数组结尾开始搜索。
+array.lastIndexOf(item, start)
+参数
+item	必需。要检索的项目。
+start	可选。从哪里开始搜索。负值将从结尾开始的给定位置开始，并搜索到开头。
+
+eg.
+var fruits = ["Apple", "Orange", "Apple", "Mango"];
+var a = fruits.lastIndexOf("Apple");
+输出：a为：2
+
+
+10.Array.find()
+find() 方法返回通过测试函数的第一个数组元素的值。
+
+find() 方法为数组中的每个元素都调用一次函数执行：
+	当数组中的元素在测试条件时返回 true 时, find() 返回符合条件的元素，之后的值不会再调用执行函数。
+	如果没有符合条件的元素返回 undefined
+	注意: find() 对于空数组，函数是不会执行的。
+	注意: find() 并没有改变数组的原始值。
+
+eg.查找（返回）大于 18 的第一个元素的值
+var numbers = [4, 9, 16, 25, 29];
+var first = numbers.find((value)=>{return value >18});
+
+输出：first为：25
+
+请注意此函数接受 3 个参数：
+	项目值
+	项目索引
+	数组本身
+
+
+11.Array.findIndex()
+findIndex() 方法返回通过测试函数的第一个数组元素的索引。
+
+eg.查找（返回）大于 18 的第一个元素的值的索引
+var numbers = [4, 9, 16, 25, 29];
+var first = numbers.findIndex((value)=>{return value >18});
+输出：first为：3
+
+请注意此函数接受 3 个参数：
+	项目值
+	项目索引
+	数组本身
+
+
+
+
+
+
+
+
+
+
+
+II.
+JavaScript Date 对象:
+Date 对象用于处理日期和时间
+
+Date 对象属性:(同Array对象)
+constructor		:返回对创建此对象的 Date 函数的引用。eg.test.constructor==Date
+prototype		:使您有能力向对象添加属性和方法。
+
+
+
+
+Date 对象方法:
+//获得时间
+Date()	:
+返回当日的日期和时间。 eg.document.write(Date())  格式 ：Sun Aug 11 2019 21:19:05 GMT+0800 (中国标准时间)
+
+getDate()			：从 Date 对象返回一个月中的某一天 (1 ~ 31)。      
+getDay()			：从 Date 对象返回一周中的某一天 (0 ~ 6)。
+getMonth()			：从 Date 对象返回月份 (0 ~ 11)。
+getFullYear()		:从 Date 对象以四位数字返回年份。
+getHours()			:返回 Date 对象的小时 (0 ~ 23)。 d.getHours()
+getMinutes()		:返回 Date 对象的分钟 (0 ~ 59)。 d.getMinutes()
+getSeconds()		:返回 Date 对象的秒数 (0 ~ 59)。 d.getSeconds()
+getMilliseconds()	:返回 Date 对象的毫秒(0 ~ 999)。 d.getMilliseconds()   //eg.var d = new Date();
+																		    alert(d.getDate());   //输出11
+																		    alert(d.getDay());    //0
+																		    alert(d.getMonth());   //8
+																		    alert(d.getFullYear());//2019
+
+
+
+
+
+getUTCDate()			根据世界时从 Date 对象返回月中的一天 (1 ~ 31)。
+getUTCDay()				根据世界时从 Date 对象返回周中的一天 (0 ~ 6)。
+getUTCMonth()			根据世界时从 Date 对象返回月份 (0 ~ 11)。
+getUTCFullYear()		根据世界时从 Date 对象返回四位数的年份。
+getUTCHours()			根据世界时返回 Date 对象的小时 (0 ~ 23)。
+getUTCMinutes()			根据世界时返回 Date 对象的分钟 (0 ~ 59)。
+getUTCSeconds()			根据世界时返回 Date 对象的秒钟 (0 ~ 59)。
+getUTCMilliseconds()	根据世界时返回 Date 对象的毫秒(0 ~ 999)。  //同上，不过返回的是UTC时间的各部分
+
+
+
+【格林尼治标准时间：
+（GMT，旧译“格林威治平均时间”或“格林威治标准时间”）是指位于伦敦郊区的皇家格林尼治天文台的标准时间，因为本初子午线被定义在通过那里的经线。
+协调世界时(UTC)  ：
+英文：Coordinated Universal Time ，别称：世界统一时间，世界标准时间国际协调时间， 协调世界时，又称世界统一时间，世界标准时间，国际协调时间，简称UTC。它从英文“Coordinated Universal Time”／法文“Temps Universel Cordonné”而来。
+GMT（Greenwish Mean Time 格林威治平时），这是UTC的民间名称。GMT=UTC。】
+
+getTimezoneOffset() 
+【判断所属时区】
+:方法返回的是本地时间与 GMT 时间或 UTC 时间之间相差的分钟数。
+实际上，该函数告诉我们运行 JavaScript 代码的时区，以及指定的时间是否是夏令时。
+返回之所以以分钟计，而不是以小时计，原因是某些国家所占有的时区甚至不到一个小时的间隔。
+
+eg.如何使用 getTimezoneOffset() 根据 GMT 来取得本地时区。
+<script type="text/javascript">
+var d = new Date()
+var gmtHours = d.getTimezoneOffset()/60
+document.write("The local time zone is: GMT " + gmtHours)
+</script>
+
+输出：
+The local time zone is: GMT -8
+
+
+
+
+//返回毫秒 和 通过毫秒转化成正常时间
+parse()				：返回1970年1月1日午夜到指定日期（字符串）的毫秒数。
+ 					 Date.parse(datestring)
+ 					 参数   
+ 					 datestring	必需。表示日期和时间的字符串。
+ 					 eg.var d = Date.parse("Jul 8, 2005");       
+ 					 输出：d为：1120752000000
+ 					 【输入的时间是以本地时间为参照物也就是北京时间，那么北京时间2000年2月1号0点0分0秒，换算成格林尼治标准时间就为 2000年1月31号16点0分0秒, 是1970.1.1午夜到格林尼治时间的毫秒】
+
+UTC() 				:方法可根据世界时返回 1970 年 1 月 1 日 到指定日期的毫秒数。
+					Date.UTC(year,month,day,hours,minutes,seconds,ms)
+					返回指定的时间距 GMT 时间 1970 年 1 月 1 日午夜的毫秒数。
+					eg.var d = Date.UTC(2005,7,8)             
+					   document.write(d)            
+					输出：d为：1123459200000   //比上面多了8小时
+
+					【输入的时间是以格林尼治当地的时间为参照物来计算时间，那么格林尼治的2000年2月1号0点0分0秒，就是我们北京时间的2000年2月1号 8点0分0秒， 是1970.1.1午夜到本地时间的毫秒】
+
+
+getTime()			:返回 1970 年 1 月 1 日至今的毫秒数。var d = new Date();d.getTime()
+
+setTime() 
+：方法以毫秒设置 Date 对象。
+eg.向 1970/01/01 添加 77771564221 毫秒，并显示新的日期和时间：
+var d = new Date()
+d.setTime(77771564221)
+document.write(d)
+输出：
+Mon Jun 19 1972 11:12:44 GMT+0800 (中国标准时间)
+
+
+//设置时间
+dateObject.setFullYear(year,month,day)
+dateObject.setMonth(month,day)
+dateObject.setDate(day)
+dateObject.setHours(hour,min,sec,millisec)
+				.
+				.
+dateObject.setMilliseconds(millisec)
+
+
+
+//时间转字符串
+toUTCString()	:根据世界时，把 Date 对象转换为字符串
+toTimeString()	:把 Date 对象的时间部分转换为字符串。      
+toDateString()	:把 Date 对象的日期部分转换为字符串。   	
+				 	eg:var d = new Date()
+					document.write(d.toUTCString())  //Sun, 11 Aug 2019 14:29:28 GMT
+					document.write(d.toDateString()) //Sun Aug 11 2019
+					document.write(d.toTimeString()) //22:54:01 GMT+0800 (中国标准时间)  （本地时间比格林尼治时间多8个小时）
+
+
+toLocaleString() 		:方法可根据本地时间把 Date 对象转换为字符串，并返回结果。
+toLocaleTimeString()	:根据本地时间格式，把 Date 对象的时间部分转换为字符串。
+toLocaleDateString()	:根据本地时间格式，把 Date 对象的日期部分转换为字符串。
+						eg.var d = new Date()
+						document.write(d.toLocaleString())      //2019/8/11 下午10:24:49	
+						document.write(d.toLocaleTimeString())  //下午10:24:49	
+						document.write(d.toLocaleDateString())  //2019/8/11
+
+      
+
+
+
+
+
+创建 Date 对象
+Date 对象由新的 Date() 构造函数创建。
+有 4 种方法创建新的日期对象：
+
+new Date()
+//日期对象是静态的。计算机时间正在滴答作响，但日期对象不会。
+//var d = new Date();
+
+new Date(year, month, day, hours, minutes, seconds, milliseconds)
+//【javaScript 从 0 到 11 计算月份。一月是 0。十二月是11。6个数字指定年、月、日、小时、分钟、秒;】
+//您不能省略月份。如果只提供一个参数，则将其视为毫秒。 最少2个参数（年和月）
+//var d = new Date(2018, 11, 24, 10, 33, 30, 0);
+
+new Date(milliseconds)
+//eg.var d = new Date(0);document.getElementById("demo").innerHTML = d;
+//格林尼治时间为：Thu Jan 01 1970 00:00:00 GMT
+//输出：Thu Jan 01 1970 08:00:00 GMT+0800 (中国标准时间)  （本地时间）
+
+new Date(date string)
+有四种 JavaScript 日期输入格式：
+	类型	实例
+	ISO 日期	"2018-02-19" （国际标准）
+	短日期	"02/19/2018" 或者 "2018/02/19"
+	长日期	"Feb 19 2018" 或者 "19 Feb 2019"
+	完整日期	"Monday February 25 2015"
+
+
+JavaScript ISO 日期
+ISO 8601 是表现日期和时间的国际标准。
+ISO 8601 语法 (YYYY-MM-DD) 也是首选的 JavaScript 日期格式：
+eg.（完整日期）
+var d = new Date("2018-02-19");
+输出：May 02 2019 08:00:00 GMT+0800 (中国标准时间)
+计算的日期相对于您的时区。
+根据您的时区，上面的结果将在 2 月 18 日至 2 月 19 日之间变化。
+
+
+ISO 日期（完整的日期加时、分和秒）
+写日期也可以添加时、分和秒 (YYYY-MM-DDTHH:MM:SS)：
+var d = new Date("2018-02-19T12:00:00");   //此时这个时间为本地时间
+
+日期和时间通过大写字母 T 来分隔。
+UTC 时间通过大写字母 Z 来定义。
+eg.var d = new Date("2019-05-02T12:00:00Z");  //代表此时这个时间为UTC时间，最后输出的本地时间会比此时间多8个小时
+
+
+
+
+
+
+
+
+
+III.
+JavaScript Math 对象:
+Math 对象用于执行数学任务.
+注释：Math 对象并不像 Date 和 String 那样是对象的类，因此没有构造函数 Math()，像 Math.sin() 这样的函数只是函数，不是某个对象的方法。您无需创建它，通过把 Math 作为对象使用就可以调用其所有属性和方法
+
+Math 构造器
+与其他全局对象不同，Math对象没有构造函数。方法和属性是静态的。
+可以在不首先创建Math对象的情况下使用所有方法和属性（常量）。
+
+
+
+
+
+
+Math 对象属性:
+E			返回算术常量 e，即自然对数的底数（约等于2.718）。
+LN2			返回 2 的自然对数（约等于0.693）。
+LN10		返回 10 的自然对数（约等于2.302）。
+LOG2E		返回以 2 为底的 e 的对数（约等于 1.414）。
+LOG10E		返回以 10 为底的 e 的对数（约等于0.434）。
+PI			返回圆周率（约等于3.14159）。
+SQRT1_2		返回返回 2 的平方根的倒数（约等于 0.707）。
+SQRT2		返回 2 的平方根（约等于 1.414）。
+
+
+
+
+
+Math 对象方法:
+//参数：x都为弧度表示的角 返回值：返回值在 -1.0 到 1.0 之间。
+sin(x)				返回数的正弦。  eg.Math.sin(90 * Math.PI / 180);     // 返回 1（90 度的正弦）
+cos(x)				返回数的余弦。  
+tan(x)				返回角的正切。 
+
+
+//参数：x 的反余弦值（-1.0 ~ 1.0 之间的数。）返回值：是 0 到 PI 之间的弧度值。
+atan(x)				返回值   x 的反正切值。返回的值是 -PI/2 到 PI/2 之间的弧度值。	 								
+atan2(y,x)			返回从 x 轴到点 (x,y) 的角度（介于 -PI/2 与 PI/2 弧度之间）。        
+asin(x)				返回数的反正弦值。
+acos(x)				返回数的反余弦值。
+
+
+
+
+ceil(x) 			方法可对一个数进行上舍入。 返回数：大于等于 x，并且与它最接近的整数。					
+floor() 			方法执行的是向下取整计算，它返回的是小于或等于函数参数，并且与之最接近的整数。
+					eg.document.write(Math.ceil(0.60)）   输出：1
+						document.write(Math.floor(0.60)） 输出：0
+
+
+exp(x) 				方法可返回 e 的 x 次幂的值。
+log(x) 				方法可返回一个数的自然对数。 (以e为底) 
+
+
+sqrt(x)				返回数的平方根。
+pow(x,y)			返回 x 的 y 次幂。
+abs(x)				返回数的绝对值。
+
+
+max(x,y)			返回 x 和 y 中的最高值。
+				   （如果没有参数，则返回 Infinity。如果有某个参数为 NaN，或是不能转换成数字的非数字值，则返回 NaN。）
+min(x,y)			返回 x 和 y 中的最低值。					
+				   （如果没有参数，则返回 -Infinity。如果有某个参数为 NaN，或是不能转换成数字的非数字值，则返回 NaN。）
+
+
+random()			返回 0（包括） 至 1（不包括） 之间的随机数：
+                    eg.Math.floor(Math.random() * 11);		// 返回 0 至 10 之间的数
+                       Math.floor(Math.random() * 10) + 1;	// 返回 1 至 10 之间的数
+
+                    eg1.始终返回介于 min（包括）和 max（不包括）之间的随机数：
+                    function getRndInteger(min, max) {
+					    return Math.floor(Math.random() * (max - min) ) + min;
+					}
+
+					eg2.始终返回介于 min 和 max（都包括）之间的随机数：
+					function getRndInteger(min, max) {
+					    return Math.floor(Math.random() * (max - min + 1) ) + min;
+					}
+
+round(x)			把数四舍五入为最接近的整数。（对于 0.5，该方法将进行上舍入。）eg.Math.round(6.6);   输出：7
+
+
+
+
+
+
+
+
+
+
+
+
+IV.
+JavaScript String 对象：
+String 对象用于处理文本（字符串）。
+
+创建 String 对象的语法：
+new String(s);
+String(s);
+
+参数：
+参数 s 是要存储在 String 对象中或转换成原始字符串的值。
+返回值：
+当 String() 和运算符 new 一起作为构造函数使用时，它返回一个新创建的 String 对象，存放的是字符串 s 或 s 的字符串表示。
+当不用 new 运算符调用 String() 时，它只把 s 转换成原始的字符串，并返回转换后的值。
+eg.
+var x = "Bill";
+var y = new String("Bill");
+
+// typeof x 将返回 string
+// typeof y 将返回 object
+
+请不要把字符串创建为对象。它会拖慢执行速度。
+new 关键字使代码复杂化。也可能产生一些意想不到的结果：
+当使用 == 相等运算符时，相等字符串是相等的：
+var x = "Bill";             
+var y = new String("Bill");
+// (x == y) 为 true，因为 x 和 y 的值相等
+当使用 === 运算符时，相等字符串是不相等的，因为 === 运算符需要类型和值同时相等。
+
+
+反斜杠转义字符把特殊字符转换为字符串字符：(\ 转义字符)
+\'		'	单引号
+\"		"	双引号
+\\		\	反斜杠
+
+\b			退格键
+\f			换页
+\n			新行
+\r			回车
+\t			水平制表符
+\v			垂直制表符
+
+
+属性访问（Property Access）
+ECMAScript 5 (2009) 允许对字符串的属性访问 [ ]：
+var str = "HELLO WORLD";
+str[0];                   // 返回 H
+用属性访问有点不太靠谱：
+	不适用 Internet Explorer 7 或更早的版本
+	它让字符串看起来像是数组（其实并不是）
+	如果找不到字符，[ ] 返回 undefined，而 charAt() 返回空字符串。
+	它是只读的。str[0] = "A" 不会产生错误（但也不会工作！）
+
+
+
+
+
+String 对象属性：
+constructor			对创建该对象的函数的引用
+length				字符串的长度
+prototype			允许您向对象添加属性和方法
+
+
+
+
+String 对象方法：
+anchor() 				:方法用于创建 HTML 锚。
+						eg.var txt="Hello world!";document.write(txt.anchor("myanchor"))
+						上面的代码将输出为纯粹的 HTML：<a name="myanchor">Hello world!</a>
+
+
+charAt(index)			:返回在指定位置的字符。 index:表示字符串中某个位置的数字，即字符在字符串中的下标。
+						如果参数 index 不在 0 与 string.length 之间，该方法将返回一个空字符串。
+						eg.var str = "hello" ;  str.charAt(0);  输出：h
+
+charCodeAt(index)	    :返回在指定的位置的字符的 Unicode 编码。这个返回值是 0 - 65535 之间的整数。
+						如果 index 是负数，或大于等于字符串的长度，则 charCodeAt() 返回 NaN。
+						eg.var str = "hello";   str.charCodeAt(1);  输出：101     （e的ascll码值）
+
+fromCharCode()			：从字符编码创建一个字符串。接受一个指定的 Unicode 值，然后返回一个字符串。
+						String.fromCharCode(numX,numX,...,numX)
+						numX	必需。一个或多个 Unicode 值，即要创建的字符串中的字符的 Unicode 编码。
+						（该方法是 String 的静态方法，它不能作为您已创建的 String 对象的方法来使用。因此它的语法应该是 String.fromCharCode()）
+						eg.document.write(String.fromCharCode(72,69,76,76,79)) 输出：HELLO
+
+concat() 				：方法用于连接两个或多个字符串。（类似Array对象的concat)
+						 使用 " + " 运算符来进行字符串的连接运算通常会更简便一些
+slice()					:提取字符串的片断，并在新的字符串中返回被提取的部分。
+
+
+split()					:把字符串分割为字符串数组。
+						stringObject.split(separator,howmany)
+						参数：
+						separator	必需。字符串或正则表达式，从该参数指定的地方分割 stringObject。
+						howmany		可选。该参数可指定返回的数组的最大长度。如果设置了该参数，返回的子串不会多于这个参数指定的			 数组。如果没有设置该参数，整个字符串都会被分割，不考虑它的长度。
+
+						返回值：
+						一个字符串数组。该数组是通过在 separator 指定的边界处将字符串 stringObject 分割成子串创建的。返回的数组中的字串不包括 separator 自身。
+						eg.
+						var str="How are you doing today?"
+						document.write(str.split(" ") + "<br />")
+						document.write(str.split("") + "<br />")
+						document.write(str.split(" ",3))
+						输出：
+						How,are,you,doing,today?
+						H,o,w, ,a,r,e, ,y,o,u, ,d,o,i,n,g, ,t,o,d,a,y,?
+						How,are,you
+
+
+substr()				：从起始索引号提取字符串中指定数目的字符。
+						 语法：stringObject.substr(start,length)
+						 参数：
+						 start	必需。要抽取的子串的起始下标。可以为负值
+						 length	可选。子串中的字符数。必须是数值。如果省略了该参数，那么返回从 stringObject 					   的开始位置到结尾的字串。
+						 返回值：
+						 一个新的字符串，包含从 stringObject 的 start（包括 start 所指的字符） 处开始的 length 个字符。
+
+						 eg.var str="Hello world!"
+							document.write(str.substr(3,7))
+						 输出：lo worl
+
+
+substring()				：提取字符串中两个指定的索引号之间的字符。
+						stringObject.substring(start,stop)
+						参数：
+						start	必需。一个非负的整数，规定要提取的子串的第一个字符在 stringObject 中的位置
+						stop	可选。一个非负的整数，比要提取的子串的最后一个字符在 stringObject 中的位置多 1
+								如果省略该参数，那么返回的子串会一直到字符串的结尾。 
+
+						返回值：
+						一个新的字符串，该字符串值包含 stringObject 的一个子字符串，其内容是从 start 处到 stop-1 处的所有字符，其长度为 stop 减 start。
+
+						substring() 方法返回的子串包括 start 处的字符，但不包括 stop 处的字符。
+						如果参数 start 与 stop 相等，那么该方法返回的就是一个空串（即长度为 0 的字符串）。
+						如果 start 比 stop 大，那么该方法在提取子串之前会先交换这两个参数。
+						与 slice() 和 substr() 方法不同的是，substring() 不接受负的参数。
+						eg.var str="Hello world!";document.write(str.substring(3,7))
+						输出：lo w  
+
+
+indexOf(searchvalue,fromindex)				:检索字符串。返回索引值 参数：searchvalue 检索的字符串
+lastIndexOf(searchvalue,fromindex)			:从后向前搜索字符串。        fromindex   开始检索位置
+
+
+localeCompare() 		：方法用本地特定的顺序来比较两个字符串。
+						stringObject.localeCompare(target)  
+						参数：target要以本地特定的顺序与 stringObject 进行比较的字符串
+						返回值：
+						如果 stringObject 小于 target，则 localeCompare() 返回小于 0 的数。
+						如果 stringObject 大于 target，则该方法返回大于 0 的数。
+
+						如果两个字符串相等，或根据本地排序规则没有区别，该方法返回 0。
+						eg.var str;
+						   str.sort (function(a,b){return a.localeCompare(b)})
+
+trim() 					:方法删除字符串两端的空白符
+						eg.var str = "       Hello World!        ";
+                         alert(str.trim());
+                         输出：Hello World!
+
+toLocaleLowerCase()		把字符串转换为小写。  
+toLocaleUpperCase()		把字符串转换为大写。
+toLowerCase()			把字符串转换为小写。
+toUpperCase()			把字符串转换为大写。
+
+//正则表达式
+match()				：找到一个或多个正则表达式的匹配。可在字符串内检索指定的值，或找到一个或多个正则表达式的匹配
+					stringObject.match(searchvalue)
+					stringObject.match(regexp)
+					参数：
+					searchvalue	必需。规定要检索的字符串值
+					regexp	必需。规定要匹配的模式的 RegExp 对象。如果该参数不是 RegExp 对象，则需要首先把它传递给 RegExp 构造函数，将其转换为 RegExp 对象。
+					返回值：
+					存放匹配结果的数组。该数组的内容依赖于 regexp 是否具有全局标志 g。
+
+					match() 方法将检索字符串 stringObject，以找到一个或多个与 regexp 匹配的文本。这个方法的行为在很大程度上有赖于 regexp 是否具有标志 g。
+
+					1.如果 regexp 没有标志 g，那么 match() 方法就只能在 stringObject 中执行一次匹配。如果没有找到任何匹配的文本， match() 将返回 null。否则，它将返回一个数组，其中存放了与它找到的匹配文本有关的信息。
+					该数组的第 0 个元素存放的是匹配文本，而其余的元素存放的是与正则表达式的子表达式匹配的文本。
+					返回的数组还含有两个对象属性。index 属性声明的是匹配文本的起始字符在 stringObject 中的位置，input 属性声明的是对 stringObject 的引用。
+
+
+					2.如果 regexp 具有标志 g，则 match() 方法将执行全局检索，找到 stringObject 中的所有匹配子字符串。若没有找到任何匹配的子串，则返回 null。
+					如果找到了一个或多个匹配子串，则返回一个数组。
+					不过全局匹配返回的数组的内容与前者大不相同，它的数组元素中存放的是 stringObject 中所有的匹配子串，而且也没有 index 属性或 input 属性。
+
+					在全局检索模式下，match() 即不提供与子表达式匹配的文本的信息，也不声明每个匹配子串的位置。如果您需要这些全局检索的信息，可以使用 RegExp.exec()。
+
+search() 			:方法使用表达式来搜索匹配，然后返回匹配的位置。
+					stringObject.search(regexp)
+					参数：regexp	该参数可以是需要在 stringObject 中检索的子串，也可以是需要检索的 RegExp 对象。		
+					返回值：stringObject 中第一个与 regexp 相匹配的子串的起始位置。如果没有找到任何匹配的子串，则返回 -1。
+					eg.var str="Visit W3School!"
+					   document.write(str.search(/W3School/))
+					   输出：6
+
+					这两种方法是不相等的。区别在于：
+						search() 方法无法设置第二个开始位置参数。
+						indexOf() 方法无法设置更强大的搜索值（正则表达式）。
+
+replace() 			:方法返回模式被替换处修改后的字符串。
+					stringObject.replace(regexp/substr,replacement)
+					参数：
+					regexp/substr	必需。规定子字符串或要替换的模式的 RegExp 对象。
+					请注意，如果该值是一个字符串，则将它作为要检索的直接量文本模式，而不是首先被转换为 RegExp 对象。
+					replacement		必需。一个字符串值。规定了替换文本或生成替换文本的函数。
+					返回值：
+					一个新的字符串，是用 replacement 替换了 regexp 的第一次匹配或所有匹配之后得到的
+
+					如果 regexp 具有全局标志 g，那么 replace() 方法将替换所有匹配的子串。否则，它只替换第一个匹配子串。
+					replacement 可以是字符串，也可以是函数。
+					如果它是字符串，那么每个匹配都将由字符串替换：
+					但是 replacement 中的 $ 字符具有特定的含义。如下表所示，它说明从模式匹配得到的字符串将用于替换。
+					字符 					替换文本
+					$1、$2、...、$99			与 regexp 中的第 1 到第 99 个子表达式相匹配的文本。
+					$&   					与 regexp 相匹配的子串。
+					$`						位于匹配子串左侧的文本。
+					$'						位于匹配子串右侧的文本。
+					$$						直接量符号。
+
+					eg.var str="Visit Microsoft!";document.write(str.replace(/Microsoft/, "W3School"))
+					输出：Visit W3School!
+
+					如果它是函数：
+					每个匹配都调用该函数，它返回的字符串将作为替换文本使用。
+					该函数的第一个参数是匹配模式的字符串。接下来的参数是与模式中的子表达式匹配的字符串，可以有 0 个或多个这样的参数。接下来的参数是一个整数，声明了匹配在 stringObject 中出现的位置。最后一个参数是 stringObject 本身。
+
+					eg.在本例中，我们将把字符串中所有单词的首字母都转换为大写：
+						name = 'aaa bbb ccc';
+						uw=name.replace(/\b\w+\b/g, function(word){
+						  return word.substring(0,1).toUpperCase()+word.substring(1);}
+						  );
+                       
+
+
+
+
+
+//对字体的样式改变
+small()				使用小字号来显示字符串。
+big()				用大号字体显示字符串。
+blink()				显示闪动字符串。（Internet Explorer不支持）
+bold()				使用粗体显示字符串。
+fixed()				以打字机文本显示字符串。
+italics()			使用斜体显示字符串。
+fontcolor(color)	使用指定的颜色来显示字符串。
+fontsize(size)	    使用指定的尺寸来显示字符串。size 参数必须是从 1 至 7 的数字
+strike()			使用删除线来显示字符串。
+sub()				把字符串显示为下标。
+sup()				把字符串显示为上标。
+link()				将字符串显示为链接。
+					eg.var txt = "hello";txt.link("http://www.w3school.com.cn"); 输出： hello(可点击的链接)
+
+
+JavaScript 的字符串是不可变的（immutable），String 类定义的方法都不能改变字符串的内容。像 String.toUpperCase() 这样的方法，返回的是全新的字符串，而不是修改原始字符串。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+V.
+JavaScript RegExp 对象:
+RegExp 对象表示正则表达式，它是对字符串执行模式匹配的强大工具。
+直接量语法
+/pattern/attributes
+
+创建 RegExp 对象的语法：
+new RegExp(pattern, attributes);
+
+参数
+参数 pattern 是一个字符串，指定了正则表达式的模式或其他正则表达式。
+参数 attributes 是一个可选的字符串，包含属性 "g"、"i" 和 "m"，分别用于指定全局匹配、区分大小写的匹配和多行匹配。
+(ECMAScript 标准化之前，不支持 m 属性。如果 pattern 是正则表达式，而不是字符串，则必须省略该参数。)
+
+返回值
+一个新的 RegExp 对象，具有指定的模式和标志。
+如果参数 pattern 是正则表达式而不是字符串，那么 RegExp() 构造函数将用与指定的 RegExp 相同的模式和标志创建一个新的 RegExp 对象。
+
+如果不用 new 运算符，而将 RegExp() 作为函数调用，那么它的行为与用 new 运算符调用时一样，只是当 pattern 是正则表达式时，它只返回 pattern，而不再创建一个新的 RegExp 对象。
+
+
+抛出
+SyntaxError - 如果 pattern 不是合法的正则表达式，或 attributes 含有 "g"、"i" 和 "m" 之外的字符，抛出该异常。
+
+TypeError - 如果 pattern 是 RegExp 对象，但没有省略 attributes 参数，抛出该异常。
+
+
+///修饰符:
+i	执行对大小写不敏感的匹配。
+g	执行全局匹配（查找所有匹配而非在找到第一个匹配后停止）。
+m	执行多行匹配。
+
+方括号:
+方括号用于查找某个范围内的字符：
+[abc]		查找方括号之间的任何字符。
+[^abc]		查找任何不在方括号之间的字符。
+[0-9]		查找任何从 0 至 9 的数字。
+[a-z]		查找任何从小写 a 到小写 z 的字符。
+[A-Z]		查找任何从大写 A 到大写 Z 的字符。
+[A-z]		查找任何从大写 A 到小写 z 的字符。
+[adgk]		查找给定集合内的任何字符。
+[^adgk]		查找给定集合外的任何字符。
+(red|blue|green)	查找任何指定的选项。
+
+
+元字符:
+元字符（Metacharacter）是拥有特殊含义的字符：
+.		查找单个字符，除了换行和行结束符。
+
+\w		查找单词字符。   	单词字符包括：a-z、A-Z、0-9，以及下划线。
+\W		查找非单词字符。  \W 元字符用于查找非单词字符。
+
+\d		查找数字。       
+\D		查找非数字字符。
+
+\s		查找空白字符。        空白字符可以是：
+\S		查找非空白字符。
+							空格符 (space character)
+							制表符 (tab character)
+							回车符 (carriage return character)
+							换行符 (new line character)
+							垂直换行符 (vertical tab character)
+							换页符 (form feed character)
+
+
+\b		匹配单词边界。   	\b 元字符通常用于查找位于单词的开头或结尾的匹配。
+					 	eg./\bm/ 匹配 "moon" 中的 'm'；
+						/oo\b/ 不匹配 "moon" 中的 'oo'，因为 'oo' 后面的 'n' 是一个单词字符；
+						/oon\b/ 匹配 "moon" 中的 'oon'，因为 'oon' 位于字符串的末端，后面没有单词字符；
+
+\B		匹配非单词边界。  \B 元字符通常用于查找不处在单词的开头或结尾的匹配。
+						eg./\B../ 匹配 "noonday" 中的 'oo'，
+						而 /y\B./ 匹配 "possibly yesterday." 中的 'ye'。
+
+\0		查找 NUL 字符。   
+\n		查找换行符。
+\f		查找换页符。
+\r		查找回车符。
+\t		查找制表符。
+\v		查找垂直制表符。
+
+\xxx	查找以八进制数 xxx 规定的字符。eg.对字符串中的八进制 127 (W) 进行全局搜索：
+									var str="Visit W3School. Hello World!";var patt1=/\127/g;
+
+\xdd	查找以十六进制数 dd 规定的字符。eg.对字符串中的十六进制 57 (W) 进行全局搜索：
+									 var str="Visit W3School. Hello World!";var patt1=/\x57/g;
+
+\uxxxx	查找以十六进制数 xxxx 规定的 Unicode 字符。
+
+
+
+
+量词:
+n+				匹配任何包含至少一个 n 的字符串。
+n*				匹配任何包含零个或多个 n 的字符串。
+n?				匹配任何包含零个或一个 n 的字符串。
+n{X}			匹配包含 X 个 n 的序列的字符串。
+n{X,Y}			匹配包含 X 至 Y 个 n 的序列的字符串。
+n{X,}			匹配包含至少 X 个 n 的序列的字符串。
+				eg.对包含四位数字序列的子串进行全局搜索
+				var str="100, 1000 or 10000?";var patt1=/\d{4}/g;
+
+				eg.对包含三位至四位数字序列的子串进行全局搜索：
+				var str="100, 1000 or 10000?";var patt1=/\d{3,4}/g;
+
+				eg.对包含至少三位数字序列的子串进行全局搜索：
+				var str="100, 1000 or 10000?";var patt1=/\d{3,}/g;
+
+
+
+
+n$				匹配任何结尾为 n 的字符串。
+^n				匹配任何开头为 n 的字符串。
+
+
+
+?=n				匹配任何其后紧接指定字符串 n 的字符串。
+?!n				匹配任何其后没有紧接指定字符串 n 的字符串。
+                eg.对其后紧跟 "all" 的 "is" 进行全局搜索：
+                var str="Is this all there is";var patt1=/is(?= all)/g;
+                匹配：(th)is
+
+                eg.对其后没有紧跟 "all" 的 "is" 进行全局搜索：
+                var str="Is this all there is";var patt1=/is(?! all)/gi;
+                匹配：Is
+
+
+
+
+
+RegExp 对象属性:
+global				:RegExp 对象是否具有标志 g。
+ignoreCase			:RegExp 对象是否具有标志 i。
+multiline			:RegExp 对象是否具有标志 m。
+
+lastIndex			:一个整数，标示开始下一次匹配的字符位置。
+					(不具有标志 g 和不表示全局模式的 RegExp 对象不能使用 lastIndex 属性。)z`
+					1.该属性存放一个整数，它声明的是上一次匹配文本之后的第一个字符的位置。
+					上次匹配的结果是由方法 RegExp.exec() 和 RegExp.test() 找到的，它们都以 lastIndex 2.属性所指的位置作为下次检索的起始点。这样，就可以通过反复调用这两个方法来遍历一个字符串中的所有匹配文本。
+					该属性是可读可写的。只要目标字符串的下一次搜索开始，就可以对它进行设置。当方法 exec() 或 test() 
+					再也找不到可以匹配的文本时，它们会自动把 lastIndex 属性重置为 0。
+
+source				:正则表达式的源文本。(该文本不包括正则表达式直接量使用的定界符/.../，也不包括标志 g、i、m。)
+
+
+
+
+
+
+
+RegExp 对象方法:
+compile()				:编译正则表达式。用于在脚本执行过程中编译正则表达式,也可用于改变和重新编译正则表达式
+                        RegExpObject.compile(regexp,modifier)
+                        参数
+                        regexp	正则表达式。
+                        modifier	规定匹配的类型。"g" 用于全局匹配，"i" 用于区分大小写，"gi" 用于全局区分大小写的匹配。
+
+                        eg.在字符串中全局搜索 "man"，并用 "person" 替换。然后通过 compile() 方法，改变正则表达式，用 "person" 替换 "man" 或 "woman"，：
+                        var str="Every man in the world! Every woman on earth!";
+
+						patt=/man/g;
+						str2=str.replace(patt,"person");
+						document.write(str2+"<br />");
+
+						patt=/(wo)?man/g;
+						patt.compile(patt);     //改变正则表达式
+						str2=str.replace(patt,"person");
+						document.write(str2);
+						输出：
+						Every person in the world! Every woperson on earth!
+						Every person in the world! Every person on earth!
+
+
+exec（）					：检索字符串中指定的值。返回找到的值，并确定其位置。
+						RegExpObject.exec(string)
+						参数：string	必需。要检索的字符串。
+						返回值：返回一个数组，其中存放匹配的结果。如果未找到匹配，则返回值为 null。
+
+						exec() 找到了匹配的文本，则返回一个结果数组。否则，返回 null。
+						此数组的第 0 个元素是与正则表达式相匹配的文本，
+						第 1 个元素是与 RegExpObject 的第 1 个子表达式相匹配的文本（如果有的话），
+						第 2 个元素是与 RegExpObject 的第 2 个子表达式相匹配的文本（如果有的话），以此类推。
+
+						除了数组元素和 length 属性之外，exec() 方法还返回两个属性。
+						index 属性声明的是匹配文本的第一个字符的位置。
+						input 属性则存放的是被检索的字符串 string。
+
+						1.在调用非全局的 RegExp 对象的 exec() 方法时，返回的数组与调用方法 String.match() 返回的数组是相同的。
+
+					   	2.当 RegExpObject 是一个全局正则表达式时，exec() 的行为就稍微复杂一些。
+					   	它会在 RegExpObject 的 lastIndex 属性指定的字符处开始检索字符串 string。
+					   	当 exec() 找到了与表达式相匹配的文本时，在匹配后，它将把 RegExpObject 的 lastIndex 属性设置为匹配文本的最后一个字符的下一个位置。
+					   	这就是说，您可以通过反复调用 exec() 方法来遍历字符串中的所有匹配文本。
+					   	当 exec() 再也找不到匹配的文本时，它将返回 null，并把 lastIndex 属性重置为 0。
+
+					   	eg.
+					   	var str = "Visit W3School, W3School is a place to study web technology."; 
+						var patt = new RegExp("W3School","g");
+						var result;
+
+						while ((result = patt.exec(str)) != null)  {  //可以写成 while(patt.test(str)) 
+						  document.write(result);
+						  document.write("<br />");
+						  document.write(patt.lastIndex);
+						  document.write("<br />");
+						 }
+
+						输出：
+						W3School
+						14
+						W3School
+						24
+
+
+test() 					：方法用于检测一个字符串是否匹配某个模式.
+						RegExpObject.test(string)
+						参数：string	必需。要检测的字符串。
+						返回值：如果字符串 string 中含有与 RegExpObject 匹配的文本，则返回 true，否则返回 false。
+						eg.
+						var str = "Visit W3School";
+						var patt1 = new RegExp("W3School");
+						var result = patt1.test(str);
+						document.write("Result: " + result);
+						输出：Result:true
+
+支持正则表达式的 String 对象的方法:
+search					:检索与正则表达式相匹配的值。用于检索字符串中指定的子字符串，或检索与正则表达式相匹配的子字符串
+						stringObject.search(regexp)
+						参数：
+						regexp	
+						该参数可以是需要在 stringObject 中检索的子串，也可以是需要检索的 RegExp 对象。
+						注释：要执行忽略大小写的检索，请追加标志 i。
+						返回值：
+						stringObject 中第一个与 regexp 相匹配的子串的起始位置。如果没有找到任何匹配的子串，则返回 -1。
+
+						search() 方法不执行全局匹配，它将忽略标志 g。
+						它同时忽略 regexp 的 lastIndex 属性，并且总是从字符串的开始进行检索，这意味着它总是返回 stringObject 的第一个匹配的位置。
+
+						eg.
+						var str="Visit W3School!"
+						document.write(str.search(/w3school/i))
+						输出：6
+
+
+match					：找到一个或多个正则表达式的匹配。
+						stringObject.match(searchvalue)
+						stringObject.match(regexp)
+						参数：
+						searchvalue	必需。规定要检索的字符串值。
+						regexp	必需。规定要匹配的模式的 RegExp 对象。
+								如果该参数不是 RegExp 对象，则需要首先把它传递给RegExp 构造函数，将其转换为 RegExp 对象。
+						返回值：
+						存放匹配结果的数组。该数组的内容依赖于 regexp 是否具有全局标志 g。
+
+						如果 regexp 没有标志 g，那么 match() 方法就只能在 stringObject 中执行一次匹配。					 
+						如果没有找到任何匹配的文本，match() 将返回null，否则，它将返回一个数组，其中存放了与它找到的匹配文本有关的信息，该数组的第 0 个元素存放的是匹配文本，而其余的元素存放的是与正则表达式的子表达式匹配的文本。
+						除了这些常规的数组元素之外，返回的数组还含有两个对象属性。
+						index 属性声明的是匹配文本的起始字符在 stringObject 中的位置，
+						input 属性声明的是对 stringObject 的引用。
+
+
+						如果 regexp 具有标志 g，则 match() 方法将执行全局检索，找到 stringObject 中的所有匹配子字符串。
+						如果找到了一个或多个匹配子串，则返回一个数组。
+						不过全局匹配返回的数组的内容与前者大不相同，它的数组元素中存放的是 stringObject 中所有的匹配子串，而且也没有 index 属性或 input 属性。
+
+						与exc()不同：
+						在全局检索模式下，match() 即不提供与子表达式匹配的文本的信息，也不声明每个匹配子串的位置
+
+						eg.
+						var str="1a plus 2b equal 3d"
+						document.write(str.match(/\d+[adz]/g))
+						输出：1a,3d
+
+
+
+replace() 				:方法用于在字符串中用一些字符替换另一些字符，或替换一个与正则表达式匹配的子串。
+						stringObject.replace(regexp/substr,replacement)
+						参数：
+						regexp/substr	必需。规定子字符串或要替换的模式的 RegExp 对象。
+						请注意，如果该值是一个字符串，则将它作为要检索的直接量文本模式，而不是首先被转换为 RegExp 对象。
+						replacement		必需。一个字符串值。规定了替换文本或生成替换文本的函数。
+						返回值：
+						一个新的字符串，是用 replacement 替换了 regexp 的第一次匹配或所有匹配之后得到的
+
+						如果 regexp 具有全局标志 g，那么 replace() 方法将替换所有匹配的子串。否则，它只替换第一个匹配子串。
+						replacement 可以是字符串，也可以是函数。
+						如果它是字符串，那么每个匹配都将由字符串替换：
+						但是 replacement 中的 $ 字符具有特定的含义。如下表所示，它说明从模式匹配得到的字符串将用于替换。
+						字符 					替换文本
+						$1、$2、...、$99			与 regexp 中的第 1 到第 99 个子表达式相匹配的文本。
+						$&   					与 regexp 相匹配的子串。
+						$`						位于匹配子串左侧的文本。
+						$'						位于匹配子串右侧的文本。
+						$$						直接量符号。
+                        
+                        eg.
+                        name = "Doe, John";
+						document.write(name.replace(/(\w+)\s*, \s*(\w+)/, "$2,$1"));
+						输出：John,Doe
+
+						eg.var str="Visit Microsoft!";document.write(str.replace(/Microsoft/, "W3School"))
+						输出：Visit W3School!
+
+						如果它是函数：
+						每个匹配都调用该函数，它返回的字符串将作为替换文本使用。
+						该函数的第一个参数是匹配模式的字符串。接下来的参数是与模式中的子表达式匹配的字符串，可以有 0 个或多个这样的参数。接下来的参数是一个整数，声明了匹配在 stringObject 中出现的位置。最后一个参数是 stringObject 本身。
+
+						eg.在本例中，我们将把字符串中所有单词的首字母都转换为大写：
+							name = 'aaa bb% ccc';
+							uw=name.replace(/\b\w+\b/g, function(word){
+							  return word.substring(0,word.length-1)+word.charAt(word.length-1).toUpperCase();}
+							  );
+                       输出：aaA bB% ccC
+
+
+
+
+
+
+
+VI.
+JavaScript Number 对象:
+Number 对象是原始数值的包装对象。
+
+创建 Number 对象的语法：
+var myNum=new Number(value);
+var myNum=Number(value);
+参数
+参数 value 是要创建的 Number 对象的数值，或是要转换成数字的值。
+
+返回值
+当 Number() 和运算符 new 一起作为构造函数使用时，它返回一个新创建的 Number 对象。
+如果不用 new 运算符，把 Number() 作为一个函数来调用，它将把自己的参数转换成一个原始的数值，并且返回这个值（如果转换失败，则返回 NaN）。
+
+
+
+Number 对象属性：
+constructor			返回对创建此对象的 Number 函数的引用。
+prototype			使您有能力向对象添加属性和方法。
+
+NaN					：非数字值。代表非数字值的特殊值。该属性用于指示某个值不是数字。可以把 Number 												对象设置为该值，来指示其不是数字值。
+					用 isNaN() 全局函数来判断一个值是否是 NaN 值
+					NaN 与其他数值进行比较的结果总是不相等的，包括它自身在内。
+
+MAX_VALUE			可表示的最大的数。是 JavaScript 中可表示的最大的数。它的近似值为 1.7976931348623157 x 10的308次幂。		MIN_VALUE			可表示的最小的数。是 JavaScript 中可表示的最小的数（接近 0 ，但不是负数）。它的近似值为 5 x 10的-324次幂。
+					1.7976931348623157e+308	  和   5e-324
+
+NEGATIVE_INFINITY	负无穷大，溢出时返回该值。表示小于 Number.MIN_VALUE 的值。该值代表负无穷大
+					在算术运算或函数生成一个比 JavaScript 能表示的最小负数还小的数（也就是比 -Number.MAX_VALUE 还小的数）时返回。
+					JavaScript 显示 NEGATIVE_INFINITY 时使用的是 -Infinity。
+
+POSITIVE_INFINITY	正无穷大，溢出时返回该值。	表示大于 Number.MAX_VALUE 的值。该值代表正无穷大
+					在算术运算或函数生成一个比 JavaScript 能表示的最大的数还大的数（也就是比 Number.MAX_VALUE 还大的数）时返回。
+					可以用 Infinity 代替 Number.POSITIVE_INFINITY
+
+
+
+
+
+
+
+Number 对象方法：
+valueOf()			 :返回一个 Number 对象的基本数字值。
+toString() 			：方法可把一个 Number 对象转换为一个字符串，并返回结果。
+					 NumberObject.toString(radix)   // Number对象才可以转换基底
+					 参数：
+					 radix	可选。规定表示数字的基数，使 2 ~ 36 之间的整数。
+					 		若省略该参数，则使用基数 10。
+					 返回值：
+					 数字的字符串表示。例如，当 radix 为 2 时，NumberObject 会被转换为二进制值表示的字符串。
+
+					 抛出：当调用该方法的对象不是 Number 时抛出 TypeError 异常。
+
+
+toLocaleString() 	：方法可把一个 Number 对象转换为本地格式的字符串。
+					返回值:数字的字符串表示，由实现决定，根据本地规范进行格式化，可能影响到小数点或千分位分隔符采用的标点符号。
+
+
+toFixed()			:把数字转换为字符串，结果的小数点后有指定位数的数字。（定点记数法，小数点后有几位 0-20）
+					可把 Number 四舍五入为指定小数位数的数字。
+					NumberObject.toFixed(num)
+					参数：
+					num	必需。规定小数的位数，是 0 ~ 20 之间的值，包括 0 和 20，如果省略了该参数，将用 0 代替。
+					返回值：
+					返回 NumberObject 的字符串表示，不采用指数计数法，小数点后有固定的 num 位数字。
+					如果必要，该数字会被舍入，也可以用 0 补足，以便它达到指定的长度。
+					如果 num 大于 21，则该方法只调用 NumberObject.toString()，返回采用指数计数法表示的字符串。
+					eg.
+					var num = new Number(13.37);document.write (num.toFixed(1))
+  					输出：13.4
+
+toExponential（）  	：把对象的值转换为指数计数法。（指数记数法，小数点后有几位 0-20）
+					NumberObject.toExponential(num)
+					参数：
+					num	必需。规定指数计数法中的小数位数，是 0 ~ 20 之间的值，包括 0 和 20，有些实现可以支持更大的数值范围。如果省略了该参数，将使用尽可能多的数字。
+					返回值
+					返回 NumberObject 的字符串表示，采用指数计数法，即小数点之前有一位数字，小数点之后有 num 位数字。该数字的小数部分将被舍入，必要时用 0 补足，以便它达到指定的长度。
+					eg.
+					var num = new Number(10200);document.write (num.toExponential(2))
+					输出：1.02e+4
+
+
+toPrecision()		:把数字格式化为指定的长度。（有效数字位数 1-21）
+					在对象的值超出指定位数时将其转换为指数计数法。
+					NumberObject.toPrecision(num)
+					参数：
+					num	必需。规定必须被转换为指数计数法的最小位数。该参数是 1 ~ 21 之间（且包括 1 和 21）的值。
+					如果省略了该参数，则调用方法 toString()，而不是把数字转换成十进制的值。
+					返回值：
+					返回 NumberObject 的字符串表示，包含 num 个有效数字
+					如果 num 足够大，能够包括 NumberObject 整数部分的所有数字，那么返回的字符串将采用定点计数法。
+					否则，采用指数计数法，即小数点前有一位数字，小数点后有 num-1 位数字。必要时，该数字会被舍入或用 0 补足。
+
+					eg.var num = new Number(10000);document.write (num.toPrecision(4))
+					输出：（因为10000 5位有效数字，所以用指数记数法） 1.000e+4
+
+
+
+ 在 JavaScript 中，数字是一种基本的数据类型。JavaScript 还支持 Number 对象，该对象是原始数值的包装对象。在必要时，JavaScript 会自动地在原始数据和对象之间转换。
+
+ 构造函数 Number() 可以不与运算符 new 一起使用，而直接作为转化函数来使用。以这种方式调用 Number() 时，它会把自己的参数转化成一个数字，然后返回转换后的原始数值（或 NaN）
+
+ 构造函数通常还用作 5 个有用的数字常量的占位符，这 5 个有用的数字常量分别是可表示的最大数、可表示的最小数、正无穷大、负无穷大和特殊的 NaN 值。 注意，这些值是构造函数 Number() 自身的属性，而不是单独的某个 Number 对象的属性。
+ eg.var big = Number.MAX_VALUE
+
+
+ toString() 和 Number 对象的其他方法，它们是每个 Number 对象的方法，而不是 Number() 构造函数的方法。前面提到过，在必要时，JavaScript 会自动地把原始数值转化成 Number 对象，调用 Number 方法的既可以是 Number 对象，也可以是原始数字值。
+
+ eg.
+ var n = 123;
+var binary_value = n.toString(2); //将n隐式转化为Number对象，调用toString方法，之后delete 对象
+
+
+JavaScript 数值始终是 64 位的浮点数：
+JavaScript 数值始终以双精度浮点数来存储，根据国际 IEEE 754 标准
+此格式用 64 位存储数值，其中 0 到 51 存储数字（片段），52 到 62 存储指数，63 位存储符号：
+值(aka Fraction/Mantissa)			指数						符号
+52 bits(0 - 51)						11 bits (52 - 62)		1 bit (63)
+
+精度：整数（不使用指数或科学计数法）会被精确到 15 位。
+
+
+数字和字符串相加：
+JavaScript 的加法和级联（concatenation）都使用 + 运算符。
+数字用加法。字符串用级联。
+
+如果您对两个数相加，结果将是一个数；
+如果对两个字符串相加，结果将是一个字符串的级联；
+如果您对一个数和一个字符串相加，结果也是字符串级联。
+
+eg.
+var x = 10;
+var y = 20;
+var z = "30";
+var result = x + y + z;
+javaScript 从左向右进行编译。
+因为 x 和 y 都是数，10 + 20 将被相加。因为 z 是字符串，30 + "30" 被级联。 结果是"3030"
+
+
+//一个数和一个字符串 减、乘、除和模运算，把字符串转化为数字；
+//字符串 ++、--时，转化位数字。eg.var a = "123"; a++; =>Number("123"),然后再++,结果为a = 124.
+
+//您在数学运算中使用了 NaN，则结果也将是 NaN
+
+
+///把变量转换为数值
+这三种 JavaScript 方法可用于将变量转换为数字：(这些方法并非数字方法，而是全局 JavaScript 方法。)
+	Number() 方法
+	parseInt() 方法
+	parseFloat() 方法
+
+parseInt() 解析一段字符串并返回数值。允许空格。只返回首个数字：
+parseInt("10");         // 返回 10
+parseInt("10.33");      // 返回 10
+parseInt("10 20 30");   // 返回 10
+parseInt("10 years");   // 返回 10
+parseInt("years 10");   // 返回 NaN
+
+eg.parseInt(string, radix)  radix	可选。表示要解析的数字的基数。该值介于 2 ~ 36 之间。
+parseInt("100",2);     //100 为2进制，转成10进制，返回8.
+parseInt("10",16)  //返回16
+parseInt("010") //返回8     （字符串以"0"为开始时旧的浏览器默认使用八进制基数。ECMAScript 5，默认的是十进制的基数。）
+
+parseFloat() 解析一段字符串并返回数值。允许空格。只返回首个数字：
+parseFloat("10");        // 返回 10
+parseFloat("10.33");     // 返回 10.33
+parseFloat("10 20 30");  // 返回 10
+parseFloat("10 years");  // 返回 10
+parseFloat("years 10");  // 返回 NaN
+
+
+
+
+
+
+
+VII.
+JavaScript Boolean 对象:
+
+创建 Boolean 对象的语法：
+new Boolean(value);	//构造函数
+Boolean(value);		//转换函数
+参数
+参数 value 由布尔对象存放的值或者要转换成布尔值的值。
+
+返回值
+当作为一个构造函数（带有运算符 new）调用时，Boolean() 将把它的参数转换成一个布尔值，并且返回一个包含该值的 Boolean 对象。
+
+如果作为一个函数（不带有运算符 new）调用时，Boolean() 只将把它的参数转换成一个原始的布尔值，并且返回这个值。
+
+注释：如果省略 value 参数，或者设置为 0、-0、null、""、false、undefined 或 NaN，则该对象设置为 false。
+否则设置为 true（即使 value 参数是字符串 "false"）。
+
+
+
+Boolean 对象属性:
+constructor		返回对创建此对象的 Boolean 函数的引用
+prototype		使您有能力向对象添加属性和方法。
+
+
+
+Boolean 对象方法:
+toSource()	返回该对象的源代码。
+toString()	把逻辑值转换为字符串，并返回结果。 根据原始布尔值或者 booleanObject 对象的值返回字符串 "true" 或 "false"。
+valueOf()	返回 Boolean 对象的原始值。
+
+
+
+在 JavaScript 中，布尔值是一种基本的数据类型。Boolean 对象是一个将布尔值打包的布尔对象。Boolean 对象主要用于提供将布尔值转换成字符串的 toString() 方法。
+
+当调用 toString() 方法将布尔值转换成字符串时（通常是由 JavaScript 隐式地调用），JavaScript 会内在地将这个布尔值转换成一个临时的 Boolean 对象，然后调用这个对象的 toString() 方法。
+
+
+JavaScript 布尔（逻辑）代表两个值之一：true 或 false。
+
+Boolean() 函数
+您可以使用 Boolean() 函数来确定表达式（或变量）是否为真：
+Boolean(10 > 9)        // 返回 true
+
+或者甚至更简单：
+(10 > 9)              // 也返回 true
+10 > 9                // 也返回 true
+
+
+
+
+比较运算符:( 给定x = 5)
+==		等于	（值相等）				x == 8	false；x == 5	true；x == "5"	true
+===		值相等并且类型相等			x === 5	true  ；x === "5"	false
+!=		不相等						x != 8	true
+!==		值不相等或类型不相等			x !== 5	false；x !== "5"	true；x !== 8	true
+>		大于							x > 8	false	
+<		小于							x < 8	true	
+>=		大于或等于					x >= 8	false	
+<=		小于或等于					x <= 8	true
+
+
+
+逻辑运算符：（给定 x = 6 且 y = 3）
+&&			与				(x < 10 && y > 1) 为 true
+||			或				(x == 5 || y == 5) 为 false
+!			非				!(x == y) 为 true
+
+
+条件（三元）运算符：
+variablename = (condition) ? value1:value2
+condition为true，选择value1,否则如果为false,选择value2.
+			
+
+JavaScript 位运算符:
+运算符		名称				描述
+&			AND				如果两位都是 1 则设置每位为 1
+|			OR				如果两位之一为 1 则设置每位为 1
+^			XOR(异或)		如果两位只有一位为 1 则设置每位为 1
+~			NOT				反转所有位
+<<			零填充左位移		通过从右推入零向左位移，并使最左边的位脱落。
+>>			有符号右位移		通过从左推入最左位的拷贝来向右位移，并使最右边的位脱落。
+>>>			零填充右位移		通过从左推入零来向右位移，并使最右边的位脱落。
+
+
+eg.
+操作			结果		等同于			结果
+5 & 1		1		0101 & 0001		0001
+5 | 1		5		0101 | 0001		0101
+5 ^ 1		4		0101 ^ 0001		0100
+~ 5			10		~0101			1010
+5 << 1		10		0101 << 1		1010
+5 >> 1		2		0101 >> 1		0010
+5 >>> 1		2		0101 >>> 1		0010
+
+
+JavaScript 使用 32 位按位运算数:
+JavaScript 将数字存储为 64 位浮点数，但所有按位运算都以 32 位二进制数执行。
+	1.在执行位运算之前，JavaScript 将数字转换为 32 位有符号整数。
+	2.执行按位操作后，结果将转换回 64 位 JavaScript 数。
+//有符号整数使用最左边的位作为减号
+eg.
+00000000000000000000000000000101 (5)
+11111111111111111111111111111010 (~5 = -6)
+
+把十进制转换为二进制:
+function dec2bin(dec){
+    return (dec >>> 0).toString(2);    //结果为32位的补码 11111111111111111111111111111011
+}
+
+把二进制转换为十进制：
+function bin2dec(bin){
+    return parseInt(bin, 2).toString(10);
+}
+
+
+
+比较不同的类型:
+如果将字符串与数字进行比较，那么在做比较时 JavaScript 会把字符串转换为数值。
+空字符串将被转换为 0。
+非数值字符串将被转换为始终为 false 的 NaN。
+
+eg.
+2 < "12"	true
+2 < "John"	false
+2 > "John"	false
+"2" < "12"	false   (当比较两个字符串时，"2" 大于 "12"，因为（按照字母排序）1 小于 2。)
+
+
+
+
+
+///JavaScript 类型转换:
+Number() 转换数值，String() 转换字符串，Boolean() 转换布尔值。
+
+JavaScript 中有五种可包含值的数据类型：
+	字符串（string）
+	数字（number）
+	布尔（boolean）
+	对象（object）
+	函数（function）
+有三种对象类型：
+	对象（Object）
+	日期（Date）
+	数组（Array）
+同时有两种不能包含值的数据类型：
+	null
+	undefined
+
+
+typeof 运算符:
+typeof 运算符不是变量。它属于运算符。typeof 始终会返回字符串（包含运算数的类型）
+
+您可以使用 typeof 运算符来确定 JavaScript 变量的数据类型。
+eg.
+typeof "Bill"                 // 返回 "string"
+typeof 3.14                   // 返回 "number"
+typeof NaN                    // 返回 "number"
+typeof false                  // 返回 "boolean"
+typeof [1,2,3,4]              // 返回 "object"
+typeof {name:'Bill', age:62}  // 返回 "object"
+typeof new Date()             // 返回 "object"
+typeof function () {}         // 返回 "function"
+typeof myCar                  // 返回 "undefined" *
+typeof null                   // 返回 "object"
+
+NaN 的数据类型是数值
+数组的数据类型是对象
+日期的数据类型是对象
+null 的数据类型是对象
+未定义变量的数据类型是 undefined
+尚未赋值的变量的数据类型也是 undefined
+
+
+
+constructor 属性返回所有 JavaScript 变量的构造器函数。:
+eg.
+"Bill".constructor                 // 返回 "function String()  { [native code] }"
+(3.14).constructor                 // 返回 "function Number()  { [native code] }"
+false.constructor                  // 返回 "function Boolean() { [native code] }"
+[1,2,3,4].constructor              // 返回 "function Array()   { [native code] }"
+{name:'Bill', age:62}.constructor  // 返回" function Object()  { [native code] }"
+new Date().constructor             // 返回 "function Date()    { [native code] }"
+function () {}.constructor         // 返回 "function Function(){ [native code] }"
+
+constructor 属性来确定某个对象是否为数组（包含单词 "Array"）
+function isArray(myArray) {
+    return myArray.constructor === Array;
+}
+或
+function isArray(myArray) {
+    return myArray.constructor.toString().indexOf("Array") > -1;
+}
+
+
+
+JavaScript 变量能够被转换为新变量以及另一种数据类型：
+	通过使用 JavaScript 函数
+	通过 JavaScript 本身自动转换
+
+///JavaScript 类型转换表:
+原始值				转换为数字		转换为字符串			转换为逻辑
+false				0				"false"				false
+true				1				"true"				true
+-0					0				"-0"				false(-0)
+ 0					0				"0"					false(0)
+"0"					0				"0"					true	
+"000"				0				"000"				true
+"twenty"			NaN				"twenty"			true
+NaN					NaN				"NaN"				false(NaN)
+""					0				""					false("")
+null				0				"null"				false(null)
+undefined			NaN				"undefined"			false(undefine)
+Infinity			Infinity		"Infinity"			true	
+-Infinity	        -Infinity		"-Infinity"			true
+[ ]					0				""					true
+[20]				20				"20"				true
+[10,20]				NaN				"10,20"				true
+["twenty"]			NaN				"twenty"			true
+["ten","twenty"]	NaN				"ten,twenty"		true
+function(){}		NaN				"function(){}"		true
+{ }					NaN				"[object Object]"	true
+
+
+
+
+
+
+
+VIII.
+顶层函数（全局函数）:
+decodeURI() 				:函数可对 encodeURI() 函数编码过的 URI 进行解码。
+							decodeURI(URIstring)
+							参数：URIstring	必需。一个字符串，含有要解码的 URI 或其他要解码的文本。
+							返回值：URIstring 的副本，其中的十六进制转义序列将被它们表示的字符替换。
+							eg.var test1="http://www.w3school.com.cn/My first/"
+								document.write(encodeURI(test1)+ "<br />")
+								document.write(decodeURI(test1))
+							输出：
+							http://www.w3school.com.cn/My%20first/
+							http://www.w3school.com.cn/My first/
+
+decodeURIComponent()		：解码一个编码的 URI 组件。可对 encodeURIComponent() 函数编码的 URI 进行解码。
+							decodeURIComponent(URIstring)
+							参数	：
+							URIstring	必需。一个字符串，含有编码 URI 组件或其他要解码的文本。
+							返回值
+							URIstring 的副本，其中的十六进制转义序列将被它们表示的字符替换。
+							eg.
+							var test1="http://www.w3school.com.cn/My first/"
+							document.write(encodeURIComponent(test1)+ "<br />")
+							document.write(decodeURIComponent(test1))
+							输出：http%3A%2F%2Fwww.w3school.com.cn%2FMy%20first%2F
+								  http://www.w3school.com.cn/My first/
+
+
+encodeURI()					：把字符串编码为 URI。
+							encodeURI(URIstring)  参数：URIstring	必需。一个字符串，含有 URI 或其他要编码的文本。
+												返回值：URIstring 的副本，其中的某些字符将被十六进制的转义序列进行替换。
+							1.该方法不会对 ASCII 字母和数字进行编码，
+							也不会对这些 ASCII 标点符号进行编码： - _ . ! ~ * ' ( ) 。（与encodeURIComponent()相同）
+
+							2.该方法的目的是对 URI 进行完整的编码，因此对以下在 URI 中具有特殊含义的 ASCII 标点符号，encodeURI() 函数是不会进行转义的;/?:@&=+$,#  （与encodeURIComponent()的区别）
+							
+
+							eg.
+							document.write(encodeURI("http://www.w3school.com.cn")+ "<br />")
+							document.write(encodeURI("http://www.w3school.com.cn/My first/"))
+							document.write(encodeURI(",/?:@&=+$#"))
+							输出：
+							http://www.w3school.com.cn
+							http://www.w3school.com.cn/My%20first/
+							,/?:@&=+$#
+
+
+
+encodeURIComponent() 		：函数可把字符串作为 URI 组件进行编码。
+							encodeURIComponent(URIstring)	
+							参数：URIstring	必需。一个字符串，含有 URI 组件或其他要编码的文本。
+							返回值：URIstring 的副本，其中的某些字符将被十六进制的转义序列进行替换。
+
+							1.该方法不会对 ASCII 字母和数字进行编码，
+							也不会对这些 ASCII 标点符号进行编码： - _ . ! ~ * ' ( ) 。
+
+							2.其他字符（比如 ：;/?:@&=+$,# 这些用于分隔 URI 组件的标点符号），都是由一个或多个十六进制的转义序列替换的。
+
+							请注意 encodeURIComponent() 函数 与 encodeURI() 函数的区别之处，前者假定它的参数是 URI 的一部分（比如协议、主机名、路径或查询字符串）。因此 encodeURIComponent() 函数将转义用于分隔 URI 各个部分的标点符号。
+							eg.
+							document.write(encodeURIComponent("http://www.w3school.com.cn/p 1/"))
+							document.write("<br />")
+							document.write(encodeURIComponent(",/?:@&=+$#"))
+							输出：
+							http%3A%2F%2Fwww.w3school.com.cn%2Fp%201%2F
+							%2C %2F %3F %3A %40 %26 %3D %2B %24 %23
+
+
+
+escape()					：对字符串进行编码。可对字符串进行编码，这样就可以在所有的计算机上读取该字符串
+							escape(string)	参数：string	必需。要被转义或编码的字符串。
+											返回值:已编码的 string 的副本。其中某些字符被替换成了十六进制的转义序列。
+							该方法不会对 ASCII 字母和数字进行编码，
+							也不会对下面这些 ASCII 标点符号进行编码： * @ - _ + . / 。其他所有的字符都会被转义序列替换。
+
+
+getClass()					：返回一个 JavaObject 的 JavaClass。
+							getClass(javaobj)  、
+							参数：javaobj	一个 JavaObject 对象。
+							返回值：javaobj 的 JavaClass 对象。
+
+							该函数可接受一个 JavaObject 对象作为其参数，并返回该对象的 JavaClass，即返回 JavaClass 对象。该 JavaClass 对象表示 Java 对象的 Java 类，而这个 Java 对象所表示的 Java 类是由 JavaObject 指定的。
+
+							请不要把 JavaScript 的 getClass() 函数与所有 Java 对象的 getClass 方法混淆在一起。也不要把 JavaScript 的 JavaClass 对象与 Java java.lang.Class 类混淆了。
+							创建一个 Java Rectangle 对象：
+							var obj = new java.awt.Rectangle();
+							obj 是一个保存了 JavaObject 的 JavaScript 变量。我们可以调用 JavaScript 函数 getClass() 返回一个 JavaClass 对象，该 JavaClass 对象表示 java.awt.Rectangle 类：
+						    var cls = getClass(obj);
+
+
+						    调用 Java getClass() 的方式有所不同，且执行完全不同的功能：
+						    cls = obj.getClass();
+						    在执行了上面这行代码后，cls 是表示 java.lang.class 对象的一个 Java Object。这个 java.lang.class 对象是一个 Java 对象，它是 java.awt.Rectangle 类的一个 Java 表示。
+
+						    对于任何的 JavaObject obj，您都会看到下面的表示式始终为 true：
+							(getClass(obj.getClass()) == java.lang.Class)
+
+
+isFinite(number)			：检查某个值是否为有穷大的数。如果 number 是 NaN（非数字），或者是正、负无穷大的数，则返回 false。
+isNaN()						：检查某个值是否是数字。
+							如果 x 是特殊的非数字值 NaN（或者能被转换为这样的值），返回的值就是 true。
+							如果 x 是其他值,则返回 false。
+Number()					：把对象的值转换为数字。
+parseFloat()				：解析一个字符串并返回一个浮点数。
+parseInt()					：解析一个字符串并返回一个整数。
+String()					：把对象的值转换为字符串。							
+
+
+
+顶层属性（全局属性）：
+Infinity		代表正的无穷大的数值。
+NaN				指示某个值是不是数字值。
+
+Packages		：根 JavaPackage 对象。
+				全局 Packages 属性就是一个 JavaPackage 对象，其属性是 Java 解释器所知道的所有包的根。例如，Packages.javax.swing 引用的是 Java 包 javax.swing。全局属性 java 是 Packages.java 的简写。
+java			：代表 java.* 包层级的一个 JavaPackage。				
+
+undefined		指示未定义的值。
+				无法使用 for/in 循环来枚举 undefined 属性，也不能用 delete 运算符来删除它。
+				undefined 不是常量，可以把它设置为其他值。
+				当尝试读取不存在的对象属性时也会返回 undefined。
+
+				只能用 === 运算来测试某个值是否是未定义的，因为 == 运算符认为 undefined 值等价于 null。
+				null 表示无值，而 undefined 表示一个未声明的变量，或已声明但没有赋值的变量，或一个并不存在的对象属性
+
+
+
+事件句柄：
+HTML 4.0 的新特性之一是有能力使 HTML 事件触发浏览器中的动作（action），比如当用户点击某个 HTML 元素时启动一段 JavaScript。下面是一个属性列表，这些属性可插入 HTML 标签来定义事件动作。
+
+onload		某个页面或图像被完成加载
+onunload	用户退出页面
+onerror		当加载文档或图像时发生某个错误
+onabort		图像加载被中断
+
+onblur		元素失去焦点
+onfocus		元素获得焦点
+onchange	用户改变域的内容
+onselect	文本被选定
+
+onclick		鼠标点击某个对象
+ondblclick	鼠标双击某个对象
+onkeyup		某个键盘的键被松开
+onkeydown	某个键盘的键被按下
+onkeypress	某个键盘的键被按下或按住
+onmouseup	某个鼠标按键被松开
+onmousedown	某个鼠标按键被按下
+onmouseover	鼠标被移到某元素之上
+onmouseout	鼠标从某元素移开
+onmousemove	鼠标被移动
+
+
+onreset		重置按钮被点击
+onsubmit	提交按钮被点击
+onresize	窗口或框架被调整尺寸
+
+
+
+
+IX.
+js补充：
+IX.1.break 语句，如果没有标签引用，只能用于跳出一个循环或一个 switch。
+如果有标签引用，则 break 语句可用于跳出任意代码块：
+eg.
+var  cars = ["BMW", "Volvo", "Saab", "Ford"];
+list: {
+    text += cars[0] + "<br>"; 
+    text += cars[1] + "<br>"; 
+    text += cars[2] + "<br>"; 
+    break list;
+    text += cars[3] + "<br>"; 
+    text += cars[4] + "<br>"; 
+    text += cars[5] + "<br>"; 
+}
+输出：BMW
+	 Volvo
+	 Saab
+
+
+IX.2.JavaScript 错误 - Throw 和 Try to Catch
+try 语句使您能够测试代码块中的错误。
+catch 语句允许您处理错误。
+throw 语句允许您创建自定义错误。
+finally 使您能够执行代码，在 try 和 catch 之后，无论结果如何
+
+
+
+JavaScript try 和 catch:
+try 语句允许您定义一个代码块，以便在执行时检测错误。
+catch 语句允许你定义一个要执行的代码块，如果 try 代码块中发生错误
+JavaScript 语句 try 和 catch 成对出现：
+try {
+     供测试的代码块
+}
+ catch(err) {
+     处理错误的代码块
+} 
+
+eg.通过 adddlert 编写警告代码来故意制造了一个错误
+<p id="demo"></p>
+
+<script>
+try {
+    adddlert("欢迎访问！");
+}
+catch(err) {
+    document.getElementById("demo").innerHTML = err.message;
+}
+</script>
+JavaScript 将 adddlert 捕获为一个错误，然后执行代码来处理该错误。
+addlert is not  defined
+
+
+
+JavaScript 抛出错误:
+当发生错误时，JavaScript 通常会停止并产生错误消息。
+技术术语是这样描述的：JavaScript 将抛出异常（抛出错误）。
+JavaScript 实际上会创建带有两个属性的 Error 对象：name 和 message。
+
+
+throw 语句
+throw 语句允许您创建自定义错误。
+从技术上讲您能够抛出异常（抛出错误）。
+异常可以是 JavaScript 字符串、数字、布尔或对象：
+throw "Too big";    // 抛出文本
+throw 500;          //抛出数字
+
+如果把 throw 与 try 和 catch 一同使用，就可以控制程序流并生成自定义错误消息。
+eg.本例会检查输入。如果值是错误的，将抛出异常（err）,该异常（err）被 catch 语句捕获并显示一条自定义的错误消息：
+
+<p>请输入 5 到 10 之间的数字：</p>
+<input id="demo" type="text">
+<button type="button" onclick="myFunction()">检测输入</button>
+<p id="p01"></p>
+
+function myFunction() {
+  var message, x;
+  message = document.getElementById("p01");
+  message.innerHTML = "";
+  x = document.getElementById("demo").value;
+  try { 
+    if(x == "")  throw "是空的";
+    if(isNaN(x)) throw "不是数字";
+    x = Number(x);
+    if(x < 5)  throw "太小";
+    if(x > 10)   throw "太大";
+  }
+  catch(err) {
+    message.innerHTML = "输入：" + err;
+  }
+}
+
+
+
+
+finally 语句:
+finally 语句允许您在 try 和 catch 之后执行代码，无论结果:
+try {
+     供测试的代码块
+}
+ catch(err) {
+     处理错误的代码块
+} 
+finally {
+     无论 try / catch 结果如何都执行的代码块
+}
+eg.最后都清空输入框的值：
+  try { 
+    if(x == "")  throw "是空的";
+    if(isNaN(x)) throw "不是数字";
+    x = Number(x);
+    if(x > 10)   throw "太大";
+    if(x < 5)  throw "太小";
+  }
+  catch(err) {
+    message.innerHTML = "输入：" + err;
+  }
+  finally {
+    document.getElementById("demo").value = "";
+  }
+}
+
+
+
+Error 对象：
+JavaScript 拥有当错误发生时提供错误信息的内置 error 对象。
+error 对象提供两个有用的属性：name 和 message。
+name	：设置或返回错误名
+message	：设置或返回错误消息（一条字符串）
+
+Error Name Values：（error 的 name 属性可返回六个不同的值：）
+	EvalError		：已在 eval() 函数中发生的错误
+	RangeError		：已发生超出数字范围的错误
+	ReferenceError	：已发生非法引用
+	SyntaxError		：已发生语法错误
+	TypeError		：已发生类型错误
+	URIError		：在 encodeURI() 中已发生的错误
+
+
+eg.范围错误：您不能将数字的有效位数设置为 500。
+var num = 1;
+try {
+    num.toPrecision(500);   // 数无法拥有 500 个有效数
+ }
+catch(err) {
+    document.getElementById("demo").innerHTML = err.name;  //RangeError
+} 
+
+
+eg.引用错误：假如您使用（引用）了尚未声明的变量，则 ReferenceError 会被抛出：
+var x;
+try {
+    x = y + 1;   // y 无法被引用（使用）
+ }
+catch(err) {
+    document.getElementById("demo").innerHTML = err.name; //ReferenceError
+} 
+
+
+eg.URI 错误:假如您在 URI 函数中使用非法字符，则 URIError 被抛出：
+try {
+    decodeURI("%%%");   // 您无法对这些百分号进行 URI 编码
+ }
+catch(err) {
+    document.getElementById("demo").innerHTML = err.name;  //URIError
+} 
+
+
+
+
+IX.3.JavaScript 作用域：作用域指的是您有权访问的变量集合。
+在 JavaScript 中有两种作用域类型：
+	局部作用域
+	全局作用域
+
+JavaScript 拥有函数作用域：每个函数创建一个新的作用域。
+作用域决定了这些变量的可访问性（可见性）。
+
+
+
+局部 JavaScript 变量：
+在 JavaScript 函数中声明的变量，会成为函数的局部变量。
+局部变量的作用域是局部的：只能在函数内部访问它们。（函数内部定义的变量从函数外部是不可访问的（不可见的）。）
+
+由于只能在函数内部识别局部变量，因此能够在不同函数中使用同名变量。
+在函数开始时会创建局部变量，在函数完成时会删除它们。
+
+全局 JavaScript 变量:
+函数之外声明的变量，会成为全局变量。
+全局变量的作用域是全局的：网页的所有脚本和函数都能够访问它。
+
+
+
+自动全局:(在“严格模式”中不会自动创建全局变量。)
+如果您为尚未声明的变量赋值，此变量会自动成为全局变量。
+eg. function a(){ var c=b=2;   }
+此时这个语句是这样的： b=2;var c=b;     b自动成为全局变量，c=2;
+
+
+//在 HTML 中，全局作用域是 window。所有全局变量均属于 window 对象。
+//您的全局变量（或函数）能够覆盖 window 变量（或函数）。
+//任何函数，包括 window 对象，能够覆盖您的全局变量和函数。
+//局部变量会在函数完成时被删除。全局变量会在您关闭页面是被删除。
+//函数参数也是函数内的局部变量。
+
+
+
+IX.4.JavaScript 提升（Hoisting）:提升（Hoisting）是 JavaScript 将声明移至顶部的默认行为。
+
+JavaScript 声明会被提升:
+在 JavaScript 中，可以在使用变量之后对其进行声明。
+换句话说，可以在声明变量之前使用它。
+eg.
+x=5;
+alert(x);
+var x; 
+跟下面是一样的
+var x;
+x=5;
+alert(x);
+
+//Hoisting 是 JavaScript 将所有声明提升到当前作用域顶部的默认行为（提升到当前脚本或当前函数的顶部）
+//let 和 const 关键字  :用 let 或 const 声明的变量和常量不会被提升！
+//JavaScript 初始化不会被提升:JavaScript 只提升声明，而非初始化。
+  eg.
+   var x=6;
+   alert(x+","+y);
+   var y= 7
+结果：是 6,undefined
+
+
+
+
+IX.5.JavaScript Use Strict:"use strict"; 定义 JavaScript 代码应该以“严格模式”执行。
+"use strict" 指令:
+"use strict" 是 JavaScript 1.8.5 中的新指令（ECMAScript version 5）。
+它不算一条语句，而是一段文字表达式，更早版本的 JavaScript 会忽略它。
+"use strict"; 的作用是指示 JavaScript 代码应该以“严格模式”执行。
+在严格模式中，您无法，例如，使用未声明的变量。
+
+以下版本的浏览器支持严格模式：
+	版本 10 以后的 IE
+	版本 4 以后的 Firefox
+	版本 13 以后的 Chrome
+	版本 5.1 以后的 Safari
+	版本 12 以后的 Opera
+
+通过在脚本或函数的开头添加 "use strict"; 来声明严格模式。
+在脚本开头进行声明，拥有全局作用域（脚本中的所有代码均以严格模式来执行）：
+
+eg.
+"use strict";
+x = 3.14;       // 这会引发错误，因为 x 尚未声明
+
+eg.在函数中声明严格模式，拥有局部作用域（只有函数中的代码以严格模式执行）：
+x = 3.14;       // 这不会引发错误
+myFunction();
+
+function  myFunction() {
+	"use strict";
+	 y = 3.14;   // 这会引发错误
+}
+
+
+//严格模式使我们更容易编写“安全的” JavaScript。
+//严格模式把之前可接受的“坏语法”转变为真实的错误。
+//举例来说，在普通的 JavaScript 中，错打变量名会创建新的全局变量。在严格模式中，此举将抛出错误，这样就不可能意外创建全局变量。
+//在普通 JavaScript 中，如果向不可写属性赋值，开发者不会得到任何错误反馈。
+  在严格模式中，向不可写的、只能读取的、不存在的属性赋值，或者向不存在的变量或对象赋值，将抛出错误
+
+ //"use strict"; 指令只能在脚本或函数的开头被识别。
+//在类似 f() 的函数调用中，this 的值是全局对象。在严格模式中，现在它成为了 undefined。
+
+ 严格模式中不允许的事项:
+ 	1.在不声明变量的情况下使用变量，是不允许的,在不声明对象的情况下使用对象也是不允许的.
+ 	2.删除变量（或对象）和函数是不允许的；删除不可删除的属性是不允许的；
+ 	3.重复参数名是不允许的；
+ 	4.八进制数值文本是不允许的，转义字符是不允许的；
+ 	5.写入只读属性是不允许的，写入只能获取的属性也是不允许的；
+ 	6.已定义的字符串不可用作变量。var arguments = 3.14;    // 这将引发错误
+ 	7.with 语句是不允许的
+
+
+
+
+IX.6.JavaScript this 关键词
+this 是什么？
+JavaScript this 关键词指的是它所属的对象。
+
+它拥有不同的值，具体取决于它的使用位置：
+	1.在方法中，this 指的是所有者对象。(调用方法的对象)
+	2.单独的情况下，this 指的是全局对象。
+	3.在函数中，this 指的是全局对象。
+	4.在函数中，严格模式下，this 是 undefined。
+	5.在事件中，this 指的是接收事件的元素。（点击了按钮，里面有点击事件，此时点击事件的this指的是button）
+	  eg.<button onclick="this.style.display='none'">单击来删除我！</button>  //点击删除了自己
+像 call() 和 apply() 这样的方法可以将 this 引用到任何对象。
+
+显式函数绑定：
+call() 和 apply() 方法是预定义的 JavaScript 方法。
+它们都可以用于将另一个对象作为参数调用对象方法。
+eg.使用 person2 作为参数调用 person1.fullName 时，this 将引用 person2，即使它是 person1 的方法：
+var person1 = {
+  fullName: function() {
+    return this.firstName + " " + this.lastName;
+  }
+}
+var person2 = {
+  firstName:"Bill",
+  lastName: "Gates",
+}
+person1.fullName.call(person2);  // 会返回 "Bill Gates"   fullName方法的this所有者变为person2
+
+
+
+
+IX.7.JavaScript Let :(Internet Explorer 11 或更早的版本不完全支持 let 关键词。)
+ECMAScript 2015
+ES2015 引入了两个重要的 JavaScript 新关键词：let 和 const。
+这两个关键字在 JavaScript 中提供了块作用域（Block Scope）变量（和常量）。
+在 ES2015 之前，JavaScript 只有两种类型的作用域：全局作用域和函数作用域。
+
+全局作用域：
+全局（在函数之外）声明的变量拥有全局作用域。
+全局变量可以在 JavaScript 程序中的任何位置访问。
+
+函数作用域：
+局部（函数内）声明的变量拥有函数作用域。
+局部变量只能在它们被声明的函数内访问。
+
+
+块作用域：
+通过 var 关键词声明的变量没有块作用域。
+1.
+在 ES2015 之前，JavaScript 是没有块作用域的。
+在块 {} 内声明的变量可以从块之外进行访问。
+eg.
+{ 
+  var x = 10; 
+}
+// 此处可以使用 x
+
+2.可以使用 let 关键词声明拥有块作用域的变量。
+在块 {} 内声明的变量无法从块外访问：
+eg.
+{ 
+  let x = 10;
+}
+// 此处不可以使用 x
+
+
+
+
+重新声明变量:
+1.var
+使用 var 关键字重新声明变量会带来问题。
+在块中重新声明变量也将重新声明块外的变量：
+eg.
+var x = 10;
+// 此处 x 为 10
+{ 
+  var x = 6;
+  // 此处 x 为 6
+}
+// 此处 x 为 6
+
+
+2.let
+使用 let 关键字重新声明变量可以解决这个问题。
+在块中重新声明变量不会重新声明块外的变量：
+eg.
+var x = 10;
+// 此处 x 为 10
+{ 
+  let x = 6;
+  // 此处 x 为 6
+}
+// 此处 x 为 10
+
+
+
+允许：
+允许在程序的任何位置使用 var 重新声明 var 变量；
+在不同的作用域或块中，通过 let 重新声明变量是允许的；
+eg.
+let x = 2;   // 允许
+{
+  let x = 3;   // 允许
+}
+{
+  let x = 4;   // 允许
+}
+document.getElementById("demo").innerHTML = x;  //x=2
+
+不允许：
+在相同的作用域，或在相同的块中，通过 var 重新声明一个 let 变量是不允许的；
+在相同的作用域，或在相同的块中，通过 let 重新声明一个 var 变量是不允许的；
+在相同的作用域，或在相同的块中，通过 let 重新声明一个 let 变量是不允许的；
+
+
+
+
+
+循环作用域:
+在循环中使用 var：
+var i = 7;
+for (var i = 0; i < 10; i++) {
+  // 一些语句
+}
+// 此处，i 为 10
+
+
+在循环中使用 let：
+let i = 7;
+for (let i = 0; i < 10; i++) {
+  // 一些语句
+}
+// 此处 i 为 7
+在循环中用 let 声明了变量 i，那么只有在循环内，变量 i 才是可见的。
+
+
+
+函数作用域:
+在函数内声明变量时，使用 var 和 let 很相似。它们都有函数作用域
+
+全局作用域:
+如果在块外声明声明，那么 var 和 let 也很相似。它们都拥有全局作用域
+
+//通过 let 关键词定义的全局变量不属于 window 对象;
+
+
+//通过 let 定义的变量不会被提升到顶端。
+在声明 let 变量之前就使用它会导致 ReferenceError。
+变量从块的开头一直处于“暂时死区”，直到声明为止.
+
+
+
+
+
+
+IX.8.JavaScript Const:(Internet Explorer 10 或更早版本不支持 const 关键词。)
+通过 const 定义的变量与 let 变量类似，但不能重新赋值.
+eg.
+const PI = 3.141592653589793;
+PI = 3.14;      // 会出错
+PI = PI + 10;   // 也会出错
+
+
+块作用域:
+在块作用域内使用 const 声明的变量与 let 变量相似。
+
+
+在声明时赋值:
+JavaScript const 变量必须在声明时赋值;eg.const PI = 3.14159265359;
+
+
+不是真正的常数:
+它没有定义常量值。它定义了对值的常量引用。
+因此，我们不能更改常量原始值，但我们可以更改常量对象的属性。
+
+原始值:如果我们将一个原始值赋给常量，我们就不能改变原始值.
+
+常量对象可以更改:您可以更改常量对象的属性
+eg.
+// 您可以创建 const 对象：
+const car = {type:"porsche", model:"911", color:"Black"};
+
+// 您可以更改属性：
+car.color = "White";
+
+// 您可以添加属性：
+car.owner = "Bill";
+
+
+常量数组可以更改:您可以更改常量数组的元素
+eg.
+// 您可以创建常量数组：
+const cars = ["Audi", "BMW", "porsche"];
+
+// 您可以更改元素：
+cars[0] = "Honda";
+
+// 您可以添加元素：
+cars.push("Volvo");
+
+但是您无法重新为常量数组赋值：
+eg.
+const cars = ["Audi", "BMW", "porsche"];
+cars = ["Honda", "Toyota", "Volvo"];    // ERROR
+
+
+
+
+重新声明：
+在程序中的任何位置都允许重新声明 JavaScript var 变量；
+在同一作用域或块中，不允许将已有的 var 或 let 变量重新声明或重新赋值给 const：
+eg.
+var x = 2;         // 允许
+const x = 2;       // 不允许
+{
+  let x = 2;     // 允许
+  const x = 2;   // 不允许
+}
+
+在同一作用域或块中，为已有的 const 变量重新声明声明或赋值是不允许的;
+在另外的作用域或块中重新声明 const 是允许的：
+eg.
+const x = 2;       // 允许
+const x = 3;       // 不允许
+x = 3;             // 不允许
+var x = 3;         // 不允许
+let x = 3;         // 不允许
+{
+  const x = 2;   // 允许
+  const x = 3;   // 不允许
+  x = 3;         // 不允许
+  var x = 3;     // 不允许
+  let x = 3;     // 不允许
+}
+
+//通过 const 定义的变量不会被提升到顶端。const 变量不能在声明之前使用。
+
+
+
+
+IX.9.JavaScript 调试JavaScript 调试:
+JavaScript 调试器:
+所有现代浏览器都有内置的调试器。
+内置的调试器可打开或关闭，强制将错误报告给用户。
+通过调试器，您也可以设置断点（代码执行被中断的位置），并在代码执行时检查变量。
+通常通过 F12 键启动浏览器中的调试器，然后在调试器菜单中选择“控制台”。
+
+
+console.log() 在调试窗口中显示 JavaScript 的值.
+
+
+
+设置断点
+在调试窗口中，您可在 JavaScript 代码中设置断点。
+在每个断点中，JavaScript 将停止执行，以使您能够检查 JavaScript 的值。
+在检查值之后，您可以恢复代码执行。
+
+
+
+debugger 关键词会停止 JavaScript 的执行，并调用（如果有）调试函数。
+这与在调试器中设置断点的功能是一样的。
+如果调试器不可用，debugger 语句没有效果。
+
+eg.如果调试器已打开，此代码会在执行第三行之前停止运行。
+var x = 15 * 5;
+debugger;
+document.getElementById("demo").innerHTML = x;
+
+
+
+
+IX.10.JavaScript JSON
+* JSON 的语法是来自 JavaScript 对象符号的语法，但 JSON 格式是纯文本。读取和生成 JSON 数据的代码可以在任何编程语言编写的。
+JSON: JavaScript Object Notation（JavaScript 对象标记法）。
+JSON 是一种存储和交换数据的语法。
+JSON 是通过 JavaScript 对象标记法书写的文本。
+JSON 使用 JavaScript 语法，但是 JSON 格式是纯文本的。
+文本可被任何编程语言作为数据来读取和使用。
+JSON 文件的文件类型是 ".json"
+JSON 文本的 MIME 类型是 "application/json"
+
+
+
+JSON 语法规则：
+	数据是名称/值对
+	数据由逗号分隔
+	花括号保存对象
+	方括号保存数组
+
+
+JSON 数据 - 名称和值：
+JSON 数据的书写方式是名称/值对，类似 JavaScript 对象属性。
+名称/值对由（双引号中的）字段名构成，其后是冒号，再其后是值：
+"firstName":"Bill"
+（JSON 名称需要双引号。JavaScript 名称不需要。）
+
+JSON 对象
+JSON 对象是在花括号内书写的。
+类似 JavaScript，对象能够包含多个名称/值对：
+{"firstName":"Bill", "lastName":"Gates"} 
+
+
+JSON 数组
+JSON 数组在方括号中书写。
+类似 JavaScript，数组能够包含对象：
+"employees":[
+    {"firstName":"Bill", "lastName":"Gates"}, 
+    {"firstName":"Steve", "lastName":"Jobs"}, 
+    {"firstName":"Alan", "lastName":"Turing"}
+]
+
+在下面的例子中，对象 "employees" 是一个数组。它包含了三个对象。
+每个对象代表一个人的一条记录（带有名和姓）。
+
+eg.
+JSON 语法定义了一个雇员对象：包含三条员工记录的数组（对象）：
+{
+"employees":[
+    {"firstName":"Bill", "lastName":"Gates"}, 
+    {"firstName":"Steve", "lastName":"Jobs"},
+    {"firstName":"Alan", "lastName":"Turing"}
+]
+}
+
+
+
+
+
+JSON 数据类型：
+在 JSON 中，值必须是以下数据类型之一：
+	字符串  (JSON 中的字符串必须用双引号包围。)  eg.{ "name":"John" }
+	数字    (JSON 中的数字必须是整数或浮点数。)  eg.{ "age":30 }
+	对象   （JSON 对象）eg.{
+						  "employee":{ "name":"Bill Gates", "age":62, "city":"Seattle" }
+						  }
+	数组
+	布尔
+	Null
+
+
+JSON 的值不可以是以下数据类型之一：
+	函数
+	日期
+	undefined
+
+
+
+
+
+发送数据：
+JSON.stringify()
+在向 web 服务器发送数据时，数据必须是字符串。
+通过 JSON.stringify() 把 JavaScript 对象转换为字符串。
+//对 JavaScript 对象进行字符串化:
+var obj = { name:"Bill Gates", age:62, city:"Seattle"};
+var myJSON =  JSON.stringify(obj);
+
+//Stringify JavaScript 数组:
+Stringify JavaScript 数组
+var arr = [ "Bill Gates", "Steve Jobs", "Elon Musk" ];
+var myJSON =  JSON.stringify(arr);
+
+//在 JSON 中，不允许日期对象。JSON.stringify() 函数将把任何日期转换为字符串。
+var obj = { name: "Bill Gates", today: new Date(), city: "Seattle" };
+var myJSON = JSON.stringify(obj);
+document.getElementById("demo").innerHTML = myJSON;
+输出：{"name":"Bill Gates","today":"2019-08-17T12:10:17.920Z","city":"Seattle"}
+
+
+//函数字符串化
+在 JSON 中，不允许函数作为对象值。
+JSON.stringify() 函数将从 JavaScript 对象删除任何函数，包括键和值：
+var obj = { name: "Bill Gates", age: function () {return 62;}, city: "Seattle" };
+var myJSON = JSON.stringify(obj);
+document.getElementById("demo").innerHTML = myJSON;
+输出：{"name":"Bill Gates","city":"Seattle"}
+
+
+//如果您在运行 JSON.stringify() 函数前已将函数转换为字符串，这个环节可以省略。
+var obj =  { "name":"Bill Gates", "age":function () {return 62;}, "city":"Seattle"};
+obj.age = obj.age.toString();
+var myJSON = JSON.stringify(obj);
+
+
+
+
+
+接收数据：
+JSON.parse()
+JSON 的常规用途是同 web 服务器进行数据传输。
+在从 web 服务器接收数据时，数据永远是字符串。
+通过 JSON.parse() 解析数据，这些数据会成为 JavaScript 对象。
+
+//来自服务器的 JSON
+您能够通过使用 AJAX 请求从服务器请求 JSON。
+只要服务器的响应是用 JSON 格式编写的，你可以将字符串解析成 JavaScript 对象。
+eg.请使用 XMLHttpRequest 从服务器获取数据：
+var xmlhttp = new XMLHttpRequest();
+xmlhttp.onreadystatechange = function() {
+  if (this.readyState == 4 && this.status == 200) {
+    var myObj = JSON.parse(this.responseText);
+    document.getElementById("demo").innerHTML = myObj.name;
+  }
+};
+xmlhttp.open("GET", "/example/json/json_demo.txt", true);
+xmlhttp.send();
+</script>
+<p>查看 <a href="/example/json/json_demo.txt" target="_blank">json_demo.txt</a></p>
+
+//作为 JSON 的数组:
+在对衍生自数组的 JSON 使用 JSON.parse() 后，此方法将返回 JavaScript 数组，而不是 JavaScript 对象。
+
+//JSON 中不允许日期对象。
+如果您需要包含日期，请写为字符串。
+之后您可以将其转换回日期对象：
+var text =  '{ "name":"Bill Gates", "birth":"1955-10-28", "city":"Seattle"}';
+var obj = JSON.parse(text);
+obj.birth = new Date(obj.birth);
+
+//可以已使用 JSON.parse() 函数的第二个参数，被称为 reviver。
+这个 reviver 参数是函数，在返回值之前，它会检查每个属性。
+var text =  '{ "name":"Bill Gates", "birth":"1955-10-28", "city":"Seattle"}';
+var obj = JSON.parse(text, function (key, value) {
+    if  (key == "birth") {
+        return new Date(value);
+    } else {
+         return value;
+   }});
+
+
+//JSON 中不允许函数。
+如果您需要包含函数，请把它写作字符串。
+稍后您可以把它转换回函数：
+var text =  '{ "name":"Bill Gates", "age":"function () {return 62;}", "city":"Seattle"}';
+var obj = JSON.parse(text);
+obj.age = eval("(" + obj.age + ")");
+(应该避免在 JSON 中使用函数，函数会丢失它们的作用域，而且您还需要使用 eval() 把它们转换回函数。)
+
+
+
+
+
+存储数据：
+在存储数据时，数据必须是某种具体的格式，并且无论您选择在何处存储它，文本永远是合法格式之一。
+eg.
+var myObj, myJSON, text, obj;
+
+// 存储数据：
+myObj = { "name":"Bill Gates",  "age":62, "city":"Seattle" };
+myJSON = JSON.stringify(myObj); 
+localStorage.setItem("testJSON", myJSON);
+
+// 取回数据：
+text = localStorage.getItem("testJSON");
+obj = JSON.parse(text);
+JSON 是存储和传输数据的格式。
+JSON 经常在数据从服务器发送到网页时使用。
+
+
+
+
+
+JSON 和 XML 均可用于从 web 服务器接收数据：
+JSON 实例
+{"employees":[
+    { "firstName":"Bill", "lastName":"Gates" },
+    { "firstName":"Steve", "lastName":"Jobs" },
+    { "firstName":"Elon", "lastName":"Musk" }
+]}
+
+XML 实例
+<employees>
+    <employee>
+         <firstName>Bill</firstName>
+         <lastName>Gates</lastName>
+     </employee>
+     <employee>
+         <firstName>Steve</firstName>
+         <lastName>Jobs</lastName>
+     </employee>
+     <employee>
+         <firstName>Elon</firstName>
+         <lastName>Musk</lastName>
+     </employee>
+</employees>
+
+
+JSON 类似 XML，因为:
+JSON 和 XML 都是“自描述的”（人类可读的）
+JSON 和 XML 都是分级的（值中有值）
+JSON 和 XML 都能被大量编程语言解析和使用
+JSON 和 XML 都能被 XMLHttpRequest 读取
+
+
+JSON 与 XML 的差异在于：
+JSON 不使用标签
+JSON 更短
+JSON 的读写速度更快
+JSON 可使用数组
+最大的不同在于：
+XML 必须使用 XML 解析器进行解析。而 JSON 可通过标准的 JavaScript 函数进行解析。
+
+
+为什么 JSON 比 XML 更好？
+	XML 比 JSON 更难解析。
+	JSON 被解析为可供使用的 JavaScript 对象。
+
+对于 AJAX 应用程序，JSON 比 XML 更快更易用：
+使用 XML：
+	读取 XML 文档
+	使用 XML DOM 遍历文档
+	提取变量中存储的值
+	使用 JSON
+
+读取 JSON 字符串
+	JSON.Parse （JSON 字符串）
+
+
+
+
+//嵌套的 JSON 对象：一个 JSON 对象中的值可以是另一个 JSON 对象。
+myObj =  {
+   "name":"Bill Gates",
+   "age":62,
+   "cars": {
+	  "car1":"Porsche",
+	  "car2":"BMW",
+	  "car3":"Volvo"
+   }
+}
+您能够通过使用点号和括号访问嵌套的 JSON 对象：
+x = myObj.cars.car2;
+或者：
+x = myObj.cars["car2"];
+
+修改值:您能够使用点号来修改 JSON 对象中的任何值	
+eg.myObj.cars.car3 = "Mercedes Benz";  或者    myObj.cars["car3"] = "Mercedes Benz";
+
+删除对象属性：使用 delete 关键词来删除 JSON 对象的属性：
+eg.delete myObj.cars.car1;
+
+
+
+//JSON 对象中的数组:
+数组可以是对象属性的值：
+{
+"name":"Bill Gates",
+"age":62,
+"cars":[ "Porsche", "BMW", "Volvo" ]
+}
+
+访问数组值:您可以通过使用索引号来访问数组值：
+eg.x = myObj.cars[0];
+
+遍历数组:通过使用 for-in 循环来访问数组值
+eg.
+for (i in myObj.cars) {
+     x  += myObj.cars[i];
+}
+
+
+
+JSON 对象中的嵌套数组:
+myObj =  {
+   "name":"Bill Gates",
+   "age":62,
+   "cars": [
+	  { "name":"Porsche",  "models":[ "911", "Taycan" ] },
+	  { "name":"BMW", "models":[ "M5", "M3", "X5" ] },
+	  { "name":"Volvo", "models":[ "XC60", "V60" ] }
+   ]
+}
+
+访问数组内部的数组，请对每个数组使用 for-in 循环：
+eg.
+for (i in myObj.cars) {
+    x += "<h1>" + myObj.cars[i].name  + "</h1>";
+    for (j in myObj.cars[i].models) {
+         x += myObj.cars[i].models[j];
+    }
+}
+
+
+修改数组值:请使用索引号来修改数组
+eg.myObj.cars[1] = "Mercedes Benz";
+
+
+删除数组项目:使用 delete 关键词来删除数组中的项目：
+eg.delete myObj.cars[1];
+
+
+
+
+
+JSON PHP:
+//PHP 文件
+PHP 提供处理 JSON 的内建函数。
+通过使用 PHP 函数 json_encode()，PHP 中的对象可转换为 JSON：
+eg.
+<?php
+$myObj->name = "Bill Gates";
+$myObj->age = 62;
+$myObj->city = "Seattle";
+
+$myJSON = json_encode($myObj);
+
+echo $myJSON;
+?>
+
+
+客户端 JavaScript:
+客户端上的 JavaScript，使用 AJAX 调用来请求上例的 PHP 文件：
+<script>
+var xmlhttp = new XMLHttpRequest();
+xmlhttp.onreadystatechange = function() {
+  if (this.readyState == 4 && this.status == 200) {
+    myObj = JSON.parse(this.responseText);
+    document.getElementById("demo").innerHTML = myObj.name;
+  }
+};
+xmlhttp.open("GET", "/demo/demo_php_json_encode.php", true);
+xmlhttp.send();
+</script>
+
+
+
+
+
+///PHP 数据库
+PHP 是服务器端编程语言，应该用于只能由服务器执行的操作，比如访问数据库。
+
+eg.您需要请求服务器来获取“客户”表中前十条记录：
+//PHP 方法 = GET
+客户端：
+<script>
+var xmlhttp;
+xmlhttp = new XMLHttpRequest();
+xmlhttp.onreadystatechange = function() {
+  if (this.readyState == 4 && this.status == 200) {
+    document.getElementById("demo").innerHTML = this.responseText;
+  }
+};
+xmlhttp.open("GET",  "demo_json_db.php?x=" + dbParam, true);
+xmlhttp.send();
+</script>
+javascript解释：
+	定义包含 table 属性和 limit 属性的对象。
+	将这个对象转换为 JSON 字符串。
+	向这个 PHP 文件发送请求，其中 JSON 作为参数。
+	等待直到请求返回结果（作为 JSON）。
+	显示从 PHP 文件接收到的结果。
+
+
+PHP 文件
+<?php
+header("Content-Type: application/json; charset=UTF-8");
+$obj =  json_decode($_GET["x"], false);
+ 
+$conn = new mysqli("myServer", "myUser", "myPassword", "Northwind");
+$result = $conn->query("SELECT name FROM ".$obj->$table." LIMIT ".$obj->$limit);
+$outp = array();
+$outp = $result->fetch_all(MYSQLI_ASSOC);
+
+echo json_encode($outp);
+?>
+PHP 文件解释：
+	将请求转换为对象，使用 PHP 函数 json_decode()。
+	访问数据库，用所请求的数据填充数组。
+	把数组添加到对象，使用 json_encode() 函数以 JSON 返回该对象。
+
+
+
+//PHP 方法 = POST
+在向服务器发送数据时，通常最好是使用 HTTP POST 方法。
+如需使用 POST 方法来发送 AJAX 请求，请指定该方法和正确的头部。
+发送到服务器的数据现在必须是 .send() 方法的参数：
+eg.
+obj = { "table":"customers", "limit":10 };
+dbParam = JSON.stringify(obj);
+xmlhttp = new XMLHttpRequest();
+xmlhttp.onreadystatechange = function() {
+     if (this.readyState == 4 && this.status == 200) {
+         myObj = JSON.parse(this.responseText);
+         for (x in myObj) {
+             txt += myObj[x].name + "<br>";
+        }
+         document.getElementById("demo").innerHTML = txt;
+    }
+};
+xmlhttp.open("POST", "demo_json_db.php", true);
+xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+xmlhttp.send("x=" + dbParam); //把字符串保存在x中
+
+
+PHP 文件
+使用 $_POST 而不是 $_GET：
+<?php
+header("Content-Type: application/json; charset=UTF-8");
+$obj =  json_decode($_POST["x"], false);    //将接收的json字符串，转化为对象；因为是用post方法发送的，所以要使用$_POST["x"]
+  
+$conn = new mysqli("myServer", "myUser", "myPassword", "Northwind");
+$result = $conn->query("SELECT name FROM ".$obj->$table." LIMIT ".$obj->$limit);
+$outp = array();
+$outp = $result->fetch_all(MYSQLI_ASSOC);
+
+echo json_encode($outp);
+?>
+
+
+
+
+
+///JSON HTML
+HTML 表格：
+使用作为 JSON 接收到的数据来生成表格：
+obj = { "table":"customers", "limit":20 };
+dbParam = JSON.stringify(obj);
+xmlhttp = new XMLHttpRequest();
+xmlhttp.onreadystatechange = function() {
+    if (this.readyState == 4  && this.status == 200) {
+        myObj = JSON.parse(this.responseText);                //创建表格
+         txt += "<table border='1'>"
+        for (x in myObj) {
+             txt += "<tr><td>" + myObj[x].name + "</td></tr>";
+        }
+        txt += "</table>" 
+        document.getElementById("demo").innerHTML  = txt;
+    }
+}
+xmlhttp.open("POST", "json_demo_db_post.php", true);                          
+xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");//设置数据头部
+xmlhttp.send("x=" + dbParam);                                                 //发送数据
+
+
+动态 HTML 表格：
+使 HTML 表格基于下拉列表的值：选择一个选项： Customers Products Suppliers
+<select id="myselect" onchange="change_myselect(this.value)">   //选择选项时，this指option元素  this.value==option.value
+    <option value="">Choose an option:</option>
+    <option value="customers">Customers</option>
+    <option value="products">Products</option>
+    <option value="suppliers">Suppliers</option>
+</select>
+
+<script>
+function  change_myselect(sel) {
+    var obj, dbParam, xmlhttp, myObj,  x, txt = "";
+    obj = { "table":sel, "limit":20 };
+     dbParam = JSON.stringify(obj);
+    xmlhttp = new  XMLHttpRequest();
+    xmlhttp.onreadystatechange =  function() {
+        if (this.readyState  == 4 && this.status == 200) {
+             myObj = JSON.parse(this.responseText);
+             txt += "<table border='1'>"
+             for (x in myObj) {
+                 txt += "<tr><td>" + myObj[x].name + "</td></tr>";
+             }
+            txt +=  "</table>" 
+             document.getElementById("demo").innerHTML = txt;
+         }
+    };
+    xmlhttp.open("POST", "json_demo_db_post.php",  true);
+    xmlhttp.setRequestHeader("Content-type",  "application/x-www-form-urlencoded");
+    xmlhttp.send("x="  + dbParam);
+}
+</script>
+
+
+
+HTML 下拉列表:
+用接收到的 JSON 数据来生成 HTML 下拉列表：
+obj = { "table":"customers", "limit":20 };
+dbParam = JSON.stringify(obj);
+ xmlhttp = new XMLHttpRequest();
+xmlhttp.onreadystatechange = function() {
+    if (this.readyState == 4  && this.status == 200) {
+        myObj = JSON.parse(this.responseText);
+         txt += "<select>"
+        for (x in myObj) {
+             txt += "<option>" + myObj[x].name;
+        }
+        txt += "</select>" 
+        document.getElementById("demo").innerHTML  = txt;
+    }
+}
+xmlhttp.open("POST", "json_demo_db_post.php", true);
+xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+xmlhttp.send("x=" + dbParam);
+
+
+
+
+
+///JSONP
+JSONP 是一种无需考虑跨域问题即可传送 JSON 数据的方法。
+JSONP 不使用 XMLHttpRequest 对象。
+JSONP 使用 <script> 标签取而代之。
+JSONP 指的是 JSON with Padding。
+从另一个域请求文件会引起问题，由于跨域政策。
+从另一个域请求外部脚本没有这个问题。
+JSONP 利用了这个优势，并使用 script 标签替代 XMLHttpRequest 对象。
+eg.静态JSONP
+<script src="demo_jsonp.php">
+
+Server 文件
+服务器上的文件在函数调用中封装结果：
+<?php
+$myJSON = '{ "name":"Bill Gates", "age":62, "city":"Seattle" }';
+ 
+echo "myFunc(".$myJSON.");";   //myFunc({ "name":"Bill Gates", "age":62, "city":"Seattle" });
+?>  
+结果返回对名为 "myFunc" 的函数的调用，其中的 JSON 数据为参数。
+
+请确保客户端存在该函数
+JavaScript 函数
+函数 "myFunc" 位于客户端，用于处理 JSON 数据：    
+function myFunc(myObj)  {
+    document.getElementById("demo").innerHTML =  myObj.name;
+}
+ 
+eg.在按钮被点击时创建才插入 <script> 标签： 
+function clickButton() {
+  var s = document.createElement("script"); 
+  s.src = "/demo/demo_php_jsonp.php";
+  document.body.appendChild(s);        //<script src="demo_jsonp.php">
+}
+
+
+
+
+
+动态 JSONP 结果：
+可通过向 PHP 文件发送 JSON 来创建动态的例子，然后根据这个 php 文件获得的信息让它返回一个 JSON 对象。
+PHP 文件
+<?php
+header("Content-Type: application/json; charset=UTF-8");
+$obj =  json_decode($_GET["x"], false);
+ 
+$conn = new mysqli("myServer", "myUser", "myPassword", "Northwind");
+$result = $conn->query("SELECT name FROM ".$obj->$table." LIMIT ".$obj->$limit);
+$outp = array();
+$outp = $result->fetch_all(MYSQLI_ASSOC);
+
+echo "myFunc(".json_encode($outp).")";
+?>
+解释：
+	把请求转换为对象，使用 PHP 函数 json_decode()。
+	访问数据库，并用被请求的数据填充数组。
+	向对象添加数组。
+	使用 json_decode() 函数把该数组转换为 JSON。
+	用 "myFunc()" 封装返回对象。
+
+
+JavaScript 实例
+将从 php 文件调用 "myFunc" 函数：
+
+function clickButton() {
+    var obj, s
+    obj = { table:"products", limit:10 };
+    s =  document.createElement("script");
+    s.src = "jsonp_demo_db.php?x="  + JSON.stringify(obj);
+    document.body.appendChild(s);
+ }
+function myFunc(myObj)  {
+    var x, txt = "";
+    for (x in myObj)  {
+        txt += myObj[x].name + "<br>";
+     }
+    document.getElementById("demo").innerHTML = txt;
+}
+
+
+
+
+
+
+
+
+
+
+
+IX.11.javascript 对象：
+所有 JavaScript 值，除了原始值，都是对象。
+
+JavaScript 原始值
+//原始值指的是没有属性或方法的值。
+//原始数据类型指的是拥有原始值的数据。
+JavaScript 定义了 5 种原始数据类型：
+	string
+	number
+	boolean
+	null
+	undefined
+
+
+原始值是一成不变的 :eg.假设 x = 3.14，您能够改变 x 的值。但是您无法改变 3.14 的值。
+
+
+
+
+对象是包含变量的变量.
+JavaScript 变量能够包含单个的值;
+对象也是变量。但是对象能够包含很多值。
+值按照名称 : 值对的形式编写（名称和值以冒号分隔）。
+JavaScript 对象是命名值的集合。
+
+对象属性:
+对象属性可以是原始值、其他对象以及函数。
+JavaScript 对象中的命名值，被称为属性。
+eg.
+  属性	     值
+firstName	Bill
+JavaScript 对象是无序属性的集合。
+
+
+对象方法:
+对象方法是包含函数定义的对象属性。
+方法是可以在对象上执行的动作。
+
+
+创建 JavaScript 对象:
+通过 JavaScript，您能够定义和创建自己的对象。
+有不同的方法来创建对象：
+	定义和创建单个对象，使用对象文字。
+	定义和创建单个对象，通过关键词 new。
+	定义对象构造器，然后创建构造类型的对象。
+在 ECMAScript 5 中，也可以通过函数 Object.create() 来创建对象。
+
+使用对象字面量:
+var person = {firstName:"Bill", lastName:"Gates", age:62, eyeColor:"blue"};
+
+
+使用 JavaScript 关键词 new:
+	var person = new Object();
+	person.firstName = "Bill";
+	person.lastName = "Gates";
+	person.age = 50;
+	person.eyeColor = "blue"; 
+
+
+定义对象构造器，然后创建构造类型的对象:
+function employee(name,job,born){
+			this.name=name;
+			this.job=job;
+			this.born=born;
+}
+
+var person = new employee("linjston","student".22);
+
+
+
+JavaScript 对象是易变的:
+对象是易变的：它们通过引用来寻址，而非值。
+eg.
+var x = person; 
+对象 x 并非 person 的副本。它就是 person。x 和 person 是同一个对象。
+对 x 的任何改变都将改变 person，因为 x 和 person 是相同的对象。
+
+//JavaScript 变量不是易变的。只有 JavaScript 对象如此。
+
+
+
+访问 JavaScript 属性:
+objectName.property  		// person.age
+or
+objectName["property"]     	 // person["age"]
+or
+objectName[expression]       // x = "age"; person[x]
+
+
+
+JavaScript for...in 循环:
+JavaScript for...in 语句遍历对象的属性。
+语法：
+for (variable in object) {
+    要执行的代码
+}
+for...in 循环中的代码块会为每个属性执行一次。
+
+eg.
+var person = {fname:"Bill", lname:"Gates", age:62}; 
+
+for (x in person) {
+    txt += person[x];
+}
+
+
+
+添加新属性:
+您可以通过简单的赋值，向已存在的对象添加新属性。
+假设 person 对象已存在 - 那么您可以为其添加新属性：
+person.nationality = "English";
+
+
+
+删除属性:
+delete 关键词从对象中删除属性：
+eg.
+var person = {firstName:"Bill", lastName:"Gates", age:62, eyeColor:"blue"};
+delete person.age;   // 或 delete person["age"];
+
+
+//delete 关键词会同时删除属性的值和属性本身。
+//删除完成后，属性在被添加回来之前是无法使用的。
+//delete 操作符被设计用于对象属性。它对变量或函数没有影响。
+//delete 操作符不应被用于预定义的 JavaScript 对象属性。这样做会使应用程序崩溃。
+
+
+
+属性值:
+所有属性都有名称。此外它们还有值。
+值(value)是属性的特性之一。
+其他特性包括：可列举(enumberable)、可配置(configurable)、可写(writable)。
+
+
+原型属性:
+JavaScript 对象继承了它们的原型的属性。
+//delete 关键词不会删除被继承的属性，但是如果您删除了某个原型属性，则将影响到所有从原型继承的对象。
+
+
+
+访问对象方法:
+methodName : function() { 代码行 }
+objectName.methodName()
+eg.
+var persion {
+	fullName:function(){.....}
+}
+name = person.fullName();
+通常会把 fullName() 描述为 person 对象的方法，把 fullName 描述为属性。
+fullName 属性在被通过 () 调用后会以函数形式执行。
+//如果您访问 fullName 属性时没有使用 ()，则将返回函数定义.
+
+
+添加新的方法:
+向对象添加方法是在构造器函数内部完成的.
+eg.
+function person(firstName, lastName, age, eyeColor) {
+    this.firstName = firstName;  
+    this.lastName = lastName;
+    this.age = age;
+    this.eyeColor = eyeColor;
+    this.changeName = function (name) {
+        this.lastName = name;
+    };
+}
+var obj = new person(...);
+或者
+var person = {
+  firstName: "Bill",
+  lastName : "Gates",
+  id     : 678,
+};
+person.name = function() {
+  return this.firstName + " " + this.lastName;
+};
+
+
+
+
+JavaScript 对象访问器：（Getter 和 Setter）
+ECMAScript 5 (2009) 引入了 Getter 和 Setter。
+Getter 和 Setter 允许您定义对象访问器（被计算的属性）。
+
+属性 Getter 和 Setter:
+ES5 允许您使用类似于获取或设置属性的语法来定义对象方法。
+eg.为语言属性创建一个 setter 和一个 getter：
+var person = {
+  firstName: "Bill",
+  lastName : "Gates",
+  language : "NO",
+  get lang() {
+    return this.language;
+  },
+  set lang(value) {
+    this.language = value;
+  }
+};
+
+person.lang = "en";										 // 使用 setter 设置对象属性：
+document.getElementById("demo").innerHTML = person.lang;  // 使用 getter 显示来自对象的数据：
+//赋值时使用set 的函数，读取时使用get的函数。
+
+
+JavaScript 函数还是 Getter？
+var person = {
+  firstName: "Bill",
+  lastName : "Gates",
+  id     : 678,
+  fullName:functon(){...}    //俩者区别    以函数形式访问 fullName：person.fullName()   
+  get  fullName(){....}      //           以属性形式访问 fullName：person.fullName。
+};
+
+Object.defineProperty(Object,"property",{descriptor}) 方法也可用于添加 Getter 和 Setter：
+// 定义对象
+var obj = {counter : 0};
+// 定义 setters
+Object.defineProperty(obj, "reset", {
+  get : function () {this.counter = 0;}
+});
+
+
+
+
+JavaScript 对象构造器：
+构造器函数：
+eg.
+function Person(first, last, age, eye) {
+    this.firstName = first;
+    this.lastName = last;
+    this.age = age;
+    this.eyeColor = eye;
+}
+var person1 = new Person("lin","juntong",22,"black");
+//用大写首字母对构造器函数命名是个好习惯。
+//在构造器函数中，this 是没有值的。它是新对象的替代物。 当一个新对象被创建时，this 的值会成为这个新对象。
+
+为构造器添加属性:
+//与向已有对象添加新属性不同，您无法为对象构造器添加新属性;eg.Person.nationality = "English";(错误)
+//如需向构造器添加一个新属性，您必须添加到构造器函数; eg. function Person(...){ this.nationality = "English"}
+//或者使用propotype属性。eg.Person.propotype.nationality = "English";
+
+为构造器添加方法:
+//与向已有对象添加新方法不同，您无法为对象构造器添加新方法。
+//必须在构造器函数内部向一个对象添加方法.eg.function Person(...){this.name = function(){...}}
+//或者使用propotype属性。eg.Person.propotype.name = function(){...}
+
+
+JavaScript 对象原型：
+//所有 JavaScript 对象都从原型继承属性和方法。
+原型继承
+所有 JavaScript 对象都从原型继承属性和方法。
+	日期对象继承自 Date.prototype。
+	数组对象继承自 Array.prototype。
+	Person 对象继承自 Person.prototype。
+
+//Object.prototype 位于原型继承链的顶端：
+日期对象、数组对象和 Person 对象都继承自 Object.prototype。
+
+使用 prototype 属性
+JavaScript prototype 属性允许您为对象构造器添加新属性：
+eg.
+function Person(first, last, age, eyecolor) {
+    this.firstName = first;
+    this.lastName = last;
+    this.age = age;
+    this.eyeColor = eyecolor;
+}
+Person.prototype.nationality = "English";
+
+JavaScript prototype 属性也允许您为对象构造器添加新方法：
+eg.
+Person.prototype.name = function() {
+    return this.firstName + " " + this.lastName;
+};
+
+///请只修改您自己的原型。绝不要修改标准 JavaScript 对象的原型。
+
+
+
+ECMAScript 5 (2019) ES5
+ECMAScript 5 特性
+这些是 2009 年发布的新特性：
+	"use strict" 指令
+	String.trim()
+	Array.isArray()
+	Array.forEach()
+	Array.map()
+	Array.filter()
+	Array.reduce()
+	Array.reduceRight()
+	Array.every()
+	Array.some()
+	Array.indexOf()
+	Array.lastIndexOf()
+	JSON.parse()
+	JSON.stringify()
+	Date.now()
+	属性 Getter 和 Setter
+	新的对象属性和方法
+
+
+
+
+Array.isArray():
+isArray() 方法检查对象是否为数组。
+
+
+
+
+JSON.parse():
+JSON 的一个常见用途是从 Web 服务器接收数据。
+想象一下，您从Web服务器收到这条文本字符串：
+'{"name":"Bill", "age":62, "city":"Seatle"}'
+
+JavaScript 函数 JSON.parse() 用于将文本转换为 JavaScript 对象：
+var obj = JSON.parse('{"name":"Bill", "age":62, "city":"Seatle"}');
+document.getElementById("demo").innerHTML = obj.name + ", " + obj.age;
+
+
+
+
+JSON.stringify():
+JSON 的一个常见用途是将数据发送到Web服务器。
+将数据发送到 Web 服务器时，数据必须是字符串。
+想象一下，我们在 JavaScript 中有这个对象：
+var obj = {"name":"Bill", "age":62, "city":"Seatle"};
+请使用 JavaScript 函数 JSON.stringify() 将其转换为字符串。
+
+var myJSON = JSON.stringify(obj);
+结果将是遵循 JSON 表示法的字符串。
+myJSON 现在是一个字符串，准备好发送到服务器。
+
+
+
+Date.now()
+Date.now() 返回自零日期（1970 年 1 月 1 日 00:00:00:00）以来的毫秒数。
+Date.now() 的返回与在 Date 对象上执行 getTime() 的结果相同。
+eg.var timInMSs = Date.now();
+
+
+新的对象属性和方法:
+
+// 添加或更改对象属性
+Object.defineProperty(object, property, descriptor)
+更改属性值:Object.defineProperty(object, property, {value : value})
+更改元数据:
+ES5 允许更改以下属性元数据：
+			writable : true      // 属性值可修改
+			enumerable : true    // 属性可枚举
+			configurable : true  // 属性可重新配置
+			writable : false     // 属性值不可修改
+			enumerable : false   // 属性不可枚举
+			configurable : false // 属性不可重新配置
+ES5 允许更改 getter 和 setter：
+			// 定义 getter
+			get: function() { return language }
+			// 定义 setter
+			set: function(value) { language = value }
+
+eg.添加或修改属性的值和元数据
+Object.defineProperty(person, "language", {
+  value: "EN",                
+  writable : true,          
+  enumerable : true,        
+  configurable : true,
+});
+
+eg2.添加getter
+Object.defineProperty(person,"lang",{
+	get:function(){.....}
+});
+
+
+// 访问属性
+Object.getOwnPropertyDescriptor(object, property)
+eg.Object.getOwnPropertyDescriptor(person,language); //返回属性的描述
+
+// 将所有属性作为数组返回
+Object.getOwnPropertyNames(object)
+eg.Object.getOwnPropertyNames(person);// 返回属性数组
+
+
+// 将可枚举属性作为数组返回
+Object.keys(object)
+eg.Object.keys(person);  // 返回可枚举属性的数组
+
+
+// 访问原型
+Object.getPrototypeOf(object)
+
+// 防止向对象添加属性
+Object.preventExtensions(object)
+
+// 如果可以将属性添加到对象，则返回 true
+Object.isExtensible(object)
+
+// 防止更改对象属性（而不是值）
+Object.seal(object)
+
+// 如果对象被密封，则返回 true
+Object.isSealed(object)
+
+// 防止对对象进行任何更改
+Object.freeze(object)
+
+// 如果对象被冻结，则返回 true
+Object.isFrozen(object)
+
+
+
+
+ECMAScript 6 也称为 ES6 和 ECMAScript 2015:
+ ES6 中的一些新特性:
+	JavaScript let
+	JavaScript const
+	幂 (**)
+	默认参数值
+	Array.find()
+	Array.findIndex()
+
+指数运算符:
+取幂运算符（**）将第一个操作数提升到第二个操作数的幂。
+eg.
+var x = 5;
+var z = x ** 2;          // 结果是 25
+//x ** y 的结果与 Math.pow(x,y) 相同：
+
+
+默认参数值:
+ES6 允许函数参数具有默认值。
+eg.
+function myFunction(x, y = 10) {
+  // y is 10 if not passed or undefined
+  return x + y;
+}
+myFunction(5); // 将返回 15
+
+
+
+ES6 将以下属性添加到 Number 对象：
+EPSILON
+MIN_SAFE_INTEGER  安全整数最小值：-9007199254740991
+MAX_SAFE_INTEGER  安全整数最大值：9007199254740991
+
+ES6 为 Number 对象添加了 2 个新方法：
+Number.isInteger(x)			如果参数x是整数，则 Number.isInteger(x) 方法返回 true。
+Number.isSafeInteger()	安全整数是可以精确表示为双精度数的整数。
+						如果参数是安全整数，则 Number.isSafeInteger() 方法返回 true。
+ES6 还增加了 2 个新的全局数字方法：
+isFinite() 如果参数为 Infinity 或 NaN，则全局 isFinite() 方法返回 false。
+isNaN()    如果参数是 NaN，则全局 isNaN() 方法返回 true。否则返回 false：
+
+
+箭头函数（Arrow Function）
+
+
+
+
+
+
+
+12.JavaScript 函数定义
+JavaScript 函数是通过 function 关键词定义的。
+您可以使用函数声明或函数表达式。
+
+函数声明:
+在本教程中稍早之前，您学到了通过如下语法声明函数：
+function functionName(parameters) {
+   要执行的代码
+}
+//被声明的函数不会直接执行。它们被“保存供稍后使用”，将在稍后执行，当它们被调用时。
+//分号用于分隔可执行的 JavaScript 语句。
+
+
+函数表达式:
+JavaScript 函数也可以使用表达式来定义。
+函数表达式可以在变量中存储：
+var x = function (a, b) {return a * b};
+在变量中保存函数表达式之后，此变量可用作函数：
+eg.
+var x = function (a, b) {return a * b};
+var z = x(4, 3);
+
+//上面的函数实际上是一个匿名函数（没有名称的函数）。
+//存放在变量中的函数不需要函数名。他们总是使用变量名调用。
+//上面的函数使用分号结尾，因为它是可执行语句的一部分。
+
+
+
+自调用函数:
+函数表达式可以作为“自调用”。
+//自调用表达式是自动被调用（开始）的，在不进行调用的情况下。
+//假如表达式后面跟着 (),函数表达式会自动执行。
+//您无法对函数声明进行自调用。
+您需要在函数周围添加括号，以指示它是一个函数表达式：
+eg.
+(function () {
+    var x = "Hello!!";      //我会调用我自己
+})();
+
+上面的函数实际上是一个匿名的自调用函数（没有名称的函数）。
+
+
+arguments[]:是函数的实参列表
+arguments.length： 会返回函数被调用时收到的参数数目
+toString() 方法以字符串返回函数
+
+//定义为对象属性的函数，被称为对象的方法。
+//为创建新对象而设计的函数，被称为对象构造函数（对象构造器）。
+
+
+箭头函数:(IE11 或更早的版本不支持箭头函数。)
+箭头函数允许使用简短的语法来编写函数表达式。
+您不需要 function 关键字、return 关键字和花括号。
+eg.
+// ES5
+var x = function(x, y) {
+  return x * y;
+}
+
+// ES6
+const x = (x, y) => x * y;
+
+
+//箭头函数没有自己的 this。它们不适合定义对象方法。
+//箭头函数未被提升。它们必须在使用前进行定义。
+//使用 const 比使用 var 更安全，因为函数表达式始终是常量值。
+
+如果函数是单个语句，则只能省略 return 关键字和大括号。因此，保留它们可能是一个好习惯：
+const x = (x, y) => { return x * y };
+
+
+函数参数：
+函数参数（parameter）指的是在函数定义中列出的名称。
+函数参数（argument）指的是传递到函数或由函数接收到的真实值。
+
+//JavaScript 函数定义不会为参数（parameter）规定数据类型。
+//JavaScript 函数不会对所传递的参数（argument）实行类型检查。
+//JavaScript 函数不会检查所接收参数（argument）的数量。
+
+//参数默认:如果调用参数时省略了参数（少于被声明的数量），则丢失的值被设置为：undefined。
+//如果函数调用的参数太多（超过声明），则可以使用 arguments 对象来达到这些参数。
+
+arguments 对象:
+JavaScript 函数有一个名为 arguments 对象的内置对象。
+arguments 对象包含函数调用时使用的参数数组。
+
+
+
+调用 JavaScript 函数:
+在函数被定义时，函数内部的代码不会执行。
+在函数被调用时，函数内部的代码会被执行。
+调用函数通常也可以说“启动函数”或“执行函数”。
+
+
+//构造器调用会创建新对象。新对象会从其构造器继承属性和方法。
+构造器内的 this 关键词没有值。
+this 的值会成为调用函数时创建的新对象。
+
+
+
+
+JavaScript 函数 Call:
+call() 方法是预定义的 JavaScript 方法。
+它可以用来 【调用所有者对象】作为【参数】的方法。
+改变函数this的拥有者：person.fullName.call(person1)  //fullName方法中的this拥有者变为person1
+
+1.
+通过 call()，您能够使用属于另一个对象的方法。
+eg.调用 person 的 fullName 方法，并用于 person2：
+var person = {
+    fullName: function() {
+        return this.firstName + " " + this.lastName;
+    }
+}
+var person1 = {
+    firstName:"Bill",
+    lastName: "Gates",
+}
+
+person.fullName.call(person1);  // 将返回 "Bill Gates"
+
+
+2.
+带参数的 call() 方法:
+eg.
+var person = {
+  fullName: function(city, country) {
+    return this.firstName + " " + this.lastName + "," + city + "," + country;
+  }
+}
+var person1 = {
+  firstName:"Bill",
+  lastName: "Gates"
+}
+
+var x = person.fullName.call(person1, "Seatle", "USA"); //后2个参数为传入fullName方法的参数
+document.getElementById("demo").innerHTML = x; 
+输出：Bill Gates,Seatle,USA
+
+
+
+JavaScript 函数 Apply：
+JavaScript apply() 方法
+apply() 方法与 call() 方法非常相似；
+
+call() 和 apply() 之间的区别
+不同之处是：
+call() 方法分别接受参数。
+apply() 方法接受数组形式的参数。
+如果要使用数组而不是参数列表，则 apply() 方法非常方便。
+
+
+带参数的 apply() 方法:
+apply() 方法接受数组中的参数：
+eg.
+var person = {
+  fullName: function(city, country) {
+    return this.firstName + " " + this.lastName + "," + city + "," + country;
+  }
+}
+var person1 = {
+  firstName:"Bill",
+  lastName: "Gates"
+}
+var x = person.fullName.apply(person1, ["Seatle", "USA"]);  //参数为数组
+document.getElementById("demo").innerHTML = x; 
+
+
+eg.在数组上模拟 max 方法
+由于 JavaScript 数组没有 max() 方法，因此您可以应用 Math.max() 方法。
+Math.max.apply(null, [1,2,3]); // 也会返回 3
+
+【JavaScript 严格模式:如果 apply() 方法的第一个参数不是对象，则它将成为被调用函数的所有者（对象）。】
+【在“非严格”模式下，它成为全局对象。】
+
+
+
+
+JavaScript 闭包：
+全局变量能够通过闭包实现局部（私有）。
+
+JavaScript 嵌套函数：
+所有函数都有权访问全局作用域。
+事实上，在 JavaScript 中，所有函数都有权访问它们“上面”的作用域。
+JavaScript 支持嵌套函数。嵌套函数可以访问其上的作用域。
+
+当一个内部函数被其外部函数之外的变量引用时，就形成了一个闭包。
+eg.函数A的内部函数B被函数A外的一个变量 c 引用。
+function A(){
+	function B(){...}
+	retruen B;
+}
+
+var c = A();   
+c();
+
+当我们需要在模块中定义一些变量，并希望这些变量一直保存在内存中但又不会 “污染” 全局的变量时，就可以用闭包来定义这个模块。
+
+eg.
+(function (document) {
+    var viewport;
+    var obj = {
+        init: function(id) {
+           viewport = document.querySelector('#' + id);
+        },
+        addChild: function(child) {
+            viewport.appendChild(child);
+        },
+        removeChild: function(child) {
+            viewport.removeChild(child);
+        }
+    }
+    window.jView = obj;                     //用全局变量jView指向对象obj,obj 对象中的函数又引用了匿名函数的变量viewport
+    										//因此变量viewport不会被GC回收，会一直保存在内存中
+})(document);
+
+
+
+闭包指的是：能够访问另一个函数作用域的变量的函数。清晰的讲：闭包就是一个函数，这个函数能够访问其他函数的作用域中的变量。
+闭包是由函数以及创建该函数的词法环境组合而成。这个环境包含了这个闭包创建时所能访问的所有局部变量。
+eg:
+function outer() {
+     var  a = '变量1'
+     var  inner = function () {
+            console.info(a)
+     }
+    return inner    // inner 就是一个闭包函数，因为他能够访问到outer函数的作用域  
+}
+
+
+
+
+坑点1： 引用的变量可能发生变化：
+function outer() {
+      var result = [];
+      for （var i = 0； i<10; i++）{
+        result.[i] = function () {
+            console.info(i)
+        }
+     }
+     return result
+}
+//打印出来都是10   因为每个result函数对象里面都没有i,而是去引用上层作用域outer中的i,但此时的i为10
+
+解决方法：
+function outer() {
+      var result = [];
+      for （var i = 0； i<10; i++）{
+        result[i] = function (num) {
+             return function() {
+                   console.info(num);    
+             }
+        }(i)
+     }
+     return result
+}
+
+【 result[i] = function (num) {
+             return function() {
+                   console.info(num);    
+             }
+        }(i)
+     }
+形成闭包，由于将匿名函数的引用给了result[i]，导致此匿名函数的上一作用域没法释放，所以上一作用域中的num变量，result[i]可以使用】
+
+
+
+
+坑点2: this指向问题:
+var object = {
+     name: ''object"，
+     getName： function() {
+        return function() {
+             console.info(this.name)
+        }
+    }
+}
+object.getName()()    // underfined
+// 因为里面的闭包函数是在window作用域下执行的，也就是说，this指向windows
+
+
+
+
+坑点3：内存泄露(占用内存)问题:
+function  showId() {
+    var el = document.getElementById("app")
+    var id  = el.id
+    el.onclick = function(){
+      aler(id)   // 这样会导致闭包引用外层的el，当执行完showId后，el无法释放
+    }
+    el = null    // 主动释放el
+}
+
+
+
+
+
+
+
+
+
+
+
+////五大主流浏览器介绍和内核
+1、IE浏览器：
+IE是微软公司旗下浏览器，是目国内用户量最多的浏览器。IE诞生于1994年，当时微软为了对抗市场份额占据将近百分之九十的网景Netscape Navigator，于是在Windows中开发了自己的浏览器Internet Explorer，自此也引发了第一次浏览器大战。结果可想而知，微软大获全胜，网景不得不将自己卖给AOL公司。但实际上事情并没有结束，网景后来开发了风靡一时的Firefox火狐，至今Firefox也成为世界五大浏览器之一。
+1996年，微软从Spyglass手里拿到Spyglass Mosaic的源代码和授权，开始开发自己的浏览器IE。后来，微软以IE和Windows捆绑的模式不断向市场扩展份额，使IE成为市场的绝对主流。现在装了Windows系统的电脑基本无法卸载IE。
+2、Opera浏览器：
+Opera是挪威Opera Software ASA公司旗下的浏览器。1995年，opera公司发布第一版Opera浏览器，使用自己研发的Presto内核。当时opera公司的开发团队不断完善Presto内核，使Opera浏览器一度成为顶级浏览器。直到2016年奇虎360和昆仑万维收购了Oprea浏览器，从此也丢弃了强大的Presto内核，改用当时Google开源的webkit内核。后来Opera浏览器跟随Google将浏览器内核改为Blink内核。自此Presto内核也淡出了互联网市场。
+3、Safari浏览器：
+第二次浏览器大战是从苹果公司发布Safari浏览器开始的。2003年，苹果公司在苹果手机上开发Safari浏览器，利用自己得天独厚的手机市场份额使Safari浏览器迅速成为世界主流浏览器。Safari是最早使用webkit内核的浏览器也是现在苹果默认的浏览器。
+4、Firefox浏览器：
+Firefox浏览器使Mozilla公司旗下浏览器，也是刚才提到的网景公司后来的浏览器。网景被收购后，网景人员创办了Mozilla基金会，这是一个非盈利组织，他们在2004年推出自己的浏览器Firefox。Firefox采用Gecko作为内核。Gecko是一个开源的项目，代码完全公开，因此受到很多人的青睐。Firefox的问世加快了第二次浏览器大战的开始。第二次浏览器大战与第一次二元鼎力的局面不同，这一次的特点就是百家争鸣，也自此打破了IE浏览器从98年网景被收购后独步浏览器市场的局面。
+5、Chrome浏览器：
+Chrome浏览器是google旗下的浏览器。Chrome浏览器至发布以来一直讲究简洁、快速、安全，所以Chrome浏览器到现在一直受人追捧。最开始Chrome采用webkit作为浏览器内核，直到2013年，google宣布不再使用苹果的webkit内核，开始使用webkit的分支内核Blink。
+
+
+
+以上是五大浏览器的简介，接下来是四大内核。在介绍五大浏览器的同时也已经顺便介绍了四大内核。四大内核分别是：Trident（也称IE内核）、webkit、Blink、Gecko。五大浏览器采用的都是单内核，而随着浏览器的发展现在也出现了双内核。像360浏览器、QQ浏览器都是采用双内核。
+1、IE浏览器内核：Trident内核，也是俗称的IE内核；
+2、Chrome浏览器内核：统称为Chromium内核或Chrome内核，以前是Webkit内核，现在是Blink内核；
+3、Firefox浏览器内核：Gecko内核，俗称Firefox内核；
+4、Safari浏览器内核：Webkit内核；
+5、Opera浏览器内核：最初是自己的Presto内核，后来是Webkit，现在是Blink内核；
+6、360浏览器、猎豹浏览器内核：IE+Chrome双内核；
+7、搜狗、遨游、QQ浏览器内核：Trident（兼容模式）+Webkit（高速模式）；
+8、百度浏览器、世界之窗内核：IE内核；
+
+
+
+
+
+
+
+
+
+
+
+
+////JavaScript 版本
+JavaScript 由 Brendan Eich 于 1995 年发明，并于 1997 年成为 ECMA 标准。ECMAScript 是该语言的官方名称。
+从 2015 年起，ECMAScript 按年命名（ECMAScript 2015）。
+
+浏览器支持
+所有浏览器都完全支持 ECMAScript 3。
+所有现代浏览器都完全支持 ECMAScript 5。
+
+
+ECMAScript 版本:
+版本   官方名称
+ 1	ECMAScript 1 (1997)			第一版。
+ 2	ECMAScript 2 (1998)			只改变编辑方式。
+ 3	ECMAScript 3 (1999)			添加了正则表达式。添加了 try/catch。
+ 4	ECMAScript 4				从未发布过。
+ 5	ECMAScript 5 (2009)（ES5）	添加了“严格模式”。
+								添加了 JSON 支持。
+								添加了 String.trim()。
+								添加了 Array.isArray()。
+								添加了数组迭代方法。
+
+5.1	ECMAScript 5.1 (2011)		编辑改变。		
+
+ 6 	ECMAScript 2015（ES6）		添加了 let 和 const
+								添加了默认参数值
+								添加了 Array.find()
+								添加了 Array.findIndex()		
+
+ 7	ECMAScript 2016				添加了指数运算符（**）。添加了 Array.prototype.includes。	
+ 8	ECMAScript 2017				添加了字符串填充。
+								添加了新的 Object 属性。
+								添加了异步功能。
+								添加了共享内存。									
+
+9	ECMAScript 2018				添加了 rest / spread 属性。
+								添加了异步迭代。
+								添加了 Promise.finally()。
+								增加 RegExp。								
+
+
+
+
+对 ES5 的浏览器支持（2009）
+浏览器		版本		起始日期
+Chrome		23		2012 年 9 月
+Firefox		21		2013 年 4 月
+IE			9*		2011 年 3 月
+IE / Edge	10		2012 年 9 月
+Safari		6		2012 年 7 月
+Opera		15		2013 年 7 月		
+（* Internet Explorer 9 不支持 ECMAScript 5 "use strict"）
+
+
+
+对 ES6 的浏览器支持（ECMAScript 2015）
+浏览器	版本 	日期
+Chrome	58	    2017 年 4 月
+Firefox	54		2017 年 6 月
+Edge	14		2016 年 8 月
+Safari	10		2016 年 9 月
+Opera	55		2017 年 8 月						
+（Internet Explorer 不支持 ECMAScript 2015。）
+

@@ -1,0 +1,636 @@
+Browser BOM:
+浏览器对象模型（Browser Object Model (BOM)）
+
+Window 对象:
+所有浏览器都支持 window 对象。它代表浏览器的窗口。
+
+所有全局 JavaScript 对象，函数和变量自动成为 window 对象的成员。
+
+全局变量是 window 对象的属性。
+
+全局函数是 window 对象的方法。
+
+甚至（HTML DOM 的）document 对象也是 window 对象属性：window.document.getElementById("header");
+													等同于：document.getElementById("header");
+
+Window 对象表示浏览器中打开的窗口。
+
+如果文档包含框架（frame 或 iframe 标签），浏览器会为 HTML 文档创建一个 window 对象，并为每个框架创建一个额外的 window 对象。
+
+注释：没有应用于 window 对象的公开标准，不过所有浏览器都支持该对象。
+
+
+I.Window 对象集合:
+frames[]:返回窗口中所有命名的框架。
+
+该集合是 Window 对象的数组，每个 Window 对象在窗口中含有一个框架或 <iframe>。
+属性 frames.length 存放数组 frames[] 中含有的元素个数。
+注意，frames[] 数组中引用的框架可能还包括框架，它们自己也具有 frames[] 数组。
+
+
+
+
+
+
+
+
+II.Window 对象属性:
+closed：      																										返回窗口是否已被关闭。 该属性为只读,当浏览器窗口关闭时，表示该窗口的 Windows对象并不会消失，它将继续存在，不过它的closed 属性将设置为 true。
+
+defaultStatus：window.defaultStatus=sometext
+属性可设置或返回窗口状态栏中的默认文本。该属性可读可写。该文本会在页面加载时被显示
+eg.window.defaultStatus="This is the default text in the status bar!!";
+
+status ：window.status=sometext
+属性可设置或返回窗口状态栏中的文本。
+status 属性是一个可读可写的字符串，声明了要在窗口状态栏中显示的一条消息。
+通常显示这条消息的时间是有限的，直到其他的消息将它覆盖，或者用户把鼠标移动到窗口的其他区域为止。
+当擦除了 status 声明的消息时，状态栏要么恢复为它默认的空白状态，要么是再次显示出属性 defaultStatus 声明的默认消息。
+
+name:
+属性可设置或返回存放窗口的名称的一个字符串。
+该名称是在 open() 方法创建窗口时指定的或者使用一个 <frame> 标记的 name 属性指定的。
+窗口的名称可以用作一个 <a> 或者 <form> 标记的 target 属性的值。以这种方式使用 target 属性声明了超链接文档或表单提交结果应该显示于指定的窗口或框架中。
+
+opener : new Window.opener.(attribute|function) 
+属性是一个可读可写的属性，可返回对创建该窗口的 Window 对象的引用。
+opener 属性非常有用，创建的窗口可以引用创建它的窗口所定义的属性和函数。
+eg.
+<script type="text/javascript">
+myWindow=window.open('','','width=200,height=100')
+myWindow.document.write("This is 'myWindow'")       //新建一个窗口
+myWindow.focus()  
+myWindow.opener.document.write("This is the parent window")  //使用 创建新窗口的原窗口的方法 	
+															//在原窗口显示	This is the parent window
+															//myWindow.opener.(attribute|function)
+</script>
+
+parent:	返回父窗口。
+self:	返回对当前窗口的引用。等价于 Window 属性。
+top: 
+属性返回最顶层的先辈窗口。
+该属性返回对一个顶级窗口的只读引用。
+如果窗口本身就是一个顶级窗口，top 属性存放对窗口自身的引用。
+如果窗口是一个框架，那么 top 属性引用包含框架的顶层窗口。
+eg.if(window.top!=window.self) //判断当前窗口是不是顶级窗口
+
+
+
+pageXOffset	设置或返回当前页面相对于窗口显示区左上角的 X 位置。
+pageYOffset	设置或返回当前页面相对于窗口显示区左上角的 Y 位置。
+
+
+
+innerHeight	
+innerWidth	
+//两个属性可用用于确定浏览器窗口的尺寸。浏览器窗口（浏览器视口）不包括工具栏和滚动条。
+这两个属性都以像素返回尺寸：
+window.innerHeight - 浏览器窗口的内高度（以像素计）
+window.innerWidth - 浏览器窗口的内宽度（以像素计）
+
+对于 Internet Explorer 8, 7, 6, 5：
+document.documentElement.clientHeight
+document.documentElement.clientWidth
+或者
+document.body.clientHeight
+document.body.clientWidth
+eg.一个实用的 JavaScript 解决方案（包括所有浏览器）：
+实例
+var w = window.innerWidth
+|| document.documentElement.clientWidth
+|| document.body.clientWidth;
+
+var h = window.innerHeight
+|| document.documentElement.clientHeight
+|| document.body.clientHeight; 
+
+
+
+只读整数。声明了窗口的左上角在屏幕上的的 x 坐标和 y 坐标。
+//IE、Safari 和 Opera 支持 screenLeft 和 screenTop
+screenTop
+screenLeft 
+//而 Firefox 和 Safari 支持 screenX 和 screenY。 
+screenX    
+screenY
+
+
+
+Window 对象方法:
+blur()				把键盘焦点从顶层窗口移开。window.blur()
+focus() 			方法可把键盘焦点给予一个窗口。window.focus()
+
+setInterval():
+按照指定的周期（以毫秒计）来调用函数或计算表达式。
+setInterval() 方法会不停地调用函数，直到 clearInterval() 被调用或窗口被关闭。
+由 setInterval() 返回的 ID 值可用作 clearInterval() 方法的参数。
+setInterval(code,millisec[,"lang"])       
+code必需。要调用的函数或要执行的代码串。|millisec必须。周期性执行或调用 code 之间的时间间隔，以毫秒计。
+
+clearInterval() :
+方法可取消由 setInterval() 设置的 timeout。
+clearInterval() 方法的参数必须是由 setInterval() 返回的 ID 值。
+
+eg.       
+<html>
+<body>
+
+<input type="text" id="clock" size="35" />
+<script language=javascript>
+var int=self.setInterval("clock()",50)         //int=self.setInterval("clock()",50)  
+function clock()
+  {
+  var t=new Date()
+  document.getElementById("clock").value=t     
+  }
+</script>
+</form>
+<button onclick="int=window.clearInterval(int)">   //window.clearInterval(int)
+Stop interval</button>
+
+</body>
+</html>
+
+
+setTimeout() :方法用于在指定的毫秒数后调用函数或计算表达式。setTimeout(code,millisec) 
+			  与setInterval()不同在只执行一次
+clearTimeout(）：取消由 setTimeout() 方法设置的 timeout。			
+
+eg.无穷循环中的计时 - 带有一个停止按钮 
+<script type="text/javascript">
+var c=0
+var t
+function timedCount()
+{
+document.getElementById('txt').value=c
+c=c+1
+t=setTimeout("timedCount()",1000)
+}
+
+function stopCount()
+{
+clearTimeout(t)
+}
+</script>
+</head>
+
+<body>
+<form>
+<input type="button" value="开始计时！" onClick="timedCount()">
+<input type="text" id="txt">
+<input type="button" value="停止计时！" onClick="stopCount()">
+</form>
+
+<p>
+请点击上面的“开始计时”按钮。输入框会从 0 开始一直进行计时。点击“停止计时”可停止计时。
+</p>
+
+</body>
+
+
+open()	:
+打开一个新的浏览器窗口或查找一个已命名的窗口。
+window.open(URL,name,features,replace)
+参数：
+URL	一个可选的字符串，声明了要在新窗口中显示的文档的 URL。如果省略了这个参数，或者它的值是空字符串，那么新窗口就不会显示任何文档。
+
+name：一个可选的字符串，该字符串是一个由逗号分隔的特征列表，其中包括数字、字母和下划线，该字符声明了新窗口的名称。这个名称可以用作标记 <a> 和 <form> 的属性 target 的值。如果该参数指定了一个已经存在的窗口，那么 open() 方法就不再创建一个新窗口，而只是返回对指定窗口的引用。在这种情况下，features 将被忽略。
+
+features：一个可选的字符串，声明了新窗口要显示的标准浏览器的特征。如果省略该参数，新窗口将具有所有标准特征。在窗口特征这个表格中，我们对该字符串的格式进行了详细的说明。eg.myWindow=window.open('','','width=200,height=100')
+
+replace:
+一个可选的布尔值。规定了装载到窗口的 URL 是在窗口的浏览历史中创建一个新条目，还是替换浏览历史中的当前条目。支持下面的值：
+true - URL 替换浏览历史中的当前条目。
+false - URL 在浏览历史中创建新的条目。(默认)
+
+close()	:
+ 将关闭有 window 指定的顶层浏览器窗口。某个窗口可以通过调用 self.close() 或只调用 close() 来关闭其自身。	
+只有通过 JavaScript 代码打开的窗口才能够由 JavaScript 代码关闭。这阻止了恶意的脚本终止用户的浏览器。
+
+窗口特征（Window Features）:
+channelmode=yes|no|1|0	是否使用剧院模式显示窗口。默认为 no。
+fullscreen=yes|no|1|0	是否使用全屏模式显示浏览器。默认是 no。处于全屏模式的窗口必须同时处于剧院模式。
+
+directories=yes|no|1|0	是否添加目录按钮。默认为 yes。
+location=yes|no|1|0		是否显示地址字段。默认是 yes。
+menubar=yes|no|1|0		是否显示菜单栏。默认是 yes。
+resizable=yes|no|1|0	窗口是否可调节尺寸。默认是 yes。
+scrollbars=yes|no|1|0	是否显示滚动条。默认是 yes。
+status=yes|no|1|0		是否添加状态栏。默认是 yes。
+titlebar=yes|no|1|0		是否显示标题栏。默认是 yes。
+toolbar=yes|no|1|0		是否显示浏览器的工具栏。默认是 yes。\
+
+left=pixels	窗口的 x 坐标。以像素计。
+top=pixels	窗口的 y 坐标。
+width=pixels	窗口的文档显示区的宽度。以像素计。
+height=pixels	窗口文档显示区的高度。以像素计。
+
+
+eg.
+//打开新窗口
+ mywindow = window.open("http://www.w3school.com.cn","_blank","toolbar=yes, location=yes, directories=no, status=no, menubar=yes, scrollbars=yes, resizable=no, copyhistory=yes, width=400, height=400");
+//关闭新窗口
+ mywindow.close();
+
+ alert()	:
+ 显示带有一段消息和一个确认按钮的警告框。
+折行
+如需在弹出框中显示折行，请在反斜杠后面加一个字符 n。
+eg.
+alert("Hello\nHow are you?");
+
+ confirm() :
+ 方法用于显示一个带有指定消息和 OK 及取消按钮的确认框。
+ 如果用户点击确定按钮，则 confirm() 返回 true。如果点击取消按钮，则 confirm() 返回 false。
+ 在用户点击确定按钮或取消按钮把对话框关闭之前，它将阻止用户对浏览器的所有输入。
+ 在调用 confirm() 时，将暂停对 JavaScript 代码的执行，在用户作出响应之前，不会执行下一条语句。
+ eg.
+ function disp_confirm()
+  {
+  var r=confirm("Press a button")
+  if (r==true)
+    {
+    document.write("You pressed OK!")
+    }
+  else
+    {
+    document.write("You pressed Cancel!")
+    }
+  }
+
+prompt()：
+显示可提示用户输入的对话框。
+prompt(text,defaultText)
+text	可选。要在对话框中显示的纯文本（而不是 HTML 格式的文本）。
+defaultText	可选。默认的输入文本。
+如果用户单击提示框的取消按钮，则返回 null。如果用户单击确认按钮，则返回输入字段当前显示的文本。
+eg.
+function disp_prompt()
+  {
+  var name=prompt("Please enter your name","")
+  if (name!=null && name!="")
+    {
+    document.write("Hello " + name + "!")
+    }
+  }
+
+
+createPopup() :方法用于创建一个 pop-up 窗口。window.createPopup()
+
+moveBy()	：可相对窗口的当前坐标把它移动指定的像素。window.moveBy(x,y)  相对上一个窗口位置移动；
+moveTo()	：把窗口的左上角移动到一个指定的坐标。window.moveTo(x,y)      相对于左上角
+            出于安全方面的原因，浏览器限制此方法使其不能把窗口移出屏幕。
+
+resizeBy()	:按照指定的像素调整窗口的大小。resizeBy(width,height) 要使窗口宽度(高度)增加的像素数。可以是正、负数值。
+resizeTo()	:把窗口的大小调整到指定的宽度和高度。resizeTo(width,height)  调节到固定宽度和高度
+
+scrollBy()	：按照指定的像素值来滚动内容。scrollBy(xnum,ynum)xnum必需。把文档向右滚动的像素数。ynum必需。把文档向下滚动的像素数。
+scrollTo()	：把内容滚动到指定的坐标。
+             xpos	必需。要在窗口文档显示区左上角显示的文档的 x 坐标。
+			 ypos	必需。要在窗口文档显示区左上角显示的文档的 y 坐标。
+
+print()	:
+打印当前窗口的内容。调用 print() 方法所引发的行为就像用户单击浏览器的打印按钮。通常，这会产生一个对话框，让用户可以取消或定制打印请求。
+
+
+
+
+
+Navigator 对象:
+Navigator 对象包含有关浏览器的信息。
+Navigator 对象包含的属性描述了正在使用的浏览器。可以使用这些属性进行平台专用的配置。
+Navigator 对象的实例是唯一的，可以用 Window 对象的 navigator 属性来引用它。
+
+Navigator 对象集合:
+plugins[]	返回对文档中所有嵌入式对象的引用。
+该集合是一个 Plugin 对象的数组，其中的元素代表浏览器已经安装的插件。Plug-in 对象提供的是有关插件的信息，其中包括它所支持的 MIME 类型的列表。
+(虽然 plugins[] 数组是由 IE 4 定义的，但是在 IE 4 中它却总是空的，因为 IE 4 不支持插件和 Plugin 对象。)
+
+
+
+Navigator 对象属性:
+appCodeName	:
+返回浏览器的代码名。
+在所有以 Netscape 代码为基础的浏览器中，它的值是 "Mozilla"。 eg.navigator.appCodeName
+为了兼容起见，在 Microsoft 的浏览器中，它的值也是 "Mozilla"。  Mozilla
+
+appName	:
+返回浏览器的名称。
+在基于 Netscape 的浏览器中，这个属性的值是 "Netscape"。
+在 IE 中，这个属性的值是 "Microsoft Internet Explorer"。其他浏览器可以正确地表示自己或者伪装成其他的浏览器以达到兼容性。
+
+appVersion:
+返回浏览器的平台和版本信息。
+该字符串的第一部分是版本号。把该字符串传递给 parseInt() 只能获取主版本号。该属性的其余部分提供了有关浏览器版本的其他细节，包括运行它的操作系统的信息。
+eg.navigator.appVersion     
+5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.131 Safari/537.36
+eg2. parseFloat(navigator.appVersion)   5
+
+appMinorVersion:
+返回浏览器的次级版本。
+
+
+cookieEnabled	:
+返回指明浏览器中是否启用 cookie 的布尔值。
+可返回一个布尔值，如果浏览器启用了 cookie，该属性值为 true。如果禁用了 cookie，则值为 false。
+
+cpuClass	:
+返回浏览器系统的 CPU 等级。
+
+onLine	:
+返回指明系统是否处于脱机模式的布尔值。当脱机工作被选后，系统就进入了脱机状态，内容将从缓存进行读取。
+
+platform	:
+返回运行浏览器的操作系统平台。eg.navigator.platform      Win32
+
+systemLanguage	:
+返回 OS 使用的默认语言。
+
+userAgent	:
+返回由客户机发送服务器的 user-agent 头部的值。
+是一个只读的字符串，声明了浏览器用于 HTTP 请求的用户代理头的值。
+一般来讲，它是在 navigator.appCodeName 的值之后加上斜线和 navigator.appVersion 的值构成的。
+例如：Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; SV1; .NET CLR 1.1.4322)。
+注：用户代理头：user-agent header。
+
+
+userLanguage:
+返回 OS 的自然语言设置。
+
+language :属性返回浏览器语言eg.navigator.language     zh-CN
+
+product  :属性返回浏览器引擎的产品名称.eg.navigator.product    Gecko(大多数浏览器都将 “Gecko” 作为产品名称返回)
+
+Navigator 对象方法:
+javaEnabled()	规定浏览器是否启用 Java。
+taintEnabled()	规定浏览器是否启用数据污点 (data tainting)。
+
+警告！！！
+来自 navigator 对象的信息通常是误导性的，不应该用于检测浏览器版本，因为：
+
+不同浏览器能够使用相同名称
+导航数据可被浏览器拥有者更改
+某些浏览器会错误标识自身以绕过站点测试
+浏览器无法报告发布晚于浏览器的新操作系统
+
+
+
+
+
+Screen 对象:
+Screen 对象包含有关客户端显示屏幕的信息。
+
+Screen 对象属性:
+availHeight		:返回显示屏幕的高度 (除 Windows 任务栏之外)。可用高度
+availWidth		:返回显示屏幕的宽度 (除 Windows 任务栏之外)。可用宽度
+                在 Windows 这样的操作系统中，这个可用高度不包括分配给半永久特性（如屏幕底部的任务栏）的垂直空间。
+
+height 和 width:返回显示屏幕的高度和宽度。
+
+deviceXDPI		：返回显示屏幕的每英寸水平点数。
+deviceYDPI		：返回显示屏幕的每英寸垂直点数。
+
+logicalXDPI		：返回显示屏幕每英寸的水平方向的常规点数。
+logicalYDPI		：返回显示屏幕每英寸的垂直方向的常规点数。
+
+updateInterval	:设置或返回屏幕的刷新率。
+
+fontSmoothingEnabled	：返回用户是否在显示控制面板中启用了字体平滑。
+
+bufferDepth 	：属性设置或返回在 off-screen bitmap buffer 中调色板的比特深度。
+
+colorDepth		：
+返回目标设备或缓冲器上的调色板的比特深度。
+Window Screen 色深
+screen.colorDepth 属性返回用于显示一种颜色的比特数。
+所有现代计算机都使用 24 位或 32 位硬件的色彩分辨率：
+24 bits =16,777,216 种不同的 "True Colors"   
+（ HTML 中使用的 #rrggbb (rgb) 值代表 "True Colors" （16,777,216中不同的颜色）。）
+32 bits = 4,294,967,296 中不同的 "Deep Colors"
+
+更老的计算机使用 14 位：65,536 种不同的 "High Colors" 分辨率。
+异常古老的计算机，以及老式的手机使用 8 位：256 中不同的 "VGA colors"。
+
+pixelDepth		：
+返回显示屏幕的颜色分辨率（比特每像素）。eg.screen.pixelDepth     24
+对于现代计算机，颜色深度和像素深度是相等的。
+
+
+
+
+
+History 对象：
+History 对象包含用户（在浏览器窗口中）访问过的 URL。
+History 对象是 window 对象的一部分，可通过 window.history 属性对其进行访问。
+
+History 对象属性：
+length	：返回浏览器历史列表中的 URL 数量。（注释：IE 6 和 Opera 9 以 0 开始，而 Firefox 1.5 以 1 开始。）
+		eg.history.length
+
+
+
+History 对象方法:
+back()			:加载 history 列表中的前一个 URL。
+				可加载历史列表中的前一个 URL（如果存在）。
+				调用该方法的效果等价于点击后退按钮或调用 history.go(-1)。
+
+forward()		:加载 history 列表中的下一个 URL。
+				加载历史列表中的下一个 URL。
+				调用该方法的效果等价于点击前进按钮或调用 history.go(1)。
+
+go()			:加载 history 列表中的某个具体页面。
+				可加载历史列表中的某个具体的页面
+				history.go(number|URL)
+				URL 参数使用的是要访问的 URL，或 URL 的子串。
+			    number 参数使用的是要访问的 URL 在 History 的 URL 列表中的相对位置。
+			    eg.history.go(-1) 等同于history.back()
+			       history.go(1) 等同于history.forward（）
+
+
+为了保护用户的隐私，JavaScript 访问此对象存在限制。
+History 对象最初设计来表示窗口的浏览历史。但出于隐私方面的原因，History 对象不再允许脚本访问已经访问过的实际 URL。唯一保持使用的功能只有 back()、forward() 和 go() 方法。
+
+
+
+
+
+Location 对象：
+Location 对象包含有关当前 URL 的信息。
+Location 对象是 Window 对象的一个部分，可通过 window.location 属性来访问。	
+
+Location 对象属性：（都是是一个可读可写的字符串，可设置或返回** ）
+href		：设置或返回完整的 URL。
+
+host	：
+设置或返回主机名和当前 URL 的端口号。
+eg.假设当前的 URL 是: http://example.com:1234/test.htm#part2：
+document.write(location.host);
+结果：example.com:1234
+
+hostname	:设置或返回当前 URL 的主机名。 //example.com
+port		:设置或返回当前 URL 的端口号。//1234
+
+
+hash	：
+设置或返回从井号 (#) 开始的 URL（锚）。该字符串是 URL 的锚部分（从 # 号开始的部分）
+eg.假设当前的 URL 是: http://example.com:1234/test.htm#part2：
+document.write(location.hash);
+结果：#part2
+
+pathname	：
+设置或返回当前 URL 的路径部分。
+eg.假设当前的 URL 是: http://example.com:1234/test/test.htm#part2：
+document.write(location.pathname);
+结果：/test/test.htm
+
+protocol	:
+设置或返回当前 URL 的协议。
+eg.假设当前的 URL 是: http://example.com:1234/test.htm#part2：
+document.write(location.protocol);
+结果：http:
+
+search		:
+设置或返回从问号 (?) 开始的 URL（查询部分）。
+eg.假设当前的 URL 是: http://www.w3school.com.cn/tiy/t.asp?f=hdom_loc_search
+document.write(location.search);
+结果：?f=hdom_loc_search
+
+
+
+
+Location 对象方法：
+assign()		:加载新的文档。location.assign(URL)
+
+reload()		:重新加载当前文档。location.reload(force)
+				如果该方法没有规定参数，或者参数是 false，它就会用 HTTP 头 If-Modified-Since 来检测服务器上的文档是否已改变。如果文档已改变，reload() 会再次下载该文档。如果文档未改变，则该方法将从缓存中装载文档。这与用户单击浏览器的刷新按钮的效果是完全一样的。
+
+				如果把该方法的参数设置为 true，那么无论文档的最后修改日期是什么，它都会绕过缓存，从服务器上重新下载该文档。这与用户在单击浏览器的刷新按钮时按住 Shift 健的效果是完全一样。
+
+replace()		:用新的文档替换当前文档。location.replace(newURL)
+				[replace() 方法不会在 History 对象中生成一个新的记录。当使用该方法时，新的 URL 将覆盖 History 对象中的当前记录。]
+
+
+
+除了设置 location 或 location.href 用完整的 URL 替换当前的 URL 之外，还可以修改部分 URL，只需要给 Location 对象的其他属性赋值即可。这样做就会创建新的 URL，其中的一部分与原来的 URL 不同，浏览器会将它装载并显示出来。例如，假设设置了Location对象的 hash 属性，那么浏览器就会转移到当前文档中的一个指定的位置。同样，如果设置了 search 属性，那么浏览器就会重新装载附加了新的查询字符串的 URL。
+
+
+
+
+Cookie 让您在网页中存储用户信息。
+
+什么是 cookie？
+Cookie 是在您的计算机上存储在小的文本文件中的数据。
+
+当 web 服务器向浏览器发送网页后，连接被关闭，服务器会忘记用户的一切。
+Cookie 是为了解决“如何记住用户信息”而发明的：
+
+当用户访问网页时，他的名字可以存储在 cookie 中。
+下次用户访问该页面时，cookie 会“记住”他的名字。
+
+Cookie 保存在名称值对中，如：
+username = Bill Gates
+当浏览器从服务器请求一个网页时，将属于该页的 cookie 添加到该请求中。这样服务器就获得了必要的数据来“记住”用户的信息。
+
+
+如果浏览器已关闭本地 cookie 支持，则以下实例均无法工作。
+I.
+通过 JavaScript 创建 cookie:
+JavaScript 可以用 document.cookie 属性创建、读取、删除 cookie。
+
+eg.通过 JavaScript，可以这样创建 cookie：
+document.cookie = "username=Bill Gates";
+
+您还可以添加有效日期（UTC 时间）。默认情况下，在浏览器关闭时会删除 cookie：
+eg.
+document.cookie = "username=John Doe; expires=Sun, 31 Dec 2017 12:00:00 UTC";
+
+通过 path 参数，您可以告诉浏览器 cookie 属于什么路径。默认情况下，cookie 属于当前页。
+eg.
+document.cookie = "username=Bill Gates; expires=Sun, 31 Dec 2017 12:00:00 UTC; path=/";
+
+
+II.
+通过 JavaScript，可以这样读取 cookie：
+var x = document.cookie;
+document.cookie 会在一条字符串中返回所有 cookie，比如：cookie1=value; cookie2=value; cookie3=value;
+
+
+III.
+通过 JavaScript 改变 cookie
+通过使用 JavaScript，你可以像你创建 cookie 一样改变它：
+document.cookie = "username=Steve Jobs; expires=Sun, 31 Dec 2017 12:00:00 UTC; path=/";
+旧 cookie 被覆盖。
+
+
+IV.
+通过 JavaScript 删除 cookie
+删除 cookie 非常简单。
+删除 cookie 时不必指定 cookie 值：
+直接把 expires 参数设置为过去的日期即可：
+document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+您应该定义 cookie 路径以确保删除正确的 cookie。
+如果你不指定路径，一些浏览器不会让你删除 cookie。
+
+
+Cookie 字符串
+document.cookie 属性看起来像一个正常的文本字符串。但它不是。
+即使你向 document.cookie 写一份完整的 cookie 字符串，当再次读取时，你只能看到它的名称-值对。
+如果设置了新 cookie，则旧的 cookie 不会被覆盖。新的 Cookie 会被添加到 document.cookie，所以如果你读取 document.cookie，你得到的东西会像这样：
+cookie1 = value; cookie2 = value;
+显示所有 cookie 创建 cookie 1 创建 cookie 2 删除 cookie 1 删除 cookie 2
+如果你想找到一个指定 cookie 的值，你必须编写 JavaScript 函数来搜索 cookie 字符串中的 cookie 值。
+
+
+
+
+
+eg.JavaScript Cookie 实例
+
+首先，我们创建一个函数，将访问者的名字存储在 cookie 变量中：
+function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));   //getTime() 方法可返回距 1970 年 1 月 1 日之间的毫秒数。
+    var expires = "expires="+ d.toUTCString();  //加上 exday 转化的秒数，最后 d.toUTCString()转换化为UTC格式的
+                                                //根据世界时 (UTC) 把 Date 对象转换为字符串，并返回结果。
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+} 
+
+
+获取 cookie 的函数
+然后，我们创建一个函数返回指定 cookie 的值：
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie); //解码 cookie 字符串，处理带有特殊字符的 cookie，例如 “$”。
+    var ca = decodedCookie.split(';');       //拆成多个单独的cookie  (name=value) ,成为数组  
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {     //while循环去掉前面的空格
+            c = c.substring(1);
+         }
+         if (c.indexOf(name) == 0) {     //indexOf() 方法可返回某个指定的字符串值在字符串中首次出现的位置             
+            return c.substring(name.length, c.length);  //去掉 name= 这一段，取后面的value
+         }
+     }
+    return "";
+} 
+
+
+最后，我们创建检查 cookie 是否设置的函数。
+如果已设置 cookie，将显示一个问候。
+如果未设置 cookie，会显示一个提示框，询问用户的名字，并存储用户名 cookie 365 天，通过调用 setCookie 函数：
+function checkCookie() {
+    var username = getCookie("username");    //判读 username 这个cookie存在不存在
+    if (username != "") {              
+        alert("Welcome again " + username);  
+    } else {
+        username = prompt("Please enter your name:", ""); //不存在，则创建username，并输入其value
+        if (username != "" && username != null) {         
+            setCookie("username", username, 365);   //创建cookie  
+        }
+    }
+} 
+
+
+<body onload="checkCookie()"></body>  //加载页面 调用checkCookie()
+
+

@@ -1,0 +1,956 @@
+JavaScript HTML DOM：
+通过 HTML DOM，JavaScript 能够访问和改变 HTML 文档的所有元素。
+
+HTML DOM（文档对象模型）
+当网页被加载时，浏览器会创建页面的文档对象模型（Document Object Model）。
+HTML DOM 模型被结构化为对象树；
+通过这个对象模型，JavaScript 获得创建动态 HTML 的所有力量：
+
+JavaScript 能改变页面中的所有 HTML 元素
+JavaScript 能改变页面中的所有 HTML 属性
+JavaScript 能改变页面中的所有 CSS 样式
+JavaScript 能删除已有的 HTML 元素和属性
+JavaScript 能添加新的 HTML 元素和属性
+JavaScript 能对页面中所有已有的 HTML 事件作出反应
+JavaScript 能在页面中创建新的 HTML 事件
+
+
+什么是 DOM？
+DOM 是一项 W3C (World Wide Web Consortium) 标准。
+DOM 定义了访问文档的标准：
+“W3C 文档对象模型（DOM）是中立于平台和语言的接口，它允许程序和脚本动态地访问、更新文档的内容、结构和样式。”
+
+
+W3C DOM 标准被分为 3 个不同的部分：
+		Core DOM - 所有文档类型的标准模型
+		XML DOM - XML 文档的标准模型
+		HTML DOM - HTML 文档的标准模型
+
+
+HTML DOM 是 HTML 的标准对象模型和编程接口。它定义了：
+		作为对象的 HTML 元素
+		所有 HTML 元素的属性
+		访问所有 HTML 元素的方法
+		所有 HTML 元素的事件
+		换言之：HTML DOM 是关于如何获取、更改、添加或删除 HTML 元素的标准。
+
+
+
+HTML DOM Document （文档对象：文档对象是您的网页中所有其他对象的拥有者。）
+文档对象代表您的网页。
+如果您希望访问 HTML 页面中的任何元素，那么您总是从访问 document 对象开始。
+
+document方法 查找 HTML 元素：
+document.getElementById(id)            		通过元素 id 来查找元素eg.var myElement = document.getElementById("intro");
+document.getElementsByTagName(name)			通过标签名来查找元素 eg.var x = document.getElementsByTagName("p");
+document.getElementsByClassName(name)		通过类名来查找元素 eg.var x = document.getElementsByClassName("intro");
+ 											(通过类名查找元素不适用于 Internet Explorer 8 及其更早版本。)
+
+改变 HTML 元素:
+element.innerHTML = new html content		改变元素的 inner HTML  
+                                        eg.document.getElementById("demo").innerHTML = "Hello World!";
+element.attribute = new value			      改变 HTML 元素的属性值  eg.table.cellspacing="10px";
+element.setAttribute(attribute, value)  改变 HTML 元素的属性值  eg.table.setAttribute(cellspacing,"10xp")
+element.style.property = new style  		改变 HTML 元素的样式    eg.div.style.color="red";
+
+
+添加和删除元素:
+document.createElement(element)				创建 HTML 元素
+document.removeChild(element)				  删除 HTML 元素
+document.appendChild(element)				  添加 HTML 元素
+document.replaceChild(element)				替换 HTML 元素
+document.write(text)						      写入 HTML 输出流
+
+
+
+
+添加事件处理程序:
+document.getElementById(id).onclick = function(){code}		向 onclick 事件添加事件处理程序
+
+
+
+查找 HTML 对象:
+首个 HTML DOM Level 1 (1998)，定义了 11 个 HTML 对象、对象集合和属性。它们在 HTML5 中仍然有效。后来，在 HTML DOM Level 3，加入了更多对象、集合和属性。
+
+DOM Level 1:
+document.anchors					返回拥有 name 属性的所有 <a> 元素。 		
+document.body						  返回 <body> 元素 			
+document.cookie						返回文档的 cookie 
+document.forms						返回所有 <form> 元素
+document.images						返回所有 <img> 元素
+document.links						返回拥有 href 属性的所有 <area> 和 <a> 元素
+document.referrer					返回引用的 URI（链接文档）
+document.title						返回 <title> 元素
+document.URL						  返回文档的完整 URL
+document.applets					返回所有 <applet> 元素（HTML5 不建议使用）
+
+DOM Level 3:
+document.baseURI					返回文档的绝对基准 URI
+document.doctype					返回文档的 doctype
+document.documentElement	返回 <html> 元素
+document.documentMode			返回浏览器使用的模式
+document.documentURI			返回文档的 URI
+document.embeds						返回所有 <embed> 元素
+document.head						  返回 <head> 元素
+document.implementation		返回 DOM 实现
+document.inputEncoding		返回文档的编码（字符集）
+document.lastModified			返回文档更新的日期和时间
+document.readyState				返回文档的（加载）状态
+document.scripts					返回所有 <script> 元素
+document.strictErrorChecking		返回是否强制执行错误检查
+
+
+补充Document对象方法：
+document.open(mimetype,replace)    open() 方法可打开一个新文档，并擦除当前文档的内容。
+                                   mimetype(可选。规定正在写的文档的类型。默认值是 "text/html"。)
+                                   replace  可选。当此参数设置后，可引起新文档从父文档继承历史条目。
+                                   
+document.close()                  close() 方法可关闭一个由 document.open 方法打开的输出流，并显示选定的数据。
+                                  该方法将关闭 open() 方法打开的文档流，并强制地显示出所有缓存的输出内容。如果您使用 write() 方法动态地输出一个文档，必须记住当你这么做的时候要调用 close() 方法，以确保所有文档内容都能显示。
+
+eg.function createNewDoc()
+  {
+  var newDoc=document.open("text/html","replace");
+  var txt="<html><body>学习 DOM 非常有趣！</body></html>";
+  newDoc.write(txt);
+  newDoc.close();
+  }
+
+document.createTextNode(content)      创建文本结点
+
+
+
+补充element属性和方法：
+element.className                   设置或返回元素的 class 属性。
+element.clientHeight                返回元素的可见高度。
+element.clientWidth                 返回元素的可见宽度。
+node.cloneNode(deep)                cloneNode() 方法创建节点的拷贝，并返回该副本。
+                                    deep：设置为 true，如果您需要克隆节点及其属性，以及后代
+                                          设置为 false（默认），如果您只需要克隆节点及其后代
+                                    eg.把一个列表项从一个列表复制到另一个：
+                                    var node=document.getElementById("myList2").lastChild.cloneNode(true);
+                                    document.getElementById("myList1").appendChild(node);
+
+element.contentEditable             属性设置或返回元素内容是否可编辑。  
+                                    eg.document.getElementById("myP").contentEditable=true;   
+
+element.isContentEditable           返回元素的内容是否可编辑。                                     
+
+element.dir                         设置或返回元素的文本方向。                              
+                                    eg.document.getElementById("myP").dir = rtl|ltr; 
+
+element.getAttribute(attributename) getAttribute() 方法返回指定属性名的属性值。
+               eg     document.getElementsByTagName("a")[0].getAttribute("target");           _blank                
+
+element.getAttributeNode(attributename)            返回指定的属性节点。  
+              eg       document.getElementsByTagName("a")[0].getAttributeNode("target"); 
+
+element.removeAttribute()           从元素中移除指定属性。
+
+element.removeAttributeNode()       移除指定的属性节点，并返回被移除的节点。
+
+element.hasAttribute(attributename)     如果元素拥有指定属性，则返回true，否则返回 false。
+
+element.hasAttributes()                 如果元素拥有属性，则返回 true，否则返回 false。  
+
+element.hasChildNodes()                 如果元素拥有子节点，则返回 true，否则 false。
+
+
+node.isSameNode(node)           方法检查两节点是否是相同的节点。isSameNode() 方法返回true，如果两节点是相同的节点，否则返回 false。eg.var item1=document.getElementById("myList1");
+          var item2=document.getElementsByTagName("UL")[0];
+          item1.isSameNode(item2);
+
+element.offsetHeight  返回元素的高度。          element.offsetWidth 返回元素的宽度。
+element.offsetLeft  返回元素的水平偏移位置。     element.offsetTop 返回元素的垂直偏移位置。
+element.offsetParent  返回元素的偏移容器。
+
+element.scrollHeight  返回元素的整体高度。      element.scrollWidth 返回元素的整体宽度。
+element.scrollLeft  返回元素左边缘与视图之间的距离。
+element.scrollTop 返回元素上边缘与视图之间的距离。
+
+
+
+
+
+
+
+
+
+
+
+
+
+		
+查找HTML元素：
+1.通过document的3个方法查找HTML元素（上面有）；
+
+2.通过 CSS 选择器查找 HTML 元素:
+如果您需要查找匹配指定 CSS 选择器（id、类名、类型、属性、属性值等等）的所有 HTML 元素，请使用 querySelectorAll() 方法。
+eg.本例返回 class="intro" 的所有 <p> 元素列表：  
+var x = document.querySelectorAll("p.intro"); 
+document.getElementById("demo").innerHTML = x[0].innerHTML; //显示找到的类为intro的第一个p标签的内容
+(querySelectorAll() 不适用于 Internet Explorer 8 及其更早版本。)
+
+
+3.通过 HTML 对象选择器查找 HTML 对象：
+
+eg.本例查找 id="frm1" 的 form 元素，在 forms 集合中，然后显示所有元素值：
+
+function myFunction() {
+  var x = document.forms["frm1"];              //寻找所有表单中 id或者name为frm1的表单
+  var text = "";
+  var i;
+  for (i = 0; i < x.length ;i++) {             //找到的表单的所有元素的value值显示出来
+    text += x.elements[i].value + "<br>";
+  }
+  document.getElementById("demo").innerHTML = text;
+}
+
+
+
+改变 HTML 输出流：
+在 JavaScript 中，document.write() 可用于直接写入 HTML 输出流：
+eg.
+document.write(Date());
+(千万不要在文档加载后使用 document.write()。这么做会覆盖文档。)
+
+
+改变 HTML 内容:
+修改 HTML 文档内容最简单的方法是，使用 innerHTML 属性。
+innerHTML 属性
+获取元素内容最简单的方法是使用 innerHTML 属性。
+innerHTML 属性可用于获取或替换 HTML 元素的内容。
+innerHTML 属性可用于获取或改变任何 HTML 元素，包括 <html> 和 <body>。
+eg.document.getElementById("demo").innerHTML = "Hello World!";
+
+
+改变属性的值:(document.getElementById(id).attribute = new value)
+eg.本例修改了 <img> 元素的 src 属性的值：
+<!DOCTYPE html>
+<html>
+<body>
+
+<img id="myImage" src="smiley.gif">
+
+<script>
+document.getElementById("myImage").src = "landscape.jpg";
+</script>
+
+</body>
+</html> 
+
+
+改变 HTML 样式:(document.getElementById(id).style.property = new style)
+eg.下面的例子更改了 <p> 元素的样式：
+<html>
+<body>
+
+<p id="p2">Hello World!</p>
+
+<script>
+document.getElementById("p2").style.color = "blue";
+</script>
+
+<p>上面的段落已被脚本改变。</p>
+
+</body>
+</html>
+
+
+使用事件：
+HTML DOM 允许您在事件发生时执行代码。
+当“某些事情”在 HTML 元素上发生时，浏览器会生成事件：
+		1.点击某个元素时
+		2.页面加载时
+		3.输入字段被更改时
+
+eg.本例会在用户点击按钮时，更改 id="p1" 的 HTML 元素的样式：
+<!DOCTYPE html>
+<html>
+<body>
+
+<p id="p1">
+这是文本。
+这是文本。
+这是文本。
+这是文本。
+</p>
+
+<input type="button" value="隐藏文本" onclick="document.getElementById('p1').style.visibility='hidden'">
+<input type="button" value="显示文本" onclick="document.getElementById('p1').style.visibility='visible'">
+
+</body>
+</html>
+
+
+
+
+JavaScript 来创建 HTML 动画:
+eg.
+<html>
+<style>
+#container {                       //装小div的容器，设置为相对定位
+  width: 400px;
+  height: 400px;
+  position: relative;
+  background: yellow;
+}
+#animate {                         //小div，用来在容器中移动，设置为绝对定位
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  background-color: red;
+}
+</style>
+<body>
+
+<p><button onclick="myMove()">单击我</button></p> 
+
+<div id ="container">
+  <div id ="animate"></div>
+</div>
+
+<script>
+function myMove() {
+  var elem = document.getElementById("animate");   
+  var pos = 0;
+  var id = setInterval(frame, 5);       //id = setInterval(frame, 5);设置定时器，5ms，执行一次frame函数
+  function frame() {
+    if (pos == 350) {
+      clearInterval(id);               //clearInterval(id); 关闭定时器
+    } else {
+      pos++; 
+      elem.style.top = pos + "px";     //移动小div
+      elem.style.left = pos + "px"; 
+    }
+  }
+}
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+对事件作出反应：
+1.
+HTML 事件属性：如需向 HTML 元素分配事件，您能够使用事件属性
+eg.向 button 元素分配 onclick 事件：
+
+<button onclick="displayDate()">试一试</button>
+
+
+2.使用 HTML DOM 分配事件:
+eg.为 button 元素指定 onclick 事件：
+<script>
+document.getElementById("myBtn").onclick = displayDate;
+</script> 
+
+onload 和 onunload 事件:
+当用户进入后及离开页面时，会触发 onload 和 onunload 事件。
+onload :事件可用于检测访问者的浏览器类型和浏览器版本，然后基于该信息加载网页的恰当版本。
+onload 和onunload 事件可用于处理 cookie。
+eg.
+<!DOCTYPE html>
+<html>
+<body onload="checkCookies()">    //加载内容时，触发事件
+.....
+</body>
+</html>
+
+
+onchange 事件:
+onchange 事件经常与输入字段验证结合使用。
+eg.当用户改变输入字段内容时，会调用 upperCase() 函数。
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function upperCase() {
+  var x = document.getElementById("fname");
+  x.value = x.value.toUpperCase();
+  <!-- x.style.textTransform="uppercase"; //用css改变  -->
+}
+</script>
+</head>
+<body>
+请输入您的名字：<input type="text" id="fname" onchange="upperCase()">
+<p>离开输入字段时，会触发一个函数，将输入文本转换为大写。</p>
+</body>
+</html>
+
+
+onmouseover 和 onmouseout 事件:
+onmouseover 和 onmouseout 事件可用于当用户将鼠标移至 HTML 元素上或移出时触发某个函数.
+
+onmousedown, onmouseup 以及 onclick 事件:
+首先当鼠标按钮被点击时，onmousedown 事件被触发；然后当鼠标按钮被释放时，onmouseup 事件被触发；最后，当鼠标点击完成后，onclick 事件被触发。
+
+
+HTML DOM 事件监听器：
+addEventListener() 方法：
+语法：
+element.addEventListener(event, function, useCapture);
+第一个参数是事件的类型（比如 "click" 或 "mousedown"）。
+第二个参数是当事件发生时我们需要调用的函数。
+第三个参数是布尔值，指定使用事件冒泡还是事件捕获。此参数是可选的。
+注意：请勿对事件使用 "on" 前缀；请使用 "click" 代替 "onclick"。
+
+eg.document.getElementById("myBtn").addEventListener("click", displayDate);
+
+addEventListener() 方法为指定元素指定事件处理程序。
+addEventListener() 方法为元素附加事件处理程序而不会覆盖已有的事件处理程序。
+addEventListener() 方法使我们更容易控制事件如何对冒泡作出反应。
+您能够向一个元素添加多个事件处理程序。
+您能够向一个元素添加多个相同类型的事件处理程序，例如两个 "click" 事件。
+您能够向任何 DOM 对象添加事件处理程序而非仅仅 HTML 元素，例如 window 对象。
+
+当使用 addEventListener() 方法时，JavaScript 与 HTML 标记是分隔的，已达到更佳的可读性；即使在不控制 HTML 标记时也允许您添加事件监听器。
+您能够通过使用 removeEventListener() 方法轻松地删除事件监听器。
+
+
+向相同元素添加多个事件处理程序:
+addEventListener() 方法允许您向相同元素添加多个事件，同时不覆盖已有事件：
+element.addEventListener("click", myFunction);
+element.addEventListener("click", mySecondFunction);
+
+您能够向相同元素添加不同类型的事件：
+element.addEventListener("mouseover", myFunction);
+element.addEventListener("click", mySecondFunction);
+element.addEventListener("mouseout", myThirdFunction);
+
+
+
+向 Window 对象添加事件处理程序:
+addEventListener() 允许您将事件监听器添加到任何 HTML DOM 对象上，比如 HTML 元素、HTML 对象、window 对象或其他支持事件的对象，比如 xmlHttpRequest 对象。
+eg.添加当用户调整窗口大小时触发的事件监听器：
+window.addEventListener("resize", function(){
+    document.getElementById("demo").innerHTML = sometext;
+});
+
+
+传递参数
+当传递参数值时，请以参数形式使用调用指定函数的“匿名函数”：
+eg.
+element.addEventListener("click", function(){ myFunction(p1, p2); });
+
+
+事件冒泡还是事件捕获？
+在 HTML DOM 中有两种事件传播的方法：冒泡和捕获。
+
+事件传播是一种定义当发生事件时元素次序的方法。假如 <div> 元素内有一个 <p>，然后用户点击了这个 <p> 元素，应该首先处理哪个元素“click”事件？
+在冒泡中，最内侧元素的事件会首先被处理，然后是更外侧的：首先处理 <p> 元素的点击事件，然后是 <div> 元素的点击事件。
+在捕获中，最外侧元素的事件会首先被处理，然后是更内侧的：首先处理 <div> 元素的点击事件，然后是 <p> 元素的点击事件。
+
+在 addEventListener() 方法中，你能够通过使用“useCapture”参数来规定传播类型：
+默认值是 false，将使用冒泡传播，如果该值设置为 true，则事件使用捕获传播。
+eg.document.getElementById("myP").addEventListener("click", myFunction, true);
+
+
+removeEventListener() 方法:
+removeEventListener() 方法会删除已通过 addEventListener() 方法附加的事件处理程序：
+eg.
+document.getElementById("myDIV").addEventListener("mousemove", myFunction);
+document.getElementById("myDIV").removeEventListener("mousemove", myFunction);
+
+
+(注释：IE 8、Opera 6.0 及其更早版本不支持 addEventListener() 和 removeEventListener() 方法。不过，对于这些特殊的浏览器版本，您可以使用 attachEvent() 方法向元素添加事件处理程序，并由 detachEvent() 方法删除：
+element.attachEvent(event, function);
+element.detachEvent(event, function);
+)
+
+跨浏览器解决方案：
+
+var x = document.getElementById("myBtn");
+if (x.addEventListener) {                    // 针对主流浏览器，除了 IE 8 及更正版本
+    x.addEventListener("click", myFunction);
+} else if (x.attachEvent) {                  // 针对 IE 8 及更早版本
+    x.attachEvent("onclick", myFunction);    //事件属性使用带on
+} 
+
+
+
+
+
+
+
+DOM 导航：通过 HTML DOM，您能够使用节点关系来导航节点树。
+
+DOM 节点：
+根据 W3C HTML DOM 标准，HTML 文档中的所有事物都是节点：
+    整个文档是               文档节点
+    每个HTML元素是           元素节点
+    HTML元素内的文本是       文本节点
+    每个HTML属性是           属性节点
+    所有注释是               注释节点
+
+
+在节点之间导航
+通过 JavaScript，您可以使用以下节点属性在节点之间导航：
+parentNode
+childNodes[nodenumber]
+firstChild
+lastChild
+nextSibling        // 下一个同胞结点
+previousSibling    //上一个同胞结点
+
+
+文本节点的值能够通过节点的 innerHTML 属性进行访问：
+var myTitle = document.getElementById("demo").innerHTML;
+访问 innerHTML 属性等同于访问首个子节点的 nodeValue：
+var myTitle = document.getElementById("demo").firstChild.nodeValue;
+也可以等同于：
+var myTitle = document.getElementById("demo").childNodes[0].nodeValue;
+
+
+
+DOM 根节点
+有两个特殊属性允许访问完整文档：
+document.body - 文档的 body
+document.documentElement - 完整文档
+
+eg.alert(document.body.innerHTML);  //输出<body></body>里面的内容
+eg.alert(document.documentElement.innerHTML);  //输出<html></html>里面的内容
+
+
+
+nodeName 属性:(注释：nodeName 总是包含 HTML 元素的大写标签名。)
+nodeName 属性规定节点的名称。
+nodeName 是只读的
+元素节点的 nodeName 等同于标签名
+属性节点的 nodeName 是属性名称
+文本节点的 nodeName 总是 #text
+文档节点的 nodeName 总是 #document
+
+
+nodeValue 属性：
+nodeValue 属性规定节点的值。
+元素节点的 nodeValue 是 undefined
+文本节点的 nodeValue 是文本文本
+属性节点的 nodeValue 是属性值
+
+
+
+nodeType 属性：
+nodeType 属性返回节点的*类型*。nodeType 是只读的。
+  结点                  类型            例子
+ELEMENT_NODE             1         <h1 class="heading">W3School</h1>
+ATTRIBUTE_NODE           2         class = "heading" （弃用）(Type 2 在 HTML DOM 中已弃用。XML DOM 中未弃用。)
+TEXT_NODE                3         W3School
+COMMENT_NODE             8         <!-- 这是注释 -->
+DOCUMENT_NODE            9         HTML 文档本身（<html> 的父）
+DOCUMENT_TYPE_NODE       10        <!Doctype html>
+
+
+
+添加和删除节点（HTML 元素）:
+I.创建新 HTML 元素（节点）：
+1.
+appendChild() 方法，追加新元素作为父的最后一个子。
+element.appendChild(节点)；
+如需向 HTML DOM 添加新元素，您必须首先创建这个元素（元素节点），然后将其追加到已有元素。
+eg.
+<div id="div1">
+<p id="p1">这是一个段落。</p>
+<p id="p2">这是另一个段落。</p>
+</div>
+
+<script>
+var para = document.createElement("p");           //创建p结点
+var node = document.createTextNode("这是新文本。"); //创建文本结点，如需向 <p> 元素添加文本，则必须首先创建文本节点
+para.appendChild(node);                           //向 <p> 元素追加这个文本节点：
+var element = document.getElementById("div1");
+element.appendChild(para);                        //将p结点追加到id="div1"这个div的里面，即id="p1"的p标签后面
+</script>
+
+
+2.
+结点前添加insertBefore：
+document.body.insertBefore(newGraf, docForm)；
+
+document.body 指的是document对象的body子对象，即html页面上面的body标签域。
+appendChild方法传递一个参数，由依附点来调用，传递要挂载的段落；insertBefore 方法由document.body调用，传递两个参数，要挂在的段落内容 和 挂载的依附点名称，第一个参数为包含要添加内容的段落，第二个参数为依附点，即将第一个参数的段落插在第二个参数对象之前。
+
+节点1后加一个节点3：
+首先获取节点1的下个节点，即节点2 = 节点1.nextNode；
+然后创建添加的节点3；
+最后使用insertBefore(节点3，节点2)。
+
+
+
+
+
+II.删除已有 HTML 元素：
+如需删除某个 HTML 元素，您需要知晓该元素的父：
+parent.removeChild("Child");
+eg.
+<div id="div1">
+<p id="p1">这是一个段落。</p>
+<p id="p2">这是另一个段落。</p>
+</div>
+
+<script>
+var parent = document.getElementById("div1");  //寻找父节点
+var child = document.getElementById("p1");     //待删除节点
+parent.removeChild(child);                     //删除节点
+</script>
+
+eg2.这是一种常见的解决方法：找到你想要删除的子，并利用其 parentNode 属性找到父：
+var child = document.getElementById("p1");
+child.parentNode.removeChild(child);
+
+
+
+
+
+III.替换 HTML 元素:
+如需替换元素的，请使用 父节点.replaceChild(替换节点，被替换节点) 方法：
+eg.
+<div id="div1">
+<p id="p1">这是一个段落。</p>
+<p id="p2">这是另一个段落。</p>
+</div>
+
+<script>
+var para = document.createElement("p");
+var node = document.createTextNode("这是新文本。");
+para.appendChild(node);
+var parent = document.getElementById("div1");
+var child = document.getElementById("p1");
+parent.replaceChild(para, child);     //新建的para节点替换parent的孩子节点child
+</script>
+
+
+
+
+
+
+HTMLCollection 对象:
+getElementsByTagName() 方法返回 HTMLCollection 对象。
+HTMLCollection 对象是类数组的 HTML 元素列表（集合）。
+eg.
+var x = document.getElementsByTagName("p");
+该集合中的元素可通过索引号进行访问。
+如需访问第二个 <p> 元素，您可以这样写：y = x[1];
+注释：索引从 0 开始。
+
+HTML HTMLCollection 长度:
+length 属性定义了 HTMLCollection 中元素的数量：
+eg1.
+var x = document.getElementsByTagName('p').length
+
+eg2.length 属性在您需要遍历集合中元素时是有用的：
+改变所有 <p> 元素的背景色：
+
+var myCollection = document.getElementsByTagName("p");
+var i;
+for (i = 0; i < myCollection.length; i++) {
+    myCollection[i].style.backgroundColor = "red";
+}
+
+
+注意：HTMLCollection 并非数组！
+HTMLCollection 也许看起来像数组，但并非数组。
+您能够遍历列表并通过数字引用元素（就像数组那样）。
+不过，您无法对 HTMLCollection 使用数组方法，比如 valueOf()、pop()、push() 或 join()。
+
+
+
+
+
+HTML DOM NodeList 对象：NodeList 对象是从文档中提取的节点列表（集合）。
+NodeList 对象与 HTMLCollection 对象几乎相同。
+
+如使用 getElementsByClassName() 方法，某些（老的）浏览器会返回 NodeList 对象而不是 HTMLCollection。
+
+所有浏览器都会为 childNodes 属性返回 NodeList 对象。
+
+大多数浏览器会为 querySelectorAll() 方法返回 NodeList 对象。
+
+HTMLCollection 与 NodeList 的区别
+      1. HTMLCollection是 HTML 元素的集合。
+         NodeList 是文档节点的集合。
+
+      2.NodeList 和 HTML 集合几乎完全相同。
+
+      3.HTMLCollection 和 NodeList 对象都是类数组的对象列表（集合）。
+        它们都有定义列表（集合）中项目数的 length 属性。
+        它们都可以通过索引 (0, 1, 2, 3, 4, ...) 像数组那样访问每个项目。
+
+      4.访问 HTMLCollection 项目，可以通过它们的名称、id 或索引号。
+        访问 NodeList 项目，只能通过它们的索引号。
+
+      5.只有 NodeList 对象能包含属性节点和文本节点。
+
+      6.节点列表不是数组！
+        节点数组看起来像数组，但并不是。
+        您能够遍历节点列表并像数组那样引用其节点。
+
+不过，您无法对节点列表使用数组方法，比如 valueOf()、push()、pop() 或 join()。
+
+
+
+HTML DOM Event 对象:
+
+事件句柄　(Event Handlers)
+onabort               图像的加载被中断。
+onerror               在加载文档或图像时发生错误。
+onload                一张页面或一幅图像完成加载。
+onfocus               元素获得焦点。
+onblur                元素失去焦点。
+
+onclick               当用户点击某个对象时调用的事件句柄。
+ondblclick            当用户双击某个对象时调用的事件句柄。
+
+onkeydown             某个键盘按键被按下。
+onkeyup               某个键盘按键被松开。
+onkeypress            某个键盘按键被按下并松开。
+
+onmousemove           鼠标被移动。
+onmouseout            鼠标从某元素移开。
+onmouseover           鼠标移到某元素之上。
+onmouseup             鼠标按键被松开。
+onmousedown           鼠标按钮被按下。
+
+onreset               重置按钮被点击。
+onsubmit              确认按钮被点击。
+
+onchange              域的内容被改变。
+onresize              窗口或框架被重新调整大小。
+onselect              文本被选中。
+onunload              用户退出页面。
+
+
+
+鼠标 / 键盘属性:event.attribute
+
+altKey        返回当事件被触发时，"ALT" 是否被按下。
+shiftKey      返回当事件被触发时，"SHIFT" 键是否被按下。
+ctrlKey       返回当事件被触发时，"CTRL" 键是否被按下。
+metaKey       返回当事件被触发时，"meta" 键是否被按下。
+
+button        返回当事件被触发时，哪个鼠标按钮被点击。
+              事件属性可返回一个整数，指示当事件被触发时哪个鼠标按键被点击,event.button=0|1|2 (鼠标左|中|右键)
+              Internet Explorer 拥有不同的参数(鼠标左|中|右键= 1|4|2）
+
+clientX       返回当事件被触发时，鼠标指针的水平坐标。     返回当事件被触发时鼠标指针向对于浏览器页面（或客户区）的水平坐标。
+clientY       返回当事件被触发时，鼠标指针的垂直坐标。
+screenX       返回当某个事件被触发时，鼠标指针的水平坐标。 返回事件发生时鼠标指针相对于屏幕的水平坐标
+screenY       返回当某个事件被触发时，鼠标指针的垂直坐标。
+
+relatedTarget 返回与事件的目标节点相关的节点。事件属性返回与事件的目标节点相关的节点。
+              对于 mouseover 事件来说，该属性是鼠标指针移到目标节点上时所离开的那个节点。
+              对于 mouseout 事件来说，该属性是离开目标时，鼠标指针进入的节点。
+              对于其他类型的事件来说，这个属性没有用。
+
+标准 Event 属性:
+bubbles           返回布尔值，指示事件是否是起泡事件类型。如果事件是起泡类型，则返回 true，否则返回 fasle
+cancelable        返回布尔值，指示事件是否可拥可取消的默认动作。
+                  cancelable 事件返回一个布尔值。如果用 preventDefault() 方法可以取消与事件关联的默认动作，则为 true，否则为 fasle。
+
+currentTarget     返回绑定事件的元素
+target            返回触发此事件的元素（事件的目标节点）。
+
+eventPhase        返回事件传播的当前阶段。
+                  属性返回事件传播的当前阶段。它的值是下面的三个常量之一，
+                  它们分别表示捕获阶段、正常事件派发和起泡阶段。
+                  Event.CAPTURING_PHASE 1 | Event.AT_TARGET 2 |  Event.BUBBLING_PHASE  3
+
+
+timeStamp         返回事件生成的日期和时间。
+                  事件属性可返回一个时间戳。指示发生事件的日期和时间（从 epoch 开始的毫秒数）。
+                  epoch 是一个事件参考点。在这里，它是客户机启动的时间。
+
+type              返回当前 Event 对象表示的事件的名称。
+                  回发生的事件的类型，即当前 Event 对象表示的事件的名称。
+                  它与注册的事件句柄同名，或者是事件句柄属性删除前缀 "on" 比如 "submit"、"load" 或 "click"。
+
+
+
+事件传播
+在 2 级 DOM 中，事件传播分为三个阶段：
+
+第一，捕获阶段。事件从 Document 对象沿着文档树向下传递给目标节点。如果目标的任何一个先辈专门注册了捕获事件句柄，那么在事件传播过程中运行这些句柄。
+
+第二个阶段发生在目标节点自身。直接注册砸目标上的适合的事件句柄将运行。这与 0 级事件模型提供的事件处理方法相似。
+
+第三，起泡阶段。在此阶段，事件将从目标元素向上传播回或起泡回 Document 对象的文档层次。
+
+
+
+标准 Event 方法:
+initEvent()             初始化新创建的 Event 对象的属性。
+                        event.initEvent(eventType,canBubble,cancelable)
+                        eventType 字符串值。事件的类型。
+                        canBubble 事件是否起泡。
+                        cancelable  是否可以用 preventDefault() 方法取消事件。
+
+preventDefault()        通知浏览器不要执行与事件关联的默认动作。
+                        该方法将通知 Web 浏览器不要执行与事件关联的默认动作（如果存在这样的动作）。例如，如果 type 属性是 "submit"，在事件传播的任意阶段可以调用任意的事件句柄，通过调用该方法，可以阻止提交表单。注意，如果 Event 对象的 cancelable 属性是 fasle，那么就没有默认动作，或者不能阻止默认动作。无论哪种情况，调用该方法都没有作用。
+
+stopPropagation()       不再派发事件。(可以用来阻止事件的捕获和冒泡) propagation 传播
+                        终止事件在传播过程的捕获、目标处理或起泡阶段进一步传播。调用该方法后，该节点上处理该事件的处理程序将被调用，事件不再被分派到其他节点。
+                        该方法将停止事件的传播，阻止它被分派到其他 Document 节点。在事件传播的任何阶段都可以调用它。注意，虽然该方法不能阻止同一个 Document 节点上的其他事件句柄被调用，但是它可以阻止把事件分派到其他节点。
+
+
+
+
+
+
+
+
+
+
+
+document下面client相关宽高介绍
+docment下有三类属性：
+    1.与client相关的宽高
+    2. 与offset相关的宽高
+    3.与scroll相关的宽高
+
+
+1.与client相关的宽高
+与client相关的宽高又有如下几个属性：
+    document.body.clientWidth
+    document.body.clientHeight
+    document.body.clientLeft
+    document.body.clientTop
+
+
+clientWidth和clientHeight:
+该属性指的是元素的可视部分宽度和高度，即padding+contenr。
+如果没有滚动条，即为元素设定的高度和宽度。
+如果出现滚动条，滚动条会遮盖元素的宽高，那么该属性就是其本来宽高减去滚动条的宽高。
+
+总结
+假入无padding无滚动条，clientWidth=style.width
+假如有padding无滚动轴，clientWidth=style.width+style.padding*2
+假如有padding有滚动，且滚动是显示的，clientWidth=style.width+style.padding*2-滚动轴宽度
+
+clientLeft和clientTop:
+这两个返回的是元素周围边框的厚度，如果不指定一个边框或者不定位该元素，他的值就是0.
+eg.
+body{
+     border: 20px solid #000;
+     margin: 10px;
+     padding: 40px;
+     background: #eee;
+     height: 350px;
+     width: 500px;
+     overflow: scroll;
+}
+
+console.log(document.body.clientLeft);    //20
+console.log(document.body.clientTop);    //20
+
+总结：
+      clientTop=border-top(上边框)的border-width（宽度）
+      clientLeft=border-left（左边框）的border-width（宽度）
+
+
+
+
+2.与offset相关宽高介绍
+与offset相关的宽高又有如下几个属性：
+        document.body.offsetWidth
+        document.body.offsetHeight
+        document.offsetLeft
+        document.offsetTop
+
+
+offsetWidth与offsetHeight
+这一对属性指的是元素的border+padding+content的宽度和高度。
+该属性和其内部的内容是否超出元素大小无关，只和本来设定的border以及width和height有关。
+
+总结
+    相比clientWidth 多了 边框的宽度；
+    假如无padding无滚动条无border：
+        offsetWidth=clientWidth=style.width
+    假如有padding无滚动条有border：
+        offsetWidth=style.width+style.padding2+(border-width)2
+        offsetWidth=clientWidth+border宽度*2
+    假如有padding有滚动条，且滚动条是显示的，有border：
+        offsetWidth=style.width+style.padding2+(border-width)2
+        offsetWidth=clientWidth+滚动条宽度+border宽度*2
+
+
+offsetLeft和offsetTop： 元素边框离父元素的距离
+这两个属性是基于offsetParent的，了解这两个属性我们必须先了解它，什么是offsetParent呢？
+    如果当前元素的父级元素没有进行CSS定位（position为absolute或relative）,offsetParent为border.
+    假如当前元素的父级元素中有CSS定位，offsetParent取最近的那个父级元素。
+
+
+在IE6/7中：
+offsetLeft=(offsetParent的padding-left)+(当前元素的margin-left)
+
+在IE8/9/10及Chrome中：
+offsetLeft=(offsetParent的margin-left)+(offsetParent的border宽度)+(offsetParentd的padding-left)+(当前元素的margin-left)
+
+在FireFox中：
+offsetLeft=(offsetParent的margin-left)+(当前元素的margin-left)+(offsetParent的padding-left)
+
+eg.
+body{
+    border: 20px solid #000;
+    margin: 10px;                           //在IE6/7中：offsetLeft=50px(只有元素的margin-left 和父元素的padding-left)
+    padding: 40px;                          //在FireFox中：offsetLeft=60px (比上面多加了父元素的margin-left)
+    background: #eee;                      //在IE8/9/10及Chrome中：offsetLeft=80px（比上面多加了父元素的border-left）
+    height: 350px;
+    width: 500px;
+}
+#mydiv{
+    width: 400px;
+    height: 200px;
+    padding: 20px;
+    margin :10px;
+    background: #f60;
+    border: 20px solid #888;
+}
+
+
+
+
+
+3.与scroll相关的宽高属性有如下几个：
+    document.body.scrollWidth
+    document.body.scrollHeight
+    document.body.scrollLeft
+    document.body.scrollTop
+
+
+scrollWidth和scrollHeight:
+document.body的scrollWidth和scrollHeight与div的scrollWidth和scrollHeight是有区别的。
+
+document.body的scrollWidth和scrollHeight：
+给定宽高小于浏览器窗口
+        scrollWidth通常是浏览器窗口的宽度
+        scrollHeight通常是浏览器窗口的高度
+给定宽高大于浏览器窗口，且内容小于给定宽高
+        scrollWidth给定的宽度+其所有padding、margin和border
+        scrollHeight给定的高度+其所有的padding、margin和border
+给定宽高大于浏览器窗口，且内容大于给定宽高
+        scrollWidth内容宽度+其所有的padding、margin和border
+        scrollHeight内容高度+其所有的padding、margin和border
+
+
+div中scrollWidth和scrollHeight：
+    在无滚动轴的时候：
+    scrollWidth==clientWidth=style.width+style.padding*2
+
+    在有滚动轴的时候：
+    scrollWidth==实际内容的宽度+padding*2
+    scrollHeight==实际内容的高度+padding*2
+
+scrollLeft和scrollTop:
+这对属性是可读写（可被重新赋值） 的，指的是当元素其中的内容超出其宽高的时候，元素被卷起来的高和宽度。
+
+
+Event对象的5种坐标
+  哪五种坐标？
+    clientX和clientY，相对于浏览器（可是区左上角0,0）的坐标
+    screenX和screenY，相对于设备屏幕左上角（0,0）的坐标
+    offsetX和offsetY，相对于事件源左上角（0,0）的坐标
+    pageX和pageY，相对于整个网页左上角（0,0）的坐标

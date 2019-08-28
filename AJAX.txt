@@ -1,0 +1,502 @@
+AJAX 简介
+AJAX 是一种在无需重新加载整个网页的情况下，能够更新部分网页的技术。
+
+
+什么是 AJAX ？
+		AJAX = 异步 JavaScript 和 XML。
+		AJAX 是一种用于创建快速动态网页的技术。
+		通过在后台与服务器进行少量数据交换，AJAX可以使网页实现异步更新。这意味着可以在不重新加载整个网页的情况下，对网页的某部分进行更新。
+		传统的网页（不使用 AJAX）如果需要更新内容，必需重载整个网页面。
+
+
+
+I.
+AJAX - XMLHttpRequest 对象:Ajax 的核心是 XMLHttpRequest 对象。
+
+XMLHttpRequest 对象：
+所有现代浏览器都支持 XMLHttpRequest 对象。
+XMLHttpRequest 对象用于同幕后服务器交换数据。这意味着可以更新网页的部分，而不需要重新加载整个页面。
+
+
+
+///XMLHttpRequest 对象属性:
+onreadystatechange					定义当 readyState 属性发生变化时被调用的函数
+									eg.xmlhttp = new XMLHttpRequest();
+										xmlhttp.onreadystatechange = function(){...}
+
+readyState							保存 XMLHttpRequest 的状态。
+									0：请求未初始化
+									1：服务器连接已建立
+									2：请求已收到
+									3：正在处理请求
+									4：请求已完成且响应已就绪		
+
+responseText						以字符串返回响应数据	
+									eg.myObj = JSON.parse(this.responseText);   //将收到的JSON字符串转化为对象
+
+responseXML						    以 XML 数据返回响应数据	返回一个XML 文档	
+
+
+status							    返回请求的状态号
+									200: "OK"
+									403: "Forbidden"
+									404: "Not Found"
+
+statusText							返回状态文本（比如 "OK" 或 "Not Found"）
+
+		
+
+
+
+
+
+
+
+
+
+
+
+///XMLHttpRequest 对象方法:
+new XMLHttpRequest()				创建新的 XMLHttpRequest 对象
+abort()								取消当前请求
+getAllResponseHeaders()				返回头部信息
+getResponseHeader(x)				返回特定的头部信息  x为特定的头部名称
+
+setRequestHeader(header,value)	    向要发送的报头添加标签/值对
+									向请求添加 HTTP 头。
+										header: 规定头的名称
+										value: 规定头的值
+									eg.xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+
+
+send()								将请求发送到服务器，用于 GET 请求
+send(string)						将请求发送到服务器，用于 POST 请求
+
+open(method, url, async, user, psw)	
+									规定请求
+									method：请求类型 GET 或 POST
+									url：文件位置
+									async：true（异步）或 false（同步）
+									user：可选的用户名称
+									psw：可选的密码
+
+
+
+
+
+
+创建 XMLHttpRequest 对象：
+所有现代浏览器（Chrom、IE7+、Firefox、Safari 以及 Opera）都有内建的 XMLHttpRequest 对象。
+创建 XMLHttpRequest 的语法是：
+variable = new XMLHttpRequest();
+
+老版本的 Internet Explorer（IE5 和 IE6）使用 ActiveX 对象：
+variable = new ActiveXObject("Microsoft.XMLHTTP");
+
+考虑版本兼容：
+var xhttp;
+if (window.XMLHttpRequest) {
+    xhttp = new XMLHttpRequest();
+    } else {
+    // code for IE6, IE5
+     xhttp = new ActiveXObject("Microsoft.XMLHTTP");
+}
+
+
+【
+跨域访问：
+出于安全原因，现代浏览器不允许跨域访问。
+这意味着尝试加载的网页和 XML 文件都必须位于相同服务器上。
+W3School 上的实例都会打开位于 W3School 域上的 XML 文件。
+如果您希望在自己的页面上使用以上实例，那么您所加载的 XML 文件必须位于您自己的服务器上。
+】
+
+
+
+
+
+
+
+
+
+
+AJAX - 向服务器发送请求：
+向服务器发送请求
+如需将请求发送到服务器，我们使用 XMLHttpRequest 对象的 open() 和 send() 方法：
+xmlhttp.open("GET","test1.txt",true);
+xmlhttp.send();
+
+open(method, url, async, user, psw)	
+									规定请求
+									method：请求类型 GET 或 POST
+									url：服务器上的文件(该文件可以是任何类型的文件)
+									async：true（异步）或 false（同步）									
+									user：可选的用户名称
+									psw：可选的密码
+
+异步 - True 或 False？
+AJAX 指的是异步 JavaScript 和 XML（Asynchronous JavaScript and XML）。
+XMLHttpRequest 对象如果要用于 AJAX 的话，其 open() 方法的 async 参数必须设置为 true：
+xhttp.open("GET", "ajax_test.asp", true);
+
+通过异步发送，JavaScript 不必等待服务器响应，而是可以：
+	在等待服务器响应时执行其他脚本
+	当响应就绪时处理响应
+
+
+
+GET 还是 POST？
+与 POST 相比，GET 更简单也更快，并且在大部分情况下都能用。
+然而，在以下情况中，请使用 POST 请求：
+	无法使用缓存文件（更新服务器上的文件或数据库）
+	向服务器发送大量数据（POST 没有数据量限制）
+	发送包含未知字符的用户输入时，POST 比 GET 更稳定也更可靠
+
+
+
+
+
+
+
+
+
+AJAX - 服务器响应:
+readyState 				 属性存留 XMLHttpRequest 的状态。
+onreadystatechange 		 属性定义当 readyState 发生变化时执行的函数。
+status 属性和 statusText  属性存有 XMLHttpRequest 对象的状态。
+
+每当 readyState 发生变化时就会调用 onreadystatechange 函数。
+readyState:
+0：请求未初始化
+1：服务器连接已建立
+3：正在处理请求
+4：请求已完成且响应已就绪	
+
+status:
+200: "OK"
+403: "Forbidden"   //禁止
+404: "Not Found"   //找不到
+
+当 readyState 为 4，status 为 200 时，响应就绪：
+eg.
+function loadDoc() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("demo").innerHTML =
+            this.responseText;
+       }
+    };
+    xhttp.open("GET", "ajax_info.txt", true);
+    xhttp.send(); 
+} 
+
+(注释：onreadystatechange 被触发五次（0-4），每次 readyState 都发生变化。)
+
+
+
+使用回调函数：
+回调函数是一种作为参数被传递到另一个函数的函数。
+如果您的网站中有多个 AJAX 任务，那么您应该创建一个执行 XMLHttpRequest 对象的函数，以及一个供每个 AJAX 任务的回调函数。
+该函数应当包含 URL 以及当响应就绪时调用的函数。
+eg.
+<button type="button" onclick="loadDoc('/example/js/ajax_info.txt', myFunction)">
+																	//myFunction为回调函数的引用
+
+<script>
+function loadDoc(url, cFunction) {
+  var xhttp;
+  xhttp=new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      cFunction(this);          //使用回调函数
+    }
+  };
+  xhttp.open("GET", url, true);
+  xhttp.send();
+}
+//回调函数：
+function myFunction(xhttp) {
+  document.getElementById("demo").innerHTML =
+  xhttp.responseText;
+}
+</script>
+
+服务器响应属性:
+//responseText			responseText 属性以 JavaScript 字符串的形式返回服务器响应
+eg.document.getElementById("demo").innerHTML = xhttp.responseText;
+
+
+//responseXML			XML HttpRequest 对象有一个內建的 XML 解析器。
+						ResponseXML 属性以 XML DOM 对象返回服务器响应。
+						使用此属性，您可以把响应解析为 XML DOM 对象。
+eg.
+xhttp = new XMLHttpRequest();
+xhttp.onreadystatechange = function() {
+  if (this.readyState == 4 && this.status == 200) {
+    xmlDoc = this.responseXML;                   //获得XML文档
+    txt = "";
+    x = xmlDoc.getElementsByTagName("ARTIST");   //获取文档中标签名为ARTIST 的一个数组
+    for (i = 0; i < x.length; i++) {
+      txt = txt + x[i].childNodes[0].nodeValue + "<br>";  //每个元素节点的第一个孩子节点是文本结点
+    }
+    document.getElementById("demo").innerHTML = txt;
+  }
+};
+xhttp.open("GET", "/demo/music_list.xml", true);
+xhttp.send();
+
+
+
+
+服务器响应方法：
+//getAllResponseHeaders() 方法：返回所有来自服务器响应的头部信息。
+eg.
+document.getElementById("demo").innerHTML = this.getAllResponseHeaders();
+输出：date: Mon, 19 Aug 2019 14:55:26 GMT 
+      content-encoding: gzip         
+      etag: "79dac03a2e11d51:0" 
+      last-modified: Thu, 23 May 2019 06:10:32 GMT 
+      server: Microsoft-IIS/10.0 
+      x-powered-by: ASP.NET 
+      vary: Accept-Encoding 
+      content-type: text/plain 
+      status: 304     
+      cache-control: no-cache,no-cache 
+      accept-ranges: bytes 
+      content-length: 306
+
+
+
+//getResponseHeader("attr") 方法:返回来自服务器响应的特定头部信息。
+ eg.document.getElementById("demo").innerHTML = this.getResponseHeader("Last-Modified");
+
+
+
+
+
+
+ II.
+ AJAX ASP/PHP 请求实例
+ AJAX PHP 实例：当用户在输入字段中键入字符时，会执行名为 "showHint()" 的函数。
+ html：
+ <html>
+<head>
+<script>
+function showHint(str) {
+    if (str.length == 0) { 
+        document.getElementById("txtHint").innerHTML = "";
+        return;
+    } else {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("txtHint").innerHTML = this.responseText;
+            }
+        };
+        xmlhttp.open("GET", "gethint.php?q=" + str, true);
+        xmlhttp.send();
+    }
+}
+</script>
+</head>
+<body>
+
+<p><b>请在下面的输入字段中键入姓名：</b></p>
+<form> 
+姓或名：<input type="text" onkeyup="showHint(this.value)"> 
+</form>
+<p>建议：<span id="txtHint"></span></p>
+</body>
+</html>
+
+
+php:
+<?php
+// 姓名数组
+ $a[] = "Ava";
+ $a[] = "Brielle";
+ $a[] = "Caroline";
+ $a[] = "Diana";
+ $a[] = "Elise";
+ $a[] = "Fiona";
+ $a[] = "Grace";
+ $a[] = "Hannah";
+ $a[] = "Ileana";
+ $a[] = "Jane";
+ $a[] = "Kathryn";
+ $a[] = "Laura";
+ $a[] = "Millie";
+ $a[] = "Nancy";
+ $a[] = "Opal";
+ $a[] = "Petty";
+ $a[] = "Queenie";
+ $a[] = "Rose";
+ $a[] = "Shirley";
+ $a[] = "Tiffany";
+ $a[] = "Ursula";
+ $a[] = "Victoria";
+ $a[] = "Wendy";
+ $a[] = "Xenia";
+ $a[] = "Yvette";
+ $a[] = "Zoe";
+ $a[] = "Angell";
+ $a[] = "Adele";
+ $a[] = "Beatty";
+ $a[] = "Carlton";
+ $a[] = "Elisabeth";
+ $a[] = "Violet";
+
+// 从 URL 获取 q 参数
+$q = $_REQUEST["q"];
+
+$hint = "";
+
+// 查看数组中所有 hint，$q 是否与 "" 相同
+if ($q !== "") {
+    $q = strtolower($q);       //类似js中的toLowerCase()
+    $len=strlen($q);
+    foreach($a as $name) {       //php 中 foreach($array as $value)   
+        if (stristr($q, substr($name, 0, $len))) {
+            if ($hint === "") {
+                $hint = $name;            
+            } else {
+                $hint .= ", $name";
+            }
+         }
+    }
+}
+
+// 输出 "no suggestion"，如果未找到 hint 或输出正确的值
+  echo $hint === "" ? "no suggestion" : $hint;
+?>
+
+
+
+
+
+
+AJAX ASP 实例:
+ASP 文件 - "gethint.asp"
+这个 ASP 文件检查姓名数组，然后向浏览器返回对应的姓名：
+
+<%
+ response.expires=-1
+ dim a(32)
+ '用姓名填充数组
+ a(1)="Ava"
+ a(2)="Brielle"
+ a(3)="Caroline"
+ a(4)="Diana"
+ a(5)="Elise"
+ a(6)="Fiona"
+ a(7)="Grace"
+ a(8)="Hannah"
+ a(9)="Ileana"
+ a(10)="Jane"
+ a(11)="Kathryn"
+ a(12)="Laura"
+ a(13)="Millie"
+ a(14)="Nancy"
+ a(15)="Opal"
+ a(16)="Petty"
+ a(17)="Queenie"
+ a(18)="Rose"
+ a(19)="Shirley"
+ a(20)="Tiffany"
+ a(21)="Ursula"
+ a(22)="Victoria"
+ a(23)="Wendy"
+ a(24)="Xenia"
+ a(25)="Yvette"
+ a(26)="Zoe"
+ a(27)="Angell"
+ a(28)="Adele"
+ a(29)="Beatty"
+ a(30)="Carlton"
+ a(31)="Elisabeth"
+ a(32)="Violet"
+
+ '从 URL 获取 q 参数
+ q=ucase(request.querystring("q"))
+
+ '查看数组中所有 hint，q 的长度是否大于 0
+ if len(q)>0 then
+   hint=""
+   for i=1 to 30
+     if q=ucase(mid(a(i),1,len(q))) then
+       if hint="" then
+         hint=a(i)
+       else
+         hint=hint & " , " & a(i)
+       end if
+     end if
+   next
+ end if
+
+ '如果未找到 hint，输出 "no suggestion"，或输出正确的值
+ if hint="" then
+   response.write("no suggestion")
+ else
+   response.write(hint)
+ end if
+%>
+
+
+
+
+
+III.
+AJAX 数据库实例
+当用户在上面的下拉列表中选择某个客户时，会执行名为 "showCustomer()" 的函数。该函数由 "onchange" 事件触发：
+function showCustomer(str)
+{
+var xmlhttp;
+if (str=="")
+  {
+  document.getElementById("txtHint").innerHTML="";
+  return;
+  }
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("txtHint").innerHTML=xmlhttp.responseText;
+    }
+  }
+xmlhttp.open("GET","getcustomer.asp?q="+str,true);
+xmlhttp.send();
+}
+
+
+AJAX 服务器页面
+由上面的 JavaScript 调用的服务器页面是 ASP 文件，名为 "getcustomer.asp"。
+<%
+response.expires=-1
+sql="SELECT * FROM CUSTOMERS WHERE CUSTOMERID="
+sql=sql & "'" & request.querystring("q") & "'"
+
+set conn=Server.CreateObject("ADODB.Connection")
+conn.Provider="Microsoft.Jet.OLEDB.4.0"
+conn.Open(Server.Mappath("/db/northwind.mdb"))
+set rs=Server.CreateObject("ADODB.recordset")
+rs.Open sql,conn
+
+response.write("<table>")
+do until rs.EOF
+  for each x in rs.Fields
+    response.write("<tr><td><b>" & x.name & "</b></td>")
+    response.write("<td>" & x.value & "</td></tr>")
+  next
+  rs.MoveNext
+loop
+response.write("</table>")
+%>

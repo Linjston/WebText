@@ -1,0 +1,1754 @@
+HTML
+
+HTML 是用来描述网页的一种语言。
+HTML 指的是超文本标记语言 (Hyper Text Markup Language)
+HTML 不是一种编程语言，而是一种标记语言 (markup language)
+标记语言是一套标记标签 (markup tag)
+HTML 使用标记标签来描述网页
+
+
+HTML 标签
+HTML 标记标签通常被称为 HTML 标签 (HTML tag)。
+HTML 标签是由尖括号包围的关键词，比如 <html>
+HTML 标签通常是成对出现的，比如 <b> 和 </b>
+标签对中的第一个标签是开始标签，第二个标签是结束标签
+开始和结束标签也被称为开放标签和闭合标签
+浏览器不会显示 HTML 标签，而是使用标签来解释页面的内容
+
+
+HTML 元素
+HTML 元素指的是从开始标签（start tag）到结束标签（end tag）的所有代码。
+HTML 元素以开始标签起始
+HTML 元素以结束标签终止
+元素的内容是开始标签与结束标签之间的内容
+某些 HTML 元素具有空内容（empty content）
+空元素在开始标签中进行关闭（以开始标签的结束而结束）
+大多数 HTML 元素可拥有属性
+
+
+HTML 属性
+HTML 标签可以拥有属性。属性提供了有关 HTML 元素的更多的信息。
+属性总是以名称/值对的形式出现，比如：name="value"。
+属性总是在 HTML 元素的开始标签中规定。
+
+始终为属性值加引号
+属性值应该始终被包括在引号内。双引号是最常用的，不过使用单引号也没有问题。
+在某些个别的情况下，比如属性值本身就含有双引号，那么您必须使用单引号，例如：
+name='Bill "HelloWorld" Gates'
+
+
+标签：
+ <!DOCTYPE> 标签：
+<!DOCTYPE> 声明必须是 HTML 文档的第一行，位于 <html> 标签之前。
+<!DOCTYPE> 声明不是 HTML 标签；它是指示 web 浏览器关于页面使用哪个 HTML 版本进行编写的指令。
+eg. html5:<!DOCTYPE html>
+
+
+<br/> 		可插入一个简单的换行符。
+<b>    		定义粗体文本。
+<big>		定义大号字。
+<em>		定义着重文字。
+<i>			定义斜体字。
+<small>		定义小号字。
+<strong>	定义加重语气。
+<sub>		定义下标字。
+<sup>		定义上标字。
+<ins>		定义插入字。
+<del>		定义删除字。
+
+<pre> 标签：它的一个常见应用就是用来表示计算机的源代码。
+			&lt; 代表 "<"，&gt; 代表 ">"，&quot代表引号,"&amp;" 代表 "&",&nbsp代表空格
+
+HTML 引用：
+HTML <q> 元素定义短的引用。
+浏览器通常会为 <q> 元素包围引号。
+eg.<p>WWF 的目标是：<q>构建人与自然和谐共存的世界。</q></p>  WWF 的目标是 "构建人与自然和谐相处的世界。"
+
+HTML <blockquote> 元素定义被引用的节。
+浏览器通常会对 <blockquote> 元素进行缩进处理。
+
+HTML <abbr> 元素定义缩写或首字母缩略语。
+对缩写进行标记能够为浏览器、翻译系统以及搜索引擎提供有用的信息。
+eg.<p><abbr title="World Health Organization">WHO</abbr> 成立于 1948 年。</p>  
+当你鼠标移动到WHO  会显示World Health Organization
+
+HTML <address> 元素定义文档或文章的联系信息（作者/拥有者）。
+此元素通常以斜体显示。大多数浏览器会在此元素前后添加折行。
+
+HTML <cite> 元素定义著作的标题。
+浏览器通常会以斜体显示 <cite> 元素。
+
+HTML <bdo> 元素定义双流向覆盖（bi-directional override）。
+<bdo> 元素用于覆盖当前文本方向：
+eg.<bdo dir="rtl">This text will be written from right to left</bdo>  
+  显示出来是：tfel ............ sihT
+
+
+
+HTML 注释:
+注释标签 <!-- 与 --> 用于在 HTML 插入注释;
+
+条件注释
+您也许会在 HTML 中偶尔发现条件注释：
+<!--[if IE 8]>
+    .... some HTML here ....
+<![endif]-->
+条件注释定义只有 Internet Explorer 执行的 HTML 标签。
+
+
+
+HTML CSS:
+外部样式表:eg.<link rel="stylesheet" type="text/css" href="mystyle.css">
+内部样式表:<style type="text/css">.......</style>
+内联样式:当特殊的样式需要应用到个别元素时，就可以使用内联样式。 				
+		使用内联样式的方法是在相关的标签中使用样式属性。样式属性可以包含任何 CSS 属性。
+		eg.<p style="color: red; margin-left: 20px">
+			This is a paragraph
+		   </p>
+
+js 文件的引入使用script标签
+<script type="text/javascript" src="#"></script> 
+
+
+HTML 链接:
+<a> 标签:
+属性：
+href 	 ：	属性规定链接的目标。eg.<a href="http://www.w3school.com.cn">W3School</a>
+
+target   :	属性可以定义被链接的文档在何处显示
+            _blank: 	浏览器总在一个新打开、未命名的窗口中载入目标文档。
+            _self:		它使得目标文档载入并显示在相同的框架或者窗口中作为源文档。
+            _parent:	这个目标使得文档载入父窗口或者包含来超链接引用的框架的框架集。
+            			如果这个引用是在窗口或者在顶级框架中，那么它与目标 _self 等效。
+            _top:		这个目标使得文档载入包含这个超链接的窗口，用 _top 
+            			目标将会清除所有被包含的框架并将文档载入整个浏览器窗口。
+            framename: 	在指定的框架中打开被链接文档。
+
+name (基本用id代替)：  当使用命名锚（namedanchors）时，我们可以创建直接跳至该命名锚（比如页面中某个小节）的链接，这样使用者就无						需不停地滚动页面来寻找他们需要的信息了。
+					   eg.
+					    <a name="tips">基本的注意事项 - 有用的提示</a>
+					    <a href="#tips">有用的提示</a>
+					    点击“有用的提示”，就可以跳转至“基本的注意事项”
+
+download ：	属性规定被下载的超链接目标。（只有 Firefox 和 Chrome 支持 download 属性。）
+			在 <a> 标签中必须设置 href 属性。
+			该属性也可以设置一个值来规定下载文件的名称。所允许的值没有限制，浏览器将自动检测正确的文件扩展名并添加到文件 (.img, .pdf, .txt, .html, 等等)。 eg.<a href="/images/myw3schoolimage.jpg" download="w3logo"> 点击下载后文件名称为w3log.jpg。
+
+eg.发送电子邮件：
+<p>
+这是另一个 mailto 链接：
+<a href="mailto:someone@microsoft.com?cc=someoneelse@microsoft.com&bcc=andsomeoneelse2@microsoft.com&subject=Summer%20Party&body=You%20are%20invited%20to%20a%20big%20summer%20party!">发送邮件！</a>
+</p>
+（%20 来替换单词之间的空格）
+
+
+HTML 图像：
+
+<img> 是空标签，意思是说，它只包含属性，并且没有闭合标签。
+    源属性（src ）：	 要在页面上显示图像，你需要使用src ，指 "source"。源属性的值是图像的 URL 地址
+替换文本属性（Alt）：	 在浏览器无法载入图像时，替换文本属性告诉读者她们失去的信息。此时，浏览器将显示这个替代性的文本而不是图像。
+usemap 属性引用：调用map元素，通过其id或者name
+eg.<img src="boat.gif" alt="Big Boat">
+
+
+
+<area> 标签定义图像映射中的区域（注：图像映射指得是带有可点击区域的图像）
+area 元素总是嵌套在 <map> 标签中。
+<img> 标签中的 usemap 属性与 map 元素 name 属性相关联，创建图像与映射之间的联系
+属性：
+alt:定义此区域的替换文本。
+nohref :属性规定该区域没有相关的链接。eg.<area shape="circle" coords="180,139,14" nohref="nohref" alt="Venus" />
+href:  点击后跳转链接。
+coords(坐标值):  定义可点击区域（对鼠标敏感的区域）的坐标。
+shape:定义区域的形状。
+      default
+
+      rect     矩形：shape="rectangle"，coords="x1,y1,x2,y2"
+			   第一个坐标是矩形的一个角的顶点坐标，另一对坐标是对角的顶点坐标，"0,0" 是图像左上角的坐标。请注意，定义矩形实际上是定义带有四个顶点的多边形的一种简化方法。
+
+      circle   圆形：shape="circle"，coords="x,y,z"这里的 x 和 y 定义了圆心的位置（"0,0" 是图像左上角的坐标），r 		
+      		   是以像素为单位的圆形半径。
+
+      poly     多边形：shape="polygon"，coords="x1,y1,x2,y2,x3,y3,..."
+			   每一对 "x,y" 坐标都定义了多边形的一个顶点（"0,0" 是图像左上角的坐标）。定义三角形至少需要三组坐标；高纬多边形则需要更多数量的顶点。
+               多边形会自动封闭，因此在列表的结尾不需要重复第一个坐标来闭合整个区域。
+
+target:规定在何处打开 href 属性指定的目标 URL。
+		_blank
+		_parent
+		_self
+		_top
+
+
+eg.  img调用map，map里面使用area设置点击区域
+<img src="planets.jpg" border="0" usemap="#planetmap" alt="Planets" />  
+
+<map name="planetmap" id="planetmap">
+  <area shape="circle" coords="180,139,14" href ="venus.html" alt="Venus" />
+  <area shape="circle" coords="129,161,10" href ="mercur.html" alt="Mercury" />
+  <area shape="rect" coords="0,0,110,260" href ="sun.html" alt="Sun" />
+</map>
+
+
+
+HTML 表格：
+
+<table> 标签定义 HTML 表格。
+tr 元素定义表格行，th 元素定义表头，td 元素定义表格单元。
+属性：
+border：		 规定表格边框的宽度。
+cellpadding: 规定单元边沿与其内容之间的空白
+			 eg.把表格单元边界与单元内容之间的间距设置为 10 像素
+			 <table border="8" cellpadding="10">
+
+cellspacing :属性规定单元格之间的空间。
+			 eg.把表格单元格间距设置为 10 像素
+			 <table border="8" cellspacing="10">
+
+
+<caption> :元素定义表格标题。
+		  caption 标签必须紧随 table 标签之后。您只能对每个表格定义一个标题。通常这个标题会被居中于表格之上
+
+<tr> :定义表格的行。
+<th> :定义表格的表头。
+<td> :定义表格单元。
+
+表格单元跨行或者跨列：
+rowspan (跨行): eg. <table border="1">
+					<tr>
+					  <th>姓名</th>
+					  <td>Bill Gates</td>
+					</tr>
+					<tr>
+					  <th rowspan="2">电话</th> //电话跨2行
+					  <td>555 77 854</td>
+					</tr>
+					<tr>
+					  <td>555 77 855</td>
+					</tr>
+					</table>
+colspan(跨列)：eg.
+				<table border="1">
+				<tr>
+				  <th>姓名</th>
+				  <th colspan="2">电话</th>   //电话跨2列
+				</tr>
+				<tr>
+				  <td>Bill Gates</td>
+				  <td>555 77 854</td>
+				  <td>555 77 855</td>
+				</tr>
+				</table>
+
+<thead>  定义表格的页眉。
+<tbody>  定义表格的主体。
+<tfoot>  定义表格的页脚。
+eg.<table border="1">
+       <thead>
+         <tr>....<tr>
+       </thead>
+       <tfoot>
+         <tr>....<tr>
+       </tfoot>
+       <tbody>
+         <tr>....<tr>
+       </tbody>
+   </table>
+
+   如果您使用 thead、tfoot以及tbody元素，您就必须使用全部的元素。它们的出现次序是：thead、tfoot、tbody，这样浏览器就可以在收到所有数据前呈现页脚了, thead、tfoot 以及 tbody 元素使您有能力对表格中的行进行分组。
+
+
+
+ <col> 标签为表格中一个或多个列定义属性值。
+如需对全部列应用样式，<col> 标签很有用，这样就不需要对各个单元和各行重复应用样式了。
+您只能在 table 或 colgroup 元素中使用 <col> 标签。
+属性：
+ 无效。。。。。 align   :水平对齐方式。（justify 对行进行伸展，这样每行都可以有相等的长度）
+valign  ：属性规定与 col 元素相关的内容的垂直对齐方式。（top|middle(默认值)|bottom|baseline）
+span :规定 col 元素应该横跨的列数。
+width：规定 col 元素的宽度。
+
+
+ eg.
+ <table width="100%" border="1">
+  <col align="left" />    //定义3列的样式，一般是给col加一个class,用来使用自己写的样式
+  <col align="left" />
+  <col align="right" />
+  <tr>
+    <th>ISBN</th>
+    <th>Title</th>
+    <th>Price</th>
+  </tr>
+  <tr>
+    <td>3476896</td>
+    <td>My first HTML</td>
+    <td>$53</td>
+  </tr>
+  <tr>
+    <td>2489604</td>
+    <td>My first CSS</td>
+    <td>$47</td>
+  </tr>
+</table>
+
+<colgroup> 类似<col>
+
+
+
+
+HTML 列表：
+HTML 支持有序、无序和定义列表
+1.<ul> 无序列表
+无序列表是一个项目的列表，此列项目使用粗体圆点（典型的小黑圆圈）进行标记。
+无序列表始于 <ul> 标签。每个列表项始于 <li>。
+
+2.<ol> 标签定义有序列表。
+type  1|A|a|I|i      规定在列表中使用的标记类型。
+
+3.<dl> 自定义列表
+<dl> 标签用于结合 <dt> （定义列表中的项目）和 <dd> （描述列表中的项目）
+eg.
+
+<dl>
+   <dt>计算机</dt>
+   <dd>用来计算的仪器 ... ...</dd>
+   <dt>显示器</dt>
+   <dd>以视觉方式显示信息的装置 ... ...</dd>
+</dl>
+
+计算机
+    用来计算的仪器 ... ...
+显示器
+    以视觉方式显示信息的装置 ... ...
+
+
+
+
+
+
+“块级元素”译为 block level element，“内联元素”译为 inline element。
+块级元素在浏览器显示时，通常会以新行来开始（和结束）。
+内联元素在显示时通常不会以新行开始。
+
+
+HTML5 提供的新语义元素定义了网页的不同部分：
+HTML5 语义元素
+header 		定义文档或节的页眉
+nav    		定义导航链接的容器
+section 	定义文档中的节
+article		定义独立的自包含文章
+aside		定义内容之外的内容（比如侧栏）
+footer		定义文档或节的页脚
+details		定义额外的细节
+summary		定义 details 元素的标题
+
+
+
+
+HTML 响应式 Web 设计:
+什么是响应式 Web 设计？
+RWD 指的是响应式 Web 设计（Responsive Web Design）
+RWD 能够以可变尺寸传递网页
+RWD 对于平板和移动设备是必需的
+
+
+
+使用 Bootstrap
+另一个创建响应式设计的方法，是使用现成的 CSS 框架。
+Bootstrap 是最流行的开发响应式 web 的 HTML, CSS, 和 JS 框架。
+Bootstrap 帮助您开发在任何尺寸都外观出众的站点：显示器、笔记本电脑、平板电脑或手机：
+
+
+HTML 框架:
+框架
+通过使用框架，你可以在同一个浏览器窗口中显示不止一个页面。每份HTML文档称为一个框架，并且每个框架都独立于其他的框架。
+
+
+重要提示：不能将 <body></body> 标签与 <frameset></frameset> 标签同时使用！为不支持框架的浏览器添加 <noframes> 标签，假如你添加包含一段文本的 <noframes> 标签，就必须将这段文字嵌套于 <body></body> 标签内。（在下面的第一个实例中，可以查看它是如何实现的。）
+eg.
+<html>
+
+<frameset cols="25%,50%,25%">
+  <frame src="/example/html/frame_a.html"  noresize="noresize"> //规定用户无法调整框架的大小
+  <frame src="/example/html/frame_b.html">
+  <frame src="/example/html/frame_c.html">
+
+<noframes>
+<body>您的浏览器无法处理框架！</body>
+</noframes>
+
+</frameset>
+
+</html>
+
+
+框架结构标签（<frameset>）:定义如何将窗口分割为框架
+每个 frameset 定义了一系列行或列
+rows/columns 的值规定了每行或每列占据屏幕的面积
+rows 	:定义框架集中行的数目和尺寸。
+cols	:定义框架集中列的数目和尺寸。
+
+eg.混合框架
+<html>
+
+<frameset rows="50%,50%">
+
+<frame src="/example/html/frame_a.html">
+
+<frameset cols="25%,75%">
+<frame src="/example/html/frame_b.html">
+<frame src="/example/html/frame_c.html">
+</frameset>
+
+</frameset>
+
+</html>
+
+
+
+框架标签（Frame）
+Frame 标签定义了放置在每个框架中的 HTML 文档。
+属性：
+name 			:属性规定框架的名称。frame 元素的 name 属性用于在 JavaScript 中引用元素，或者作为链接的目标。
+src（URL)	    ：规定在框架中显示的文档的 URL。
+scroling		:规定是否在框架中显示滚动条。  yes|no|auto
+noresize		:规定无法调整框架的大小。 noresize="noresize"
+frameborder		:规定是否显示框架周围的边框。 0|1  frameborder="0"
+marginheight 	:属性规定框架内容与框架的上方和下方之间的高度，以像素计。marginheight="value"
+marginwidth 	:属性规定框架内容与框架的左侧和右侧之间的高度，以像素计。marginwidth="value"
+
+eg.
+在下面的这个例子中，我们设置了一个两列的框架集。
+第一列被设置为占据浏览器窗口的 25%。
+第二列被设置为占据浏览器窗口的 75%。
+HTML 文档 "frame_a.htm" 被置于第一个列中，而 HTML 文档 "frame_b.htm" 被置于第二个列中:
+
+<frameset cols="25%,75%">
+   <frame src="frame_a.htm">
+   <frame src="frame_b.htm">
+</frameset>
+
+
+基本的注意事项 - 有用的提示：
+假如一个框架有可见边框，用户可以拖动边框来改变它的大小。
+为了避免这种情况发生，可以在 <frame> 标签中加入：noresize="noresize"。noresize 属性规定用户无法调整框架的大小。
+
+
+
+HTML Iframe：内联框架
+iframe 用于在网页内显示网页。
+
+<noscript> 标签
+<noscript> 标签提供无法使用脚本时的替代内容，比方在浏览器禁用脚本时，或浏览器不支持客户端脚本时。
+noscript 元素可包含普通 HTML 页面的 body 元素中能够找到的所有元素。
+只有在浏览器不支持脚本或者禁用脚本时，才会显示 noscript 元素中的内容：
+eg.
+<script type="text/javascript">
+document.write("Hello World!")
+</script>
+<noscript>Your browser does not support JavaScript!</noscript>
+
+
+HTML <head> 元素
+<head> 元素是所有头部元素的容器。<head> 内的元素可包含脚本，指示浏览器在何处可以找到样式表，提供元信息，等等。
+以下标签都可以添加到 head 部分：<title>、<base>、<link>、<meta>、<script> 以及 <style>。
+
+HTML <base> 元素
+即之后的链接都自动加上此链接。例如a的链接 
+<base> 标签为页面上的所有链接规定默认地址或默认目标（target）：
+<head>
+<base href="http://www.w3school.com.cn/images/" />
+<base target="_blank" />  //在新窗口打开
+</head>
+
+<body>
+  <a href="a.gif"></a>   //此时相当于http://www.w3school.com.cn/images/a.gif
+</body>
+
+
+HTML <link> 元素
+<link> 标签定义文档与外部资源之间的关系。
+<link> 标签最常用于连接样式表：
+<head>
+<link rel="stylesheet" type="text/css" href="mystyle.css" />
+</head>
+
+
+HTML <style> 元素
+<style> 标签用于为 HTML 文档定义样式信息。
+您可以在 style 元素内规定 HTML 元素在浏览器中呈现的样式：
+<head>
+<style type="text/css">
+body {background-color:yellow}
+p {color:blue}
+</style>
+</head>
+
+
+HTML <meta> 元素
+元数据（metadata）是关于数据的信息。
+<meta> 标签提供关于 HTML 文档的元数据。元数据不会显示在页面上，但是对于机器是可读的。
+典型的情况是，meta 元素被用于规定页面的描述、关键词、文档的作者、最后修改时间以及其他元数据。
+<meta> 标签始终位于 head 元素中。
+元数据可用于浏览器（如何显示内容或重新加载页面），搜索引擎（关键词），或其他 web 服务。
+
+针对搜索引擎的关键词
+一些搜索引擎会利用 meta 元素的 name 和 content 属性来索引您的页面。
+下面的 meta 元素定义页面的描述：
+<meta name="description" content="Free Web tutorials on HTML, CSS, XML" />
+下面的 meta 元素定义页面的关键词：
+<meta name="keywords" content="HTML, CSS, XML" />
+name 和 content 属性的作用是描述页面的内容。
+
+
+name 属性
+name 属性提供了名称/值对中的名称。HTML 和 XHTML 标签都没有指定任何预先定义的 <meta> 名称。通常情况下，您可以自由使用对自己和源文档的读者来说富有意义的名称。
+如果没有提供 name 属性，那么名称/值对中的名称会采用 http-equiv 属性的值。
+
+
+content 属性
+content 属性提供了名称/值对中的值。该值可以是任何有效的字符串。
+content 属性始终要和 name 属性或 http-equiv 属性一起使用。
+
+http-equiv 属性
+http-equiv 属性为名称/值对提供了名称。并指示服务器在发送实际的文档之前先在要传送给浏览器的 MIME 文档头部包含名称/值对。
+当服务器向浏览器发送文档时，会先发送许多名称/值对。虽然有些服务器会发送许多这种名称/值对，但是所有服务器都至少要发送一个：content-type:text/html。这将告诉浏览器准备接受一个 HTML 文档。
+使用带有 http-equiv 属性的 <meta> 标签时，服务器将把名称/值对添加到发送给浏览器的内容头部。
+
+eg.添加：
+<meta http-equiv="charset" content="iso-8859-1">
+<meta http-equiv="expires" content="31 Dec 2008">
+这样发送到浏览器的头部就应该包含：
+content-type: text/html
+charset:iso-8859-1
+expires:31 Dec 2008
+
+
+charset 属性 ：
+定义编码方式：一般使用UTF-8 或者 GB2312.
+GB2312标准共收录6763个汉字，其中一级汉字3755个，二级汉字3008个；同时，GB2312收录了包括拉丁字母、希腊字母、日文平假名及片假名字母、俄罗斯语西里尔字母在内的682个全形字符。
+GB2312的出现，基本满足了汉字的计算机处理需要，它所收录的汉字已经覆盖99.75%的使用频率。GB2312中对所收汉字进行了“分区”处理，每区含有94个汉字/符号。这种表示方式也称为区位码。
+01-09区为特殊符号。
+16-55区为一级汉字，按拼音排序。
+56-87区为二级汉字，按部首/笔画排序。
+10-15区及88-94区则未有编码。
+举例来说，“啊”字是GB2312之中的第一个汉字，它的区位码就是1601。字节结构在使用GB2312的程序中，通常采用EUC储存方法，以便兼容于ASCII。每个汉字及符号以两个字节来表示。第一个字节称为“高位字节”，第二个字节称为“低位字节”。 
+“高位字节”使用了0xA1-0xF7(把01-87区的区号加上0xA0)，“低位字节”使用了0xA1-0xFE(把01-94加上0xA0)。例如“啊”字在大多数程序中，会以0xB0A1储存。（与区位码对比：0xB0=0xA0+16,0xA1=0xA0+1）。
+所以GB2312编码中汉字区码的十进制是从176到247，位码是从161到255.之所以存储了6763小于82*94=6768，是因为在区码为215，位码为250-254之间共五个编码没有汉字编码，所以6768-5=6763个。
+GB2312编码可以通俗理解为国内通用的语言。
+
+
+
+HTML 字符实体：
+HTML 中的预留字符必须被替换为字符实体。
+HTML 实体
+在 HTML 中，某些字符是预留的。
+在 HTML 中不能使用小于号（<）和大于号（>），这是因为浏览器会误认为它们是标签。
+如果希望正确地显示预留字符，我们必须在 HTML 源代码中使用字符实体（character entities）。
+字符实体类似这样：
+&entity_name;  或者  &#entity_number;
+eg.
+如需显示小于号，我们必须这样写 &lt; 或 &#60;
+
+不间断空格（non-breaking space）
+HTML 中的常用字符实体是不间断空格(&nbsp;)。
+浏览器总是会截短 HTML 页面中的空格。如果您在文本中写 10 个空格，在显示该页面之前，浏览器会删除它们中的 9 个。如需在页面中增加空格的数量，您需要使用 &nbsp; 字符实体。
+
+
+显示结果   描述   	实体名称   				实体编号
+          空格     	&nbsp;    				&#160;
+  <      小于号		&lt;					&#60;
+  >		 大于号		&gt;					&#62;
+  &      和号		&amp;					&#38;
+  "  	 引号		&quot;					&#34;
+  '		 撇号 		&apos; (IE不支持)		&#39;
+  ×		 乘号		&times;					&#215;
+  ÷      除号		&divide;				&#247;
+
+
+  URL - Uniform Resource Locator
+  统一资源定位器（URL）用于定位万维网上的文档（或其他数据）。
+
+  scheme://host.domain:port/path/filename
+解释：
+scheme - 定义因特网服务的类型。最常见的类型是 http
+host - 定义域主机（http 的默认主机是 www）
+domain - 定义因特网域名，比如 w3school.com.cn
+:port - 定义主机上的端口号（http 的默认端口号是 80）
+path - 定义服务器上的路径（如果省略，则文档必须位于网站的根目录中）。
+filename - 定义文档/资源的名称
+编者注：URL 的英文全称是 Uniform Resource Locator，中文也译为“统一资源定位符”。
+
+URL Schemes：
+http  	超文本传输协议		以 http:// 开头的普通网页。不加密。
+https	安全超文本传输协议	安全网页。加密所有信息交换。
+ftp		文件传输协议			用于将文件下载或上传至网站。
+file                      	您计算机上的文件。
+
+
+HTML URL 字符编码
+URL 编码会将字符转换为可通过因特网传输的格式。
+
+URL 编码
+URL 只能使用 ASCII 字符集来通过因特网进行发送。
+由于 URL 常常会包含 ASCII 集合之外的字符，URL 必须转换为有效的 ASCII 格式。
+URL 编码使用 "%" 其后跟随两位的十六进制数来替换非 ASCII 字符。
+URL 不能包含空格。URL 编码通常使用 + 来替换空格。
+
+
+
+HTML 表单:HTML 表单用于搜集不同类型的用户输入。
+
+<form> 元素
+HTML 表单用于收集用户输入。
+<form> 元素定义 HTML 表单：
+属性：
+character_set 	：属性规定服务器用哪种字符集处理表单数据。
+				如需规定一个以上的字符集，请使用逗号来分隔各字符集。常用值：UTF-8 - Unicode 字符编码
+																	  ISO-8859-1 - 拉丁字母表的字符编码
+																	  gb2312 - 简体中文字符集
+
+action			:必需的 action 属性规定当提交表单时，向何处发送表单数据<form action="url">	
+
+autocomplete(html5):属性规定表单是否应该启用自动完成功能。			
+				自动完成允许浏览器预测对字段的输入。当用户在字段开始键入时，浏览器基于之前键入过的值，应该显示出在字段中填写的选项。	on 默认。规定启用自动完成功能。|off	规定禁用自动完成功能。		<form autocomplete="on|off">
+
+enctype 		:属性规定在发送到服务器之前应该如何对表单数据进行编码。
+				application/x-www-form-urlencoded		在发送前编码所有字符（默认）
+				multipart/form-data						不对字符编码。在使用包含文件上传控件的表单时，必须使用该值。		
+				text/plain								空格转换为 "+" 加号，但不对特殊字符编码。						
+				<form enctype="value">
+
+method 			:属性规定如何发送表单数据（表单数据发送到 action 属性所规定的页面）。	
+         		表单数据可以作为 URL 变量（method="get"）或者 HTTP post （method="post"）的方式来发送。
+         		I.如果采用 POST 方法，浏览器将会按照下面两步来发送数据。首先，浏览器将与 action 属性中指定的表单处理服务器建立联系，一旦建立连接之后，浏览器就会按分段传输的方法将数据发送给服务器。
+				在服务器端，一旦 POST 样式的应用程序开始执行时，就应该从一个标志位置读取参数，而一旦读到参数，在应用程序能够使用这些表单值以前，必须对这些参数进行解码。用户特定的服务器会明确指定应用程序应该如何接受这些参数。				
+				II.另一种情况是采用 GET 方法，这时浏览器会与表单处理服务器建立连接，然后直接在一个传输步骤中发送所有的表单数据：浏览器会将数据直接附在表单的 action URL 之后。这两者之间用问号进行分隔。
+
+name 			:属性规定表单的名称。form 元素的 name 属性提供了一种在脚本中引用表单的方法。		
+
+target			:归定在何处打开action URL
+
+novalidate (html5):属性规定当提交表单时不对其进行验证。		<form novalidate="novalidate">
+
+
+
+表单元素:
+
+<input> 元素:
+输入限制(属性):
+value					规定输入字段的默认值。
+
+disabled				规定输入字段应该被禁用。被禁用的元素是不可用和不可点击的。被禁用的元素不会被提交。
+						eg.<input type="text" name="firstname" value="John" disabled>
+
+readonly				规定输入字段为只读（无法修改）。eg.<input type="text" name="firstname" value="John" readonly>			
+max						规定输入字段的最大值。eg.输入0-10 的数
+min						规定输入字段的最小值。 <input type="number" name="points" min="0" max="10" />
+
+required				规定输入字段是必需的（必需填写）。eg.<input type="text" name="usr_name" required="required" />
+
+size					规定输入字段的宽度（以字符计）。 限制输入框的大小，能显示多少个字符。eg.<input size="40">
+maxlength				规定输入字段的最大字符数。 <input type="text" name="firstname" maxlength="10">
+
+step					规定输入字段的合法数字间隔。示例：如果 step="3"，则合法数字应该是 -3、0、3、6、等等。
+						提示：step 属性可与 max 以及 min 属性一同使用，来创建合法值的范围。
+						eg.<input type="number" name="points" step="3">
+
+pattern					规定通过其检查输入值的正则表达式。
+						<input type="text" name="country_code" pattern="[A-z]{3}" title="三个字母的国家代码" />
+						title属性用来你不满足条件时的提醒。title 属性对模式进行描述以帮助用户。
+
+autocomplete			属性规定表单或输入字段是否应该自动完成。当自动完成开启，浏览器会基于用户之前的输入值自动填写值。								可以把表单的 autocomplete 设置为 on，同时把特定的输入字段设置为 off，反之亦然。
+						eg.<form action="action_page.php" autocomplete="on">
+							   First name:<input type="text" name="fname"><br>
+							   Last name: <input type="text" name="lname"><br>
+							   E-mail: <input type="email" name="email" autocomplete="off"><br>
+							   <input type="submit">
+						   </form> 
+						 属性适用于 <form> 以及如下 <input> 类型：text、search、url、tel、email、password、datepickers、range 以及 color。
+
+autofocus 				属性是布尔属性。如果设置，则规定当页面加载时 <input> 元素应该自动获得焦点。
+						eg.<input type="text" name="fname" autofocus>
+						注释：Internet Explorer 9 以及更早的版本不支持 input 标签的 autofocus 属性。
+
+form 					属性规定 <input> 元素所属的一个或多个表单;如需引用一个以上的表单，请使用空格分隔的表单 id 列表。
+						eg.输入字段位于 HTML 表单之外（但仍属表单）：
+						<form action="action_page.php" id="form1">
+						   First name: <input type="text" name="fname"><br>
+						   <input type="submit" value="Submit">
+						</form>
+
+						 Last name: <input type="text" name="lname" form="form1">
+						 lname仍属于表单form1。
+
+formaction  			
+formenctype 			
+formmethod 				
+formnovalidate
+formtarget              这5个属性都会覆盖 <form> 元素的 对应属性。都适用于 type="submit" 以及 type="image"。
+                        都是用另一个按钮来覆盖form元素的属性
+
+
+						eg.拥有两个两个提交按钮并对于不同动作的 HTML 表单：
+						<form action="action_page.php">
+						   First name: <input type="text" name="fname"><br>
+						   Last name: <input type="text" name="lname"><br>
+						   <input type="submit" value="Submit"><br>
+						   <input type="submit" formaction="demo_admin.asp" value="Submit as admin">
+						</form> 
+
+height 和 width 			属性仅用于 <input type="image">，规定 <input> 元素的高度和宽度
+
+list					属性引用的 <datalist> 元素中包含了 <input> 元素的预定义选项
+						eg.使用 <datalist> 设置预定义值的 <input> 元素：
+						<input list="cars" />
+						<datalist id="cars">
+							<option value="BMW">
+							<option value="Ford">
+							<option value="Volvo">
+						</datalist>
+						效果是有个下拉栏可以选  里面的选项是datalist里面的 option.
+
+multiple 				属性是布尔属性,如果设置，则规定允许用户在 <input> 元素中输入一个以上的值。
+						multiple 属性适用于以下输入类型：email 和 file。	
+						eg.接受多个值的文件上传字段：
+						Select images: <input type="file" name="img" multiple>		
+
+placeholder				属性规定用以描述输入字段预期值的提示（样本值或有关格式的简短描述）。
+						该提示会在用户输入值之前显示在输入字段中。	
+						适用于以下输入类型：text、search、url、tel、email 以及 password。
+						eg.想在输入框里面出现文字预期值的提示“输入数字0-100”	
+						<input type="text" name="fname" placeholder="输入数字0-100">	
+
+属性总结：直接写的属性有 disabled ,readonly,autofocus,multiple.						
+
+
+输入类型：
+I.<input type="text"> 定义供文本输入的单行输入字段：
+
+II.<input type="password"> 定义密码字段。注释：password 字段中的字符会被做掩码处理（显示为星号或实心圆）。
+
+III.<input type="submit"> 定义提交表单数据至表单处理程序的按钮。
+表单处理程序（form-handler）通常是包含处理输入数据的脚本的服务器页面。
+在表单的 action 属性中规定表单处理程序（form-handler）：
+
+IV.<input type="radio"> 定义单选按钮。 多个选择的name必须是相同的，才可以选择单选
+eg.
+<form>
+<input type="radio" name="sex" value="male" checked="checked">Male    //checked表示默认项
+<br>
+<input type="radio" name="sex" value="female">Female
+</form> 
+
+V.<input type="checkbox"> 定义复选框。多个选择的name必须是相同的。
+复选框允许用户在有限数量的选项中选择零个或多个选项。
+eg.
+<form>
+<input type="checkbox" name="vehicle" value="Bike">I have a bike
+<br>
+<input type="checkbox" name="vehicle" value="Car">I have a car 
+</form> 
+
+VI.<input type="button> 定义按钮。value定义按钮的名字。默认为button。
+eg.
+<input type="button" onclick="alert('Hello World!')" value="Click Me!">
+
+VII.<input type="file" /> 用于文件上传。
+eg.
+<input type="file" name="pic" accept="image/gif" /> //accept指定上传的格式
+
+
+VIII.<input type="reset" /> 定义重置按钮。重置按钮会清除表单中的所有数据。
+
+IX.<input type="image" /> 定义图像形式的提交按钮
+必须把 src 属性 和 alt 属性 与 <input type="image"> 结合使用。
+默认地，image 输入类型会发生点击图像按钮时的 X 和 Y 坐标
+eg.
+<input type="image" src="submit.gif" alt="Submit" />   
+//alt 属性为用户由于某些原因无法查看图像时提供了备选的信息。height和width可以调节此按钮的高度和宽度。
+
+X.<input type="hidden" /> 定义隐藏字段。
+隐藏字段对于用户是不可见的。隐藏字段通常会存储一个默认值，它们的值也可以由 JavaScript 进行修改。
+
+
+
+HTML5 增加了多个新的输入类型：(注释：老式 web 浏览器不支持的输入类型，会被视为输入类型 text。)    
+
+number :<input type="number"> 用于应该包含数字值的输入字段。 您能够对数字做出限制。
+		eg. <input type="number" name="quantity" min="1" max="5">
+
+color  :<input type="color"> 用于应该包含颜色的输入字段。根据浏览器支持，颜色选择器会出现输入字段中。
+
+range  :<input type="range"> 用于应该包含一定范围内的值的输入字段。根据浏览器支持，输入字段能够显示为滑块控件。
+       eg.<input type="range" name="points" min="0" max="10">
+
+email  ：<input type="email"> 用于应该包含电子邮件地址的输入字段。根据浏览器支持，能够在被提交时自动对电子邮件地址进行验证。
+ 
+url    ：<input type="url"> 用于应该包含 URL 地址的输入字段。根据浏览器支持，在提交时能够自动验证 url 字段。
+
+
+week和month：<input type="week"> 允许用户选择周和年。
+             <input type="month"> 允许用户选择月份和年份。     // 日期选择器会出现输入字段中。
+
+time   :<input type="time"> 允许用户选择时间（无时区）。时间选择器会出现输入字段中
+date   ：<input type="date"> 用于应该包含日期的输入字段。	根据浏览器支持，日期选择器会出现输入字段中。
+   		eg. Birthday:<input type="date" name="bday">
+datetime        ：<input type="datetime"> 允许用户选择日期和时间（有时区）。（Chrome、Firefox 或 Internet Explorer 不支持）
+datetime-local  ：<input type="datetime-local"> 允许用户选择日期和时间（无时区）（Firefox 或者 Internet Explorer 不支持）
+
+
+下拉列表：
+<select>元素：可创建单选或多选菜单
+属性：
+autofocus：规定在页面加载后文本区域自动获得焦点。
+disabled：规定禁用该下拉列表。
+form  ：归定属于哪个表单。
+multiple：规定可选择多个选项。
+required:规定文本区域是必填的。
+size	：规定下拉列表中可见选项的数目。 eg.<select multiple="multiple" size="4">
+										  <option value="volvo">Volvo</option>
+										  <option value="saab">Saab</option>
+										  <option value="mercedes">Mercedes</option>
+										  <option value="audi">Audi</option>
+										</select>	
+										 //按ctrl键点击可以多选
+
+
+<option> 元素定义待选择的选项
+列表通常会把首个选项显示为被选选项，您能够通过添加 selected 属性来定义预定义选项。
+selected:规定默认选项						<option value="fiat" selected="selected">Fiat</option>	
+
+
+
+文本域：
+<textarea> 元素定义多行输入字段（文本域）：
+属性：
+autofocus,disabled,readonly,form,maxlength,placeholder,required
+cols:规定文本区内的可见宽度(以平均字符数计）。
+rows:规定文本区内的可见行数。
+wrap:规定当在表单中提交时，文本区域中的文本如何换行。
+	 soft 当在表单中提交时，textarea 中的文本不换行。默认值。
+	 hard 当在表单中提交时，textarea 中的文本换行（包含换行符）。当使用 "hard" 时，必须规定 cols 属性。
+
+eg.
+<textarea name="message" rows="10" cols="30">
+The cat was playing in the garden.
+</textarea>
+
+
+按钮：
+<button> 元素定义可点击的按钮：
+在 button 元素内部，您可以放置内容，比如文本或图像。这是该元素与使用 input 元素创建的按钮之间的不同之处。
+属性：
+type: button|submit|reset
+请始终为按钮规定 type 属性。Internet Explorer 的默认类型是 "button"，而其他浏览器中（包括 W3C 规范）的默认值是 "submit"。
+
+
+
+HTML5 增加了如下表单元素：
+<datalist> :元素为 <input> 元素规定预定义选项列表
+			用户会在他们输入数据时看到预定义选项的下拉列表。<input> 元素的 list 属性必须引用 <datalist> 元素的 id 属性。
+            eg.使用 <datalist> 设置预定义值的 <input> 元素：
+						<input list="cars" />
+						<datalist id="cars">
+							<option value="BMW">
+							<option value="Ford">
+							<option value="Volvo">
+						</datalist>
+
+
+
+<output>  :标签定义不同类型的输出，比如脚本的输出。(Internet Explorer不支持)
+for:定义输出域相关的一个或多个元素。
+name 和 form          
+          eg.
+          <form oninput="x.value=parseInt(a.value)+parseInt(b.value)">
+		   0<input type="range" id="a" value="50">100
+		   +<input type="number" id="b" value="50">
+		   =<output name="x" for="a b"></output>
+		 </form> 
+
+<keygen> :标签规定用于表单的密钥对生成器字段,当提交表单时，私钥存储在本地，公钥发送到服务器
+			(所有主流浏览器都支持 <keygen> 标签，除le Internet Explorer 和 Safari。)
+		  属性：
+		  keytype ：属性规定应该使用哪种密钥生成算法。不同的浏览器对密钥生成算法的支持会有所变化。rsa（默认）|其他
+		           eg.Encryption: <keygen name="security" keytype="rsa" />
+		  name ,form ,disabled,autofocus.
+
+
+
+
+什么是 HTML5？
+HTML5 是最新的 HTML 标准。
+HTML5 是专门为承载丰富的 web 内容而设计的，并且无需额外插件。
+HTML5 拥有新的语义、图形以及多媒体元素。
+HTML5 提供的新元素和新的 API 简化了 web 应用程序的搭建。
+HTML5 是跨平台的，被设计为在不同类型的硬件（PC、平板、手机、电视机等等）之上运行。
+注释：在下面的章节中，您将学到如何“帮助”老版本的浏览器处理 HTML5。
+
+
+
+HTML5 Canvas (画布）：
+canvas 元素用于在网页上绘制图形。
+什么是 Canvas？ HTML5 的 canvas 元素使用 JavaScript 在网页上绘制图像。
+画布是一个矩形区域，您可以控制其每一像素。canvas 拥有多种绘制路径、矩形、圆形、字符以及添加图像的方法。
+
+创建 Canvas 元素：
+规定元素的 id、宽度和高度：
+<canvas id="myCanvas" width="200" height="100"></canvas>
+
+
+<canvas> 标签只是图形容器，您必须使用脚本来绘制图形，通过 JavaScript 来绘制：
+
+<script type="text/javascript">
+var c=document.getElementById("myCanvas"); //JavaScript 使用 id 来寻找 canvas 元素：
+var cxt=c.getContext("2d"); //创建 context 对象,getContext("2d")
+                             //对象是内建的html5对象，拥有多种绘制路径、矩形、圆形、字符以及添加图像的方法。
+cxt.fillStyle="#FF0000";  //fillStyle 方法将其染成红色
+cxt.fillRect(0,0,150,75);//fillRect 方法拥有参数 (0,0,150,75)。意思是：在画布上绘制 150x75 的矩形，从左上角开始 (0,0)。
+</script>                  fillRect 方法规定了形状、位置和尺寸
+
+
+实例：
+线条：
+<script type="text/javascript">
+
+var c=document.getElementById("myCanvas"); 
+var cxt=c.getContext("2d");
+cxt.moveTo(10,10);   //起点
+cxt.lineTo(150,50);  //lineTo(x,y) 画直线
+cxt.lineTo(10,50);  
+cxt.stroke();   //stroke() 方法会实际地绘制出通过 moveTo() 和 lineTo() 方法定义的路径。
+
+</script>
+
+<canvas id="myCanvas" width="200" height="100" style="border:1px solid #c3c3c3;">
+Your browser does not support the canvas element.
+</canvas>
+
+
+
+圆形：
+<script type="text/javascript">
+
+var c=document.getElementById("myCanvas");
+var cxt=c.getContext("2d");
+cxt.fillStyle="#FF0000";    
+cxt.beginPath();      
+cxt.arc(70,18,15,0,Math.PI*2,true);
+cxt.closePath();
+cxt.fill();
+
+</script>
+
+渐变：
+<script type="text/javascript">
+
+var c=document.getElementById("myCanvas");
+var cxt=c.getContext("2d");
+var grd=cxt.createLinearGradient(0,0,175,50);
+grd.addColorStop(0,"#FF0000");
+grd.addColorStop(1,"#00FF00");
+cxt.fillStyle=grd;
+cxt.fillRect(0,0,175,50);
+
+</script>
+
+
+图像：
+把一幅图像放置到画布上：
+<script type="text/javascript">
+
+var c=document.getElementById("myCanvas");
+var cxt=c.getContext("2d");
+var img=new Image()
+img.src="flower.png"
+cxt.drawImage(img,0,0);
+
+</script>
+
+
+
+HTML5 内联 SVG：
+什么是SVG？
+SVG 指可伸缩矢量图形 (Scalable Vector Graphics)
+SVG 用于定义用于网络的基于矢量的图形
+SVG 使用 XML 格式定义图形
+SVG 图像在放大或改变尺寸的情况下其图形质量不会有损失
+SVG 是万维网联盟的标准
+
+SVG 的优势
+与其他图像格式相比（比如 JPEG 和 GIF），使用 SVG 的优势在于：
+SVG 图像可通过文本编辑器来创建和修改
+SVG 图像可被搜索、索引、脚本化或压缩
+SVG 是可伸缩的
+SVG 图像可在任何的分辨率下被高质量地打印
+SVG 可在图像质量不下降的情况下被放大
+
+
+在 HTML5 中，您能够将 SVG 元素直接嵌入 HTML 页面中：
+实例
+<!DOCTYPE html>
+<html>
+<body>
+
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="190">
+  <polygon points="100,10 40,180 190,60 10,60 160,180"
+  style="fill:lime;stroke:purple;stroke-width:5;fill-rule:evenodd;" />
+</svg>
+
+</body>
+</html>
+
+
+
+SVG
+SVG 是一种使用 XML 描述 2D 图形的语言。
+SVG 基于 XML，这意味着 SVG DOM 中的每个元素都是可用的。您可以为某个元素附加 JavaScript 事件处理器。
+在 SVG 中，每个被绘制的图形均被视为对象。如果 SVG 对象的属性发生变化，那么浏览器能够自动重现图形。
+
+Canvas
+Canvas 通过 JavaScript 来绘制 2D 图形。
+Canvas 是逐像素进行渲染的。
+在 canvas 中，一旦图形被绘制完成，它就不会继续得到浏览器的关注。如果其位置发生变化，那么整个场景也需要重新绘制，包括任何或许已被图形覆盖的对象。
+
+
+Canvas 与 SVG 的比较
+下表列出了 canvas 与 SVG 之间的一些不同之处。
+Canvas
+依赖分辨率
+不支持事件处理器
+弱的文本渲染能力
+能够以 .png 或 .jpg 格式保存结果图像
+最适合图像密集型的游戏，其中的许多对象会被频繁重绘
+SVG
+不依赖分辨率
+支持事件处理器
+最适合带有大型渲染区域的应用程序（比如谷歌地图）
+复杂度高会减慢渲染速度（任何过度使用 DOM 的应用都不快）
+不适合游戏应用
+
+
+HTML 5 多媒体标签
+<object> 的作用是支持 HTML 助手（插件）。
+
+HTML 助手（插件）
+辅助应用程序（helper application）是可由浏览器启动的程序。辅助应用程序也称为插件。
+辅助程序可用于播放音频和视频（以及其他）。辅助程序是使用 <object> 标签来加载的。
+使用辅助程序播放视频和音频的一个优势是，您能够允许用户来控制部分或全部播放设置。
+大多数辅助应用程序允许对音量设置和播放功能（比如后退、暂停、停止和播放）的手工（或程序的）控制。
+
+
+<object> 标签用于包含对象，比如图像、音频、视频、Java applets、ActiveX、PDF 以及 Flash。
+浏览器的对象支持有赖于对象类型。不幸的是，主流浏览器都使用不同的代码来加载相同的对象类型。
+而幸运的是，object 对象提供了解决方案。如果未显示 object 元素，就会执行位于 <object> 和 </object> 之间的代码。通过这种方式，我们能够嵌套多个 object 元素（每个对应一个浏览器）。
+
+
+archive 属性的值是一个用引号括起来的 URL 列表，其中每个 URL 都指向一个在显示或执行对象之前浏览器需要加载的档案文件。
+
+
+classid 属性用于指定浏览器中包含的对象的位置，通常是一个 Java 类。它的值是对象的绝对或相对的 URL。如果提供了 codebase 				属性的话，相对 URL 是相对于 codebase 属性指定的 URL 而言的；否则，它们是相对于当前文档的 URL。
+        eg.基本 URL http://www.w3school.com.cn/time.html
+        <object classid="clock.class"></object>
+        浏览器将会在下列地址为我们的 clock.class 实例获取 applet 代码：
+		http://www.w3school.com.cn/clock.class
+
+
+
+codebase 属性是一个可选的属性，提供了一个基本的 URL。该属性的值是一个 URL，该 URL 指向的目录包含了 classid 属性所引用的对象。
+		 codebase URL 会覆盖文档的基本 URL，但不会永久替代它。如果不使用 codebase 属性，这个基本 URL 就是默认值。
+
+		 假设文档来源于 http://www.w3school.com.cn，但是这个时钟 applet 放在一个名为 classes 的单独目录中。通过指定 classid= "classes/clock.class" 无法获得这个 applet。相反，需要将 codebase 属性和新的基本 URL 包含在内：
+		 eg.
+		 <object classid="clock.class" codebase="http://www.w3school.com.cn/classes/">
+		 </object>		
+
+codetype 属性用于标识程序代码类型。
+		 只有在浏览器无法根据 classid 属性决定 applet 的 MIME 类型，或者如果在下载某个对象时服务器没有传输正确的 MIME 类型的情况下，才需要使用 codetype 属性
+		 codetype 属性与 type 属性类似。不同的是，它用来标识程序代码类型，而 type 属性用来标识数据文件类型。
+		 下面这个例子显式地告知浏览器，对象的代码是 Java：
+		 <object codebase="clock.class" codetype="application/java">
+		 </object>
+
+
+declare  属性可以定义一个对象，但同时防止浏览器进行下载和处理。
+		 与 name 属性一起使用时，这个工具类似于更为传统的编程语言中的某种前置声明，这样的声明能够延迟下载对象的时间，直到这个对象确实在文档中得到了应用。
+
+data 	 属性用于指定供对象处理的数据文件的 URL。
+         该属性的值是文件的 URL，该 URL 可能是相对于文件基本 URL 的绝对 URL 或相对 URL，或者是相对于用 codebase 属性提供的 URL 的绝对或相对 URL。
+         浏览器通过插入到文档中的对象类型来决定数据的类型。
+		 该属性类似于 <img> 标签中的 src 属性，因为它下载的是要由包含对象进行处理的数据。当然，它们之间的差别在于，data 属性允许包含几乎任何文件类型，而不仅仅是图像文件
+
+eg.<object height="100" width="100" data="/i/horse.mp3"></object>
+
+
+<embed> 标签定义嵌入的内容，比如插件。
+		标签定义外部（非 HTML）内容的容器。（这是一个 HTML5 标签，在 HTML4 中是非法的，但是所有浏览器中都有效）。
+		下面的代码片段能够显示嵌入网页中的 MP3 文件：
+		实例
+		<embed height="100" width="100" src="song.mp3" />
+		问题：
+		<embed> 标签在 HTML 4 中是无效的。页面无法通过 HTML 4 验证。
+		不同的浏览器对音频格式的支持也不同。
+		如果浏览器不支持该文件格式，没有插件的话就无法播放该音频。
+		如果用户的计算机未安装插件，无法播放音频。
+		如果把该文件转换为其他格式，仍然无法在所有浏览器中播放。
+		注释：使用 <!DOCTYPE html> (HTML5) 解决验证问题。
+
+
+<audio> 标签定义声音，比如音乐或其他音频流。
+		元素是一个 HTML5 元素，在 HTML 4 中是非法的，但在所有浏览器中都有效。	
+	    autoplay 属性规定一旦音频就绪马上开始播放。<audio controls="controls" autoplay="autoplay">...</audio>
+	    controls 属性规定浏览器应该为音频提供播放控件。<audio controls="controls">....</audio>
+				 如果设置了该属性，则规定不存在作者设置的脚本控件。
+				 浏览器控件应该包括：
+				  	播放
+					暂停
+					定位
+					音量
+					全屏切换
+					字幕（如果可用）
+					音轨（如果可用）
+		loop 	属性规定当音频结束后将重新开始播放。如果设置该属性，则音频将循环播放。
+		        <audio controls="controls" loop="loop">...</audio>
+        muted 	属性属于逻辑属性。如被设置，则规定视频输出应该被静音。
+         		<audio controls="controls" muted >...</audio>
+        preload	属性规定是否在页面加载后载入音频。如果设置了 autoplay 属性，则忽略该属性。
+                preload="auto-当页面加载后载入整个音频|meta - 当页面加载后只载入元数据|none - 当页面加载后不载入音频"
+
+        src 	绝对 URL - 指向另一个站点（比如 href="http://www.example.com/song.ogg"）
+				相对 URL - 指向网站内的文件（比如 href="song.ogg"）
+  
+ eg.
+		<audio controls="controls">
+		  <source src="song.mp3" type="audio/mp3" />
+		  <source src="song.ogg" type="audio/ogg" />
+		Your browser does not support this audio format.
+		</audio>
+		上面的例子使用了一个 mp3 文件，这样它在 Internet Explorer、Chrome 以及 Safari 中是有效的。
+		为了使这段音频在 Firefox 和 Opera 中同样有效，添加了一个 ogg 类型的文件。如果失败，会显示错误消息。
+
+		问题：
+		<audio> 标签在 HTML 4 中是无效的。您的页面无法通过 HTML 4 验证。
+		您必须把音频文件转换为不同的格式。
+		<audio> 元素在老式浏览器中不起作用。
+		注释：使用 <!DOCTYPE html> (HTML5) 解决验证问题。
+
+
+
+音频：使用audio   里面可以使用source定义不同格式的音频，后面补上embed
+     HTML5 <audio> 元素会尝试以 mp3 或 ogg 来播放音频。如果失败，代码将回退尝试 <embed> 元素。
+     不过当回退尝试embed，如果失败，不会显示错误消息。
+
+     eg.<audio controls="controls" height="100" width="100">
+		  <source src="song.mp3" type="audio/mp3" />
+		  <source src="song.ogg" type="audio/ogg" />
+		<embed height="100" width="100" src="song.mp3" />
+		</audio>
+
+
+视频：使用video,HTML 5 + <object> + <embed>
+     video 比audio 多了个属性
+     poster 属性规定视频下载时显示的图像，或者在用户点击播放按钮前显示的图像。
+			如果未设置该属性，则使用视频的第一帧来代替。
+
+     eg.
+     <video width="320" height="240" controls="controls">
+	  <source src="movie.mp4" type="video/mp4" />
+	  <source src="movie.ogg" type="video/ogg" />
+	  <source src="movie.webm" type="video/webm" />
+	  <object data="movie.mp4" width="320" height="240">
+	    <embed src="movie.swf" width="320" height="240" />
+	  </object>
+	</video>
+	HTML 5 <video> 元素会尝试播放以 mp4、ogg 或 webm 格式中的一种来播放视频。如果均失败，则回退到 <embed> 元素。
+
+
+
+
+
+HTML5 地理定位
+
+HTML5 Geolocation（地理定位）用于定位用户的位置。
+HTML5 Geolocation API 用于获得用户的地理位置。
+鉴于该特性可能侵犯用户的隐私，除非用户同意，否则用户位置信息是不可用的。
+
+I.
+getCurrentPosition() 方法 - 返回数据
+若成功，则 getCurrentPosition() 方法返回对象。
+始终会返回 latitude、longitude 以及 accuracy 属性。如果可用，则会返回其他下面的属性。
+coords.latitude  			十进制数的纬度
+coords.longitude 			十进制数的经度
+coords.accuracy 			位置精度
+coords.altitude 			海拔，海平面以上以米计
+coords.altitudeAccuracy		位置的海拔精度
+coords.heading 				方向，从正北开始以度计
+coords.speed 				速度，以米/每秒计
+timestamp 					响应的日期/时间
+
+
+
+1.请使用 getCurrentPosition() 方法来获得用户的位置。
+下例是一个简单的地理定位实例，可返回用户位置的经度和纬度。
+eg.
+<script>
+var x=document.getElementById("demo");
+function getLocation()
+  {
+  if (navigator.geolocation)
+    {
+    navigator.geolocation.getCurrentPosition(showPosition);
+    }
+  else{x.innerHTML="Geolocation is not supported by this browser.";}
+  }
+function showPosition(position)
+  {
+  x.innerHTML="Latitude: " + position.coords.latitude +  //latitude 纬度   ； longitude 经度；coordinates 坐标。
+  "<br />Longitude: " + position.coords.longitude;
+  }
+</script>
+
+例子解释：
+检测是否支持地理定位
+如果支持，则运行 getCurrentPosition() 方法。如果不支持，则向用户显示一段消息。
+如果getCurrentPosition()运行成功，则向参数showPosition中规定的函数返回一个coordinates对象
+showPosition() 函数获得并显示经度和纬度
+上面的例子是一个非常基础的地理定位脚本，不含错误处理。
+
+
+2.处理错误和拒绝
+getCurrentPosition() 方法的第二个参数用于处理错误。它规定当获取用户位置失败时运行的函数：
+
+//navigator.geolocation.getCurrentPosition(showPosition,showError);
+//x对象为div
+function showError(error)
+  {
+  switch(error.code)
+    {
+    case error.PERMISSION_DENIED:
+      x.innerHTML="User denied the request for Geolocation."
+      break;
+    case error.POSITION_UNAVAILABLE:
+      x.innerHTML="Location information is unavailable."
+      break;
+    case error.TIMEOUT:
+      x.innerHTML="The request to get user location timed out."
+      break;
+    case error.UNKNOWN_ERROR:
+      x.innerHTML="An unknown error occurred."
+      break;
+    }
+  }
+
+  错误代码：error.code:
+error.PERMISSION_DENIED - 用户不允许地理定位
+error.POSITION_UNAVAILABLE- 无法获取当前位置
+error.TIMEOUT - 操作超时
+
+
+在地图中显示结果
+如需在地图中显示结果，您需要访问可使用经纬度的地图服务，比如谷歌地图或百度地图：
+
+eg. 我们使用返回的经纬度数据在谷歌地图中显示位置（使用静态图像）。
+function showPosition(position)
+{
+var latlon=position.coords.latitude+","+position.coords.longitude;
+
+var img_url="http://maps.googleapis.com/maps/api/staticmap?center="
++latlon+"&zoom=14&size=400x300&sensor=false";
+
+document.getElementById("mapholder").innerHTML="<img src='"+img_url+"' />";
+}
+
+
+3.
+navigator.geolocation.getCurrentPosition(success_callback_function, error_callback_function, position_options)
+第3个参数为
+参数position_options是配置项，由JSON格式传入：
+enableHighAccuracy：true/false，它将告诉浏览器是否启用高精度设备，所谓的高精度设备包含但不局限于前面所提到的 GPS 和 							WIFI，值为 true 的时候，浏览器会尝试启用这些设备，默认指为 																true，在这种情况下，浏览器会尽可能地进行更为精确的查询，简单地说，如果用户有可用的 GPS 设备，会返回 GPS 						设备的查询结果，IP 是最后的选择，对于移动设备来说，网络接入点(基站)														或许成为另一个选择，对此我还没有完全了解，但根据测试，即时没有任何额外功能的手机，也能够得到更 								为精确的查询结果。
+
+maximumAge：	单位毫秒，告诉设备缓存时间，主要用于设备的省电或者节省带宽方面。
+
+timeout：	单位毫秒，超时事件，获取位置信息时超出设定的这个时长，将会触发错误，捕获错误的函数将被调用，并且错误码指向TIMEOUT。
+
+eg.
+var geo=navigator.geolocation.getCurrentPosition(geo_success, geo_error, {enableHighAccuracy:true, maximumAge:30000, timeout:27000});
+
+
+II.
+Geolocation 对象 - 其他有趣的方法
+watchPosition() - 返回用户的当前位置，并继续返回用户移动时的更新位置（就像汽车上的 GPS）。
+watchPosition 被调用后，浏览器会跟踪设备的位置，每一次位置的变化，watchPosition 中的代码都将会被执行。
+navigator.geolocation.watchPosition(success_callback_function, error_callback_function, position_options)
+
+clearWatch() - 停止 watchPosition() 方法
+navigator.geolocation.clearWatch(watch_position_id);
+watch_position_id = navigator.geolocation.watchPosition(success, error, options);
+
+eg.
+<script>
+var x=document.getElementById("demo");
+var id;
+function getLocation()
+  {
+  if (navigator.geolocation)
+    {
+     id=navigator.geolocation.watchPosition(showPosition);
+    }
+  else{x.innerHTML="Geolocation is not supported by this browser.";}
+  }
+function showPosition(position)
+  {
+  x.innerHTML="Latitude: " + position.coords.latitude +
+  "<br />Longitude: " + position.coords.longitude;
+  }
+
+  navigator.geolocation.cleraWatch(id);  //停止watchPositon()方法
+</script>
+
+
+
+HTML5 拖放：
+
+<img id="drag1" src="img_logo.gif" draggable="true" ondragstart="drag(event)" width="336" height="69">
+把元素设置为可拖放：为了把一个元素设置为可拖放，请把 draggable 属性设置为 true：
+
+拖放的内容 - ondragstart 和 setData()
+规定当元素被拖动时发生的事情。
+在上面的例子中，ondragstart 属性调用了一个 drag(event) 函数，规定拖动什么数据。
+dataTransfer.setData() 方法设置被拖动数据的数据类型和值：
+function drag(ev) {
+    ev.dataTransfer.setData("text", ev.target.id);
+}
+在本例中，数据类型是 "text"，而值是这个可拖动元素的 id ("drag1")。
+
+
+拖到何处 - ondragover
+ondragover 事件规定被拖动的数据能够被放置到何处。
+默认地，数据/元素无法被放置到其他元素中。为了实现拖放，我们必须阻止元素的这种默认的处理方式。
+这个任务由 ondragover 事件的 event.preventDefault() 方法完成：
+event.preventDefault()
+
+
+进行放置 - ondrop
+当放开被拖数据时，会发生 drop 事件。
+在上面的例子中，ondrop 属性调用了一个函数，drop(event)：
+function drop(ev) {
+    ev.preventDefault();
+    var data = ev.dataTransfer.getData("text");
+    ev.target.appendChild(document.getElementById(data));
+}
+代码解释：
+调用 preventDefault() 来阻止数据的浏览器默认处理方式（drop 事件的默认行为是以链接形式打开）
+通过 dataTransfer.getData() 方法获得被拖的数据。该方法将返回在 setData() 方法中设置为相同类型的任何数据
+被拖数据是被拖元素的 id ("drag1")
+把被拖元素追加到放置元素中
+
+
+eg.
+<!DOCTYPE HTML>
+<html>
+<head>
+<script>
+function allowDrop(ev) {
+    ev.preventDefault();
+}
+
+function drag(ev) {
+    ev.dataTransfer.setData("text", ev.target.id);
+}
+
+function drop(ev) {
+    ev.preventDefault();
+    var data = ev.dataTransfer.getData("text");
+    ev.target.appendChild(document.getElementById(data));
+}
+</script>
+</head>
+<body>
+
+<div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></div> //ondragover规定能被拖放的元素放置，通过
+                                                                         //event.preventDefault()阻止默认
+
+<img id="drag1" src="img_logo.gif" draggable="true" ondragstart="drag(event)" width="336" height="69">
+
+</body>
+</html>
+
+
+HTML 本地存储：
+什么是 HTML 本地存储？
+通过本地存储（Local Storage），web 应用程序能够在用户浏览器中对数据进行本地的存储。
+在 HTML5 之前，应用程序数据只能存储在 cookie 中，包括每个服务器请求。本地存储则更安全，并且可在不影响网站性能的前提下将大量数据存储于本地。
+与 cookie 不同，存储限制要大得多（至少5MB），并且信息不会被传输到服务器。
+本地存储经由起源地（origin）（经由域和协议）。所有页面，从起源地，能够存储和访问相同的数据。
+
+
+
+HTML 本地存储对象：
+HTML 本地存储提供了两个在客户端存储数据的对象：
+window.localStorage - 存储没有截止日期的数据
+window.sessionStorage - 针对一个 session 来存储数据（当关闭浏览器标签页时数据会丢失）
+
+在使用本地存储时，请检测 localStorage 和 sessionStorage 的浏览器支持：
+if (typeof(Storage) !== "undefined") {
+    // 针对 localStorage/sessionStorage 的代码
+} else {
+    // 抱歉！不支持 Web Storage ..
+}
+
+
+
+
+localStorage 对象
+localStorage 对象存储的是没有截止日期的数据。当浏览器被关闭时数据不会被删除，在下一天、周或年中，都是可用的。
+ localStorage.setItem("lastname", "Gates"); // 存储  存储内容为第二个参数，第一个参数为存储数据的项目名
+document.getElementById("result").innerHTML = localStorage.getItem("lastname");// 取回  通过getItem(项目名) 																							//得到对应的数据
+eg.
+<!DOCTYPE html>
+<html>
+<body>
+
+<div id="result"></div>
+
+<script>
+// Check browser support
+if (typeof(Storage) !== "undefined") {
+    // Store
+    localStorage.setItem("lastname", "Gates");
+    // Retrieve
+    document.getElementById("result").innerHTML = localStorage.getItem("lastname");
+} else {
+    document.getElementById("result").innerHTML = "抱歉！您的浏览器不支持 Web Storage ...";
+}
+</script>
+
+</body>
+</html>
+
+实例解释：
+创建 localStorage 名称/值对，其中：name="lastname"，value="Gates"
+取回 "lastname" 的值，并把它插到 id="result" 的元素中
+
+(上例也可这样写：
+// 存储
+localStorage.lastname = "Gates";
+// 取回
+document.getElementById("result").innerHTML = localStorage.lastname;)
+
+删除 "lastname" localStorage 项目的语法如下：
+localStorage.removeItem("lastname");
+注释：名称/值对始终存储为字符串。如果需要请记得把它们转换为其他格式！
+
+
+eg2.下面的例子对用户点击按钮的次数进行计数。在代码中，值字符串被转换为数值，依次对计数进行递增：
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function clickCounter() {
+    if(typeof(Storage) !== "undefined") {
+        if (localStorage.clickcount) {
+            localStorage.clickcount = Number(localStorage.clickcount)+1;
+        } else {
+            localStorage.clickcount = 1;
+        }
+        document.getElementById("result").innerHTML = "您已经点击这个按钮 " + localStorage.clickcount + " 次。";
+    } else {
+        document.getElementById("result").innerHTML = "抱歉！您的浏览器不支持 Web Storage ...";
+    }
+}
+</script>
+</head>
+<body>
+<p><button onclick="clickCounter()" type="button">请点击这里！</button></p>
+<div id="result"></div>
+<p>请点击按钮使计数器递增。</p>
+<p>请关闭浏览器或标签页，然后再试一次，计数器将继续计数（不会重置）。</p>
+</body>
+</html>
+
+
+
+
+sessionStorage 对象
+sessionStorage 对象等同 localStorage 对象，不同之处在于只对一个 session 存储数据。如果用户关闭具体的浏览器标签页，数据也会被删除。
+
+eg.
+function clickCounter() {
+    if(typeof(Storage) !== "undefined") {
+        if (sessionStorage.clickcount) {
+            sessionStorage.clickcount = Number(sessionStorage.clickcount)+1;
+        } else {
+            sessionStorage.clickcount = 1;
+        }
+        document.getElementById("result").innerHTML = "在本 session 中，您已经点击这个按钮 " + sessionStorage.clickcount + " 次。";
+    } else {
+        document.getElementById("result").innerHTML = "抱歉！您的浏览器不支持 Web Storage ...";
+    }
+}
+跟上面例子类似，但是一但关闭网页，数据就会被删除。
+
+
+
+
+HTML5 应用程序缓存:
+使用应用程序缓存，通过创建 cache manifest 文件，可轻松创建 web 应用的离线版本。
+
+什么是应用程序缓存？
+HTML5 引入了应用程序缓存（Application Cache），这意味着可对 web 应用进行缓存，并可在没有因特网连接时进行访问。
+应用程序缓存为应用带来三个优势：
+1.离线浏览 - 用户可在应用离线时使用它们
+2.速度 - 已缓存资源加载得更快
+3.减少服务器负载 - 浏览器将只从服务器下载更新过或更改过的资源
+
+
+Cache Manifest 基础
+如需启用应用程序缓存，请在文档的 <html> 标签中包含 manifest 属性：
+<!DOCTYPE HTML>
+<html manifest="demo.appcache">
+...
+</html>
+
+每个指定了 manifest 的页面在用户对其访问时都会被缓存。如果未指定 manifest 属性，则页面不会被缓存（除非在 manifest 文件中直接指定了该页面）。
+manifest 文件的建议文件扩展名是：".appcache"。
+注意：manifest 文件需要设置正确的 MIME-type，即 "text/cache-manifest"。必须在 web 服务器上进行配置。
+
+Manifest 文件
+manifest 文件是简单的文本文件，它告知浏览器被缓存的内容（以及不缓存的内容）。
+manifest 文件有三个部分：
+1.CACHE MANIFEST - 在此标题下列出的文件将在首次下载后进行缓存;
+  	
+	第一行，CACHE MANIFEST，是必需的：
+	CACHE MANIFEST
+	/theme.css
+	/logo.gif
+	/main.js
+上面的 manifest 文件列出了三个资源：一个 CSS 文件，一个 GIF 图像，以及一个 JavaScript 文件。当 manifest 文件被加载后，浏览器会从网站的根目录下载这三个文件。然后，无论用户何时与因特网断开连接，这些资源依然可用。
+  
+
+2.NETWORK - 在此标题下列出的文件需要与服务器的连接，且不会被缓存;
+
+    下面的 NETWORK 部分规定文件 "login.php" 永远不会被缓存，且离线时是不可用的：
+	NETWORK:
+	login.asp
+	可以使用星号来指示所有其他其他资源/文件都需要因特网连接：
+	NETWORK:
+	*
+
+
+3.FALLBACK - 在此标题下列出的文件规定当页面无法访问时的回退页面（比如 404 页面）
+    下面的 FALLBACK 部分规定如果无法建立因特网连接，则用 "offline.html" 替代 /html/ 目录中的所有文件：
+	FALLBACK:
+	/html/ /offline.html
+	注释：第一个 URI 是资源，第二个是替补。
+
+
+更新缓存
+一旦应用被缓存，它就会保持缓存直到发生下列情况：
+用户清空浏览器缓存
+manifest 文件被修改（参阅下面的提示）
+由程序来更新应用缓存
+
+eg.demo.appcache 完整的 Mainifset 文件
+CACHE MANIFEST
+# 2012-02-21 v1.0.0
+/theme.css
+/logo.gif
+/main.js
+
+NETWORK:
+login.asp
+
+FALLBACK:
+/html/ /offline.html
+
+提示：以 "#" 开头的是注释行，但也可满足其他用途。应用的缓存只会在其 manifest 文件改变时被更新。如果您编辑了一幅图像，或者修改了一个 JavaScript 函数，这些改变都不会被重新缓存。更新注释行中的日期和版本号是一种使浏览器重新缓存文件的办法。
+
+
+关于应用程序缓存的注意事项
+请留心缓存的内容。
+一旦文件被缓存，则浏览器会继续展示已缓存的版本，即使您修改了服务器上的文件。为了确保浏览器更新缓存，您需要更新 manifest 文件。
+注释：浏览器对缓存数据的容量限制可能不太一样（某些浏览器的限制是每个站点 5MB）。
+
+
+
+HTML Web Workers:
+Web worker 是运行在后台的 JavaScript，不会影响页面的性能。
+
+什么是 Web Worker？
+当在 HTML 页面中执行脚本时，页面是不可响应的，直到脚本已完成。
+  web worker 是运行在后台的JavaScript，独立于其他脚本，不会影响页面的性能。您可以继续做任何愿意做的事情：点击、选取内容等等，而此时 web worker 运行在后台。
+
+
+1.检测 Web Worker 支持
+在创建 web worker 之前，请检测用户浏览器是否支持它：
+if (typeof(Worker) !== "undefined") {
+    // 是的！支持 Web worker！
+    // 一些代码.....
+} else {
+    // 抱歉！不支持 Web Worker！
+}
+
+
+2.创建 Web Worker 文件
+现在，让我们在一个外部 JavaScript 文件中创建我们的 web worker。
+在此处，我们创建了计数脚本。该脚本存储于 "demo_workers.js" 文件中：
+var i = 0;
+
+function timedCount() {
+    i = i + 1;
+    postMessage(i);
+    setTimeout("timedCount()",500);
+}
+
+timedCount();
+以上代码中重要的部分是 postMessage() 方法 - 它用于向 HTML 页面传回一段消息。
+注释: web worker 通常不用于如此简单的脚本，而是用于更耗费 CPU 资源的任务。
+
+
+
+
+3.创建 Web Worker 对象
+现在我们已经有了 web worker 文件，我们需要从 HTML 页面调用它。
+下面的代码行检测是否存在 worker，如果不存在，- 它会创建一个新的 web worker 对象，然后运行 "demo_workers.js" 中的代码：
+if (typeof(w) == "undefined") {
+    w = new Worker("demo_workers.js");
+}
+然后我们就可以从 web worker 发生和接收消息了。
+向 web worker 添加一个 "onmessage" 事件监听器：
+w.onmessage = function(event){
+    document.getElementById("result").innerHTML = event.data;
+};
+当 web worker 传送消息时，会执行事件监听器中的代码。来自 web worker 的数据会存储于 event.data 中。
+
+
+4.终止 Web Worker
+当创建 web worker 后，它会继续监听消息（即使在外部脚本完成后）直到其被终止为止。
+如需终止 web worker，并释放浏览器/计算机资源，请使用 terminate() 方法：
+w.terminate();
+
+
+5.复用 Web Worker
+如果您把 worker 变量设置为 undefined，在其被终止后，可以重复使用该代码：
+w = undefined;
+
+
+Web Worker 和 DOM
+由于 web worker 位于外部文件中，它们无法访问下例 JavaScript 对象：
+window 对象
+document 对象
+parent 对象
+
+
+eg.
+<!DOCTYPE html>
+<html>
+<body>
+
+<p>Count numbers: <output id="result"></output></p>
+<button onclick="startWorker()">Start Worker</button> 
+<button onclick="stopWorker()">Stop Worker</button>
+<br><br>
+
+<script>
+var w;
+
+function startWorker() {
+    if(typeof(Worker) !== "undefined") {
+        if(typeof(w) == "undefined") {
+            w = new Worker("demo_workers.js");  //demo_workers.js为外部js文件,它会通过postMssage(内容)传回消息；
+        }
+        w.onmessage = function(event) {    //当 web worker 传送消息时，会执行事件监听器中的代码。来自 web worker 										   //的数据会存储于 event.data 中。
+       document.getElementById("result").innerHTML = event.data;  //将event.data打印出来
+        };
+    } else {
+        document.getElementById("result").innerHTML = "Sorry! No Web Worker support.";
+    }
+}
+
+function stopWorker() { 
+    w.terminate();
+    w = undefined;
+}
+</script>
+
+</body>
+</html>
+
+
+HTML Server-Sent 事件：（IE不支持）
+Server-Sent 事件允许网页从服务器获得更新。
+
+erver-Sent 事件 - One Way Messaging
+Server-Sent 事件指的是网页自动从服务器获得更新。
+以前也可能做到这一点，前提是网页不得不询问是否有可用的更新。通过 Server-Sent 事件，更新能够自动到达。
+
+
+1.接收 Server-Sent 事件通知
+EventSource 对象用于接收服务器发送事件通知：
+
+实例
+var source = new EventSource("demo_sse.php");
+source.onmessage = function(event) {
+    document.getElementById("result").innerHTML += event.data + "<br>";
+};
+
+创建一个新的 EventSource 对象，然后规定发送更新的页面的 URL（本例中是 "demo_sse.php"）
+每当接收到一次更新，就会发生 onmessage 事件
+当 onmessage 事件发生时，把已接收的数据推入 id 为 "result" 的元素中
+
+
+2.检测 Server-Sent 事件支持
+if(typeof(EventSource) !== "undefined") {
+    // 是的！支持服务器发送事件！
+    // 一些代码.....
+} else {
+    // 抱歉！不支持服务器发送事件！
+}
+
+3.服务器端代码实例(为了使上例运行，您需要能够发送数据更新的服务器（比如 PHP 或 ASP）。)
+PHP 中的代码 (demo_sse.php)：
+
+<?php
+header('Content-Type: text/event-stream');
+header('Cache-Control: no-cache');
+
+$time = date('r');
+echo "data: The server time is: {$time}\n\n";
+flush();
+?>
+
+ASP 中的代码 (VB) (demo_sse.asp)：
+
+<%
+Response.ContentType = "text/event-stream"
+Response.Expires = -1
+Response.Write("data: The server time is: " & now())
+Response.Flush()
+%>
+代码解释：
+把报头 "Content-Type" 设置为 "text/event-stream"
+规定不对页面进行缓存
+输出要发送的日期（始终以 "data: " 开头）
+向网页刷新输出数据
+
+
+eg.
+<div id="result"></div>
+
+<script>
+if(typeof(EventSource)!=="undefined")
+  {
+  var source=new EventSource("/example/html5/demo_sse.php"); 
+  source.onmessage=function(event)
+    {
+    document.getElementById("result").innerHTML+=event.data + "<br />";
+    };
+  }
+else
+  {
+  document.getElementById("result").innerHTML="抱歉，您的浏览器不支持 server-sent 事件 ...";
+  }
+</script>
