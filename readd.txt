@@ -24,6 +24,25 @@
 一是确实要从版本库中删除该文件，那就用命令git rm <file>删掉，并且git commit；
 二是是删错了，因为版本库里还有呢，所以可以很轻松地把误删的文件恢复到最新版本： git checkout -- <file>
 
+
+【工作区（Working Directory）:在电脑里能看到的目录
+版本库（Repository）:工作区有一个隐藏目录.git，这个不算工作区，而是Git的版本库。
+
+Git的版本库里存了很多东西，其中最重要的就是称为stage（或者叫index）的暂存区，还有Git为我们自动创建的第一个分支master，以及指向master的一个指针叫HEAD。
+
+第一步是用git add把文件添加进去，实际上就是把文件修改添加到暂存区；
+
+第二步是用git commit提交更改，实际上就是把暂存区的所有内容提交到当前分支。
+
+因为我们创建Git版本库时，Git自动为我们创建了唯一一个master分支，所以，现在，git commit就是往master分支上提交更改。
+
+一旦提交后，如果你又没有对工作区做任何修改，那么工作区就是“干净”的：
+$ git status
+On branch master
+nothing to commit, working tree clean】
+
+
+//远程仓库 
 13.建立ssh加密  创建ssh公钥和密钥
 $ ssh-keygen -t rsa -C "youremail@example.com"  
 用户主目录里找到.ssh目录，里面有id_rsa和id_rsa.pub两个文件，这两个就是SSH Key的秘钥对，id_rsa是私钥，不能泄露出去，id_rsa.pub是公钥，可以放心地告诉任何人。
@@ -42,31 +61,19 @@ $ ssh-keygen -t rsa -C "youremail@example.com"
 关联： git remote add origin https://github.com/Fire-TONG/WebText.git
 推送本地仓库：git push -u origin master
 【由于远程库是空的，我们第一次推送master分支时，加上了-u参数，Git不但会把本地的master分支内容推送的远程新的master分支，还会把本地的master分支和远程的master分支关联起来，在以后的推送或者拉取时就可以简化命令。】
-如果已经存在关联链接 可以先git remote rm origin 删除，再关联新的。
+I.如果已经存在关联链接 可以先git remote rm origin 删除，再关联新的。
+II.只要本地作了提交，就可以通过命令：$ git push origin master
+把本地master分支的最新修改推送至GitHub，现在，你就拥有了真正的分布式版本库！
 
 15.将远程URL在SSH与HTTPS切换
 I.打开Git Bash;II.将当前工作目录更改为本地项目;III.$ git remote -v 列出现有的遥控器
 IV.git remote set-url命令有两个参数：
 		如果您要更新以使用HTTPS，则您的网址可能如下所示：https://github.com/USERNAME/REPOSITORY.git
 		如果您要更新以使用SSH，则您的网址可能如下所示：git@github.com:USERNAME/REPOSITORY.git
-eg.git remote set-url origin git@github:USERNAME/OTHERREPOSITROY.git
+eg.git remote set-url origin git@github:USERNAME/OTHERREPOSITROY.git     //转ssh
+git remote set-url origin  https://github.com/USERNAME/REPOSITORY.git   //转https
 
 
-工作区（Working Directory）:在电脑里能看到的目录
-版本库（Repository）:工作区有一个隐藏目录.git，这个不算工作区，而是Git的版本库。
-
-Git的版本库里存了很多东西，其中最重要的就是称为stage（或者叫index）的暂存区，还有Git为我们自动创建的第一个分支master，以及指向master的一个指针叫HEAD。
-
-第一步是用git add把文件添加进去，实际上就是把文件修改添加到暂存区；
-
-第二步是用git commit提交更改，实际上就是把暂存区的所有内容提交到当前分支。
-
-因为我们创建Git版本库时，Git自动为我们创建了唯一一个master分支，所以，现在，git commit就是往master分支上提交更改。
-
-一旦提交后，如果你又没有对工作区做任何修改，那么工作区就是“干净”的：
-$ git status
-On branch master
-nothing to commit, working tree clean
 
 
 
