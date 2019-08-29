@@ -1,0 +1,145 @@
+1.git init 创建仓库
+2.git add <file>  从工作区添加文件到仓库暂存区
+3.git commit -m  "说明"  从暂存区提交文件到仓库
+4.git status  告诉我们时刻掌握仓库当前的状态，并告诉我们修改了什么
+5.git diff <file> 告诉我们文件修改了哪些地方
+6.git log  看提交的版本
+7.git reset --hard  HEAD^（commit id）  回退到上一个版本，如果是上100个版本太多^可以用HEAD~100代替；也可以通过commit id 跳到对应版本
+8.git reflog  可以记录你的每一次命令 ；可以找到各个版本的commit id
+9.git diff HEAD -- readme.txt(工作区文件)    可以查看工作区和版本库里面最新版本的区别
+
+
+10.git checkout -- readme.txt  意思就是，把readme.txt文件在工作区的修改全部撤销，这里有两种情况：
+	一种是readme.txt自修改后还没有被放到暂存区，现在，撤销修改就回到和版本库一模一样的状态；
+	一种是readme.txt已经添加到暂存区后，又作了修改，现在，撤销修改就回到添加到暂存区后的状态。
+	也就是让这个文件回到最近一次git commit或git add时的状态。	
+11.git reset HEAD <file>  暂存区的修改撤销掉（unstage），重新放回工作区  
+
+场景1：当你改乱了工作区某个文件的内容，想直接丢弃工作区的修改时，用命令git checkout -- file。
+场景2：当你不但改乱了工作区某个文件的内容，还添加到了暂存区时，想丢弃修改，分两步，第一步用命令git reset HEAD <file>，就回到了场景1，第二步按场景1操作。
+场景3：已经提交了不合适的修改到版本库时，想要撤销本次提交，参考版本回退一节，不过前提是没有推送到远程库。
+
+12.一般情况下，你通常直接在文件管理器中把没用的文件删了，或者用rm命令删了，这个时候，Git知道你删除了文件，因此，工作区和版本库就不一致了，git status命令会立刻告诉你哪些文件被删除了：
+现在你有两个选择：
+一是确实要从版本库中删除该文件，那就用命令git rm <file>删掉，并且git commit；
+二是是删错了，因为版本库里还有呢，所以可以很轻松地把误删的文件恢复到最新版本： git checkout -- <file>
+
+
+【工作区（Working Directory）:在电脑里能看到的目录
+版本库（Repository）:工作区有一个隐藏目录.git，这个不算工作区，而是Git的版本库。
+
+Git的版本库里存了很多东西，其中最重要的就是称为stage（或者叫index）的暂存区，还有Git为我们自动创建的第一个分支master，以及指向master的一个指针叫HEAD。
+
+第一步是用git add把文件添加进去，实际上就是把文件修改添加到暂存区；
+
+第二步是用git commit提交更改，实际上就是把暂存区的所有内容提交到当前分支。
+
+因为我们创建Git版本库时，Git自动为我们创建了唯一一个master分支，所以，现在，git commit就是往master分支上提交更改。
+
+一旦提交后，如果你又没有对工作区做任何修改，那么工作区就是“干净”的：
+$ git status
+On branch master
+nothing to commit, working tree clean】
+
+
+//创建远程仓库  && 本地仓库推送至远程仓库
+13.建立ssh加密  创建ssh公钥和密钥
+$ ssh-keygen -t rsa -C "youremail@example.com"  
+用户主目录里找到.ssh目录，里面有id_rsa和id_rsa.pub两个文件，这两个就是SSH Key的秘钥对，id_rsa是私钥，不能泄露出去，id_rsa.pub是公钥，可以放心地告诉任何人。
+然后在GitHub上创建ssh密钥，将公钥信息填上去。
+
+【为什么GitHub需要SSH Key呢？因为GitHub需要识别出你推送的提交确实是你推送的，而不是别人冒充的，而Git支持SSH协议，所以，GitHub只要知道了你的公钥，就可以确认只有你自己才能推送。
+当然，GitHub允许你添加多个Key。假定你有若干电脑，你一会儿在公司提交，一会儿在家里提交，只要把每台电脑的Key都添加到GitHub，就可以在每台电脑上往GitHub推送了。
+
+最后友情提示，在GitHub上免费托管的Git仓库，任何人都可以看到喔（但只有你自己才能改）。所以，不要把敏感信息放进去。
+
+如果你不想让别人看到Git库，有两个办法，一个是交点保护费，让GitHub把公开的仓库变成私有的，这样别人就看不见了（不可读更不可写）。另一个办法是自己动手，搭一个Git服务器，因为是你自己的Git服务器，所以别人也是看不见的。这个方法我们后面会讲到的，相当简单，公司内部开发必备。】
+
+
+14.在gitHub 建立一个仓库，eg.名字为Fire-TONG/WebText  
+把一个已有的本地仓库与之关联，然后，把本地仓库的内容推送到GitHub仓库。
+关联： git remote add origin https://github.com/Fire-TONG/WebText.git
+推送本地仓库：git push -u origin master
+【由于远程库是空的，我们第一次推送master分支时，加上了-u参数，Git不但会把本地的master分支内容推送的远程新的master分支，还会把本地的master分支和远程的master分支关联起来，在以后的推送或者拉取时就可以简化命令。】
+I.如果已经存在关联链接 可以先git remote rm origin 删除，再关联新的。
+II.只要本地作了提交，就可以通过命令：$ git push origin master
+把本地master分支的最新修改推送至GitHub，现在，你就拥有了真正的分布式版本库！
+
+15.将远程URL在SSH与HTTPS切换
+I.打开Git Bash;II.将当前工作目录更改为本地项目;III.$ git remote -v 列出现有的遥控器
+IV.git remote set-url命令有两个参数：
+		如果您要更新以使用HTTPS，则您的网址可能如下所示：https://github.com/USERNAME/REPOSITORY.git
+		如果您要更新以使用SSH，则您的网址可能如下所示：git@github.com:USERNAME/REPOSITORY.git
+eg.git remote set-url origin git@github:USERNAME/OTHERREPOSITROY.git     //转ssh
+git remote set-url origin  https://github.com/USERNAME/REPOSITORY.git   //转https
+
+
+
+
+//从远程库克隆
+假设我们从零开发，那么最好的方式是先创建远程库，然后，从远程库克隆。
+要克隆一个仓库，首先必须知道仓库的地址，然后使用git clone命令克隆。
+16.$ git clone git@github.com:Linjston/gitskills.git
+ 就会生成一个gitskills本地目录，当然修改完也可以将新的推送到远程库gitskills
+
+
+//分支管理
+在版本回退里，你已经知道，每次提交，Git都把它们串成一条时间线，这条时间线就是一个分支。截止到目前，只有一条时间线，在Git里，这个分支叫主分支，即master分支。
+
+I.一开始的时候，master分支是一条线，Git用master指向最新的提交，再用HEAD指向master，就能确定当前分支，以及当前分支的提交点;   。->。->。<-master <-HEAD
+            
+II.当我们创建新的分支，例如dev时，Git新建了一个指针叫dev，指向master相同的提交，再把HEAD指向dev，就表示当前分支在dev上
+      。->。->。<-master 
+              <-dev <-HEAD
+
+III.从现在开始，对工作区的修改和提交就是针对dev分支了，比如新提交一次后，dev指针往前移动一步，而master指针不变
+ 。->。->。 <-master （指向第3个提交）
+         ->。  <-dev <-HEAD
+         （当有第4个提交时，提交到HEAD指向的分支，也就是dev分支，dev指针往前移动一步，而master指针不变）
+ 【HEAD指向的分支，才是提交的分支】
+
+IV.在dev上的工作完成了，就可以把dev合并到master上。Git怎么合并呢？最简单的方法，就是直接把master指向dev的当前提交，就完成了合并
+。->。->。->。<-master <-HEAD
+           <-dev 
+ 【合并完分支后，甚至可以删除dev分支。删除dev分支就是把dev指针给删掉，删掉后，我们就剩下了一条master分支】
+
+17.创建dev分支，然后切换到dev分支：
+$ git checkout -b dev           
+//如果分支存在则只切换分支，若不存在则创建并切换到dev分支
+//$ git switch -c <name>  //作用同上
+
+
+git checkout命令加上-b参数表示创建并切换，相当于以下两条命令：
+$ git branch dev              //创建名为dev的分支
+$ git checkout dev 			  //切换到dev分支  $ git switch  <name> 也可以切换分支 
+
+//git branch命令
+$ git branch           //列出本地已经存在的分支
+* dev
+  master
+
+$git branch -d dev    //删除dev分支
+$git branch -r       //查看远程版本库分支列表
+
+
+18.合并分支
+I.dev分支的工作完成，我们就可以切换回master分支：git checkout master ;
+切换回master分支后，再查看一个readme.txt文件，刚才添加的内容不见了！因为那个提交是在dev分支上，而master分支此刻的提交点并没有变.
+
+  。->。->。 <-master <-HEAD
+         ->。  <-dev (提交在dev分支上，master中的readme.txt不变)
+
+II.git merge命令用于合并指定分支到当前分支。
+$ git merge dev                //将dev分支合并到master分支
+Updating d46f35e..b17d20e
+Fast-forward
+ readme.txt | 1 +
+ 1 file changed, 1 insertion(+)  
+合并后，再查看readme.txt的内容，就可以看到，和dev分支的最新提交是完全一样的。
+Fast-forward信息，Git告诉我们，这次合并是“快进模式”，也就是直接把master指向dev的当前提交，所以合并速度非常快。
+
+III.合并完成后，就可以放心地删除dev分支了
+$ git branch -d dev
+Deleted branch dev (was b17d20e).
+
+因为创建、合并和删除分支非常快，所以Git鼓励你使用分支完成某个任务，合并后再删掉分支，这和直接在master分支上工作效果是一样的，但过程更安全。
