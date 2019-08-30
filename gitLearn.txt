@@ -257,9 +257,98 @@ fixup：将该commit和前一个commit合并，但我不要保留该提交的注
 exec：执行shell命令（缩写:x）
 drop：我要丢弃该commit（缩写:d）
 
+push时可能失败  加上--force参数 强制push
 2.编辑注释
 
 
 功能2:复制某一段commit
 git rebase [startpoint] [endpoint] --onto [branchName]
 eg：git rebase HEAD~3 HEAD~1 --onto master 将当前分支的 head^2 head^ 复制到master分支上
+
+
+
+//标签管理
+发布一个版本时，我们通常先在版本库中打一个标签（tag），这样，就唯一确定了打标签时刻的版本。将来无论什么时候，取某个标签的版本，就是把那个打标签的时刻的历史版本取出来。所以，标签也是版本库的一个快照。
+
+Git的标签虽然是版本库的快照，但其实它就是指向某个commit的指针.
+tag就是一个让人容易记住的有意义的名字，它跟某个commit绑在一起。
+
+23.创建标签
+/创建标签
+git tag <name>就可以打一个新标签：
+eg.
+$ git tag v1.0
+
+默认标签是打在最新提交的commit上的。
+选择其他commit 作为标签：
+比方说要对add merge这次提交打标签，它对应的commit id是f52c633，敲入命令：
+$git tag <name> <commitId>
+eg.
+$ git tag v0.9 f52c633
+
+用-a指定标签名，-m指定说明文字  -a <tagname>
+eg.
+$ git tag -a v0.1 -m "version 0.1 released" 1094adb
+
+
+/查看标签
+git tag查看所有标签：
+eg.
+$ git tag
+v1.0
+
+标签不是按时间顺序列出，而是按字母排序的。可以用
+git show <tagname>查看标签信息:
+eg.
+$git show v1.0
+commit f52c63349bc3c1593499807e5c8e972b82c8f286 (tag: v0.9)
+Author: Michael Liao <askxuefeng@gmail.com>
+Date:   Fri May 18 21:56:54 2018 +0800
+    add merge
+
+
+
+/删除标签
+删除本地标签：git tag -d  <tagName>
+eg.
+$ git tag -d v0.1
+
+
+如果标签已经推送到远程，要删除远程标签就麻烦一点，先从本地删除：
+$ git tag -d v0.9
+然后，从远程删除。删除命令也是push: git push origin :refs/tags/<tagname>
+$ git push origin :refs/tags/v0.9
+
+
+
+/推送标签
+创建的标签都只存储在本地，不会自动推送到远程。
+如果要推送某个标签到远程，使用命令:git push origin <tagname>:
+eg.
+$ git push origin v1.0
+
+一次性推送全部尚未推送到远程的本地标签:
+$ git push origin --tags
+
+
+24.配置别名
+$ git config --global alias. 别名 原命令
+eg.
+$ git config --global alias.st status
+$ git config --global alias.co checkout
+$ git config --global alias.ci commit
+$ git config --global alias.br branch
+
+--global参数是全局参数，也就是这些命令在这台电脑的所有Git仓库下都有用
+配置Git的时候，加上--global是针对当前用户起作用的，如果不加，那只针对当前的仓库起作用。
+每个仓库的Git配置文件都放在.git/config文件中：
+
+也可以配置操作别名
+eg.
+$ git config --global alias.unstage 'reset HEAD'
+代替 
+$git reset HEAD  <file>
+即
+$git  unstage  <file>
+
+
