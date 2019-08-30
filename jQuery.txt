@@ -688,7 +688,7 @@ toggleClass()					从匹配的元素中添加或删除一个类。
 								1.
 								$(selector).toggleClass(class,switch)  
 								 switch	可选。布尔值。规定是否添加或移除 class。	
-								 通过使用 "switch" 参数，您能够规定只删除或只添加类。默认false
+								 通过使用 "switch" 参数，您能够规定只删除或只添加类。
 								 eg.
 								 $("button").click(function(){
 									  $("p").toggleClass("main");
@@ -737,7 +737,7 @@ css() 						    方法设置或返回被选元素的一个或多个样式属性�
 
 
 
-//获得内容
+//获得和设置 内容&&属性 
 text() 							- 设置或返回所选元素的文本内容
 								返回文本内容 
 								当该方法用于返回一个值时，它会返回所有匹配元素的组合的文本内容（会删除 HTML 标记）。
@@ -784,6 +784,142 @@ val() 							方法返回或设置被选元素的 value 属性。（主要用于
  									else return a;
 								});
 
-//获得属性
 attr()							设置或返回被选元素的属性/值
+								当该方法用于返回属性值，则返回第一个匹配元素的值。
+								当该方法用于设置属性值，则为匹配元素设置一个或多个属性/值对。
+								设置属性和值：
+								$(selector).attr(attribute,value)
+								eg.$("img").attr("width","180");
+
+								设置多个属性和值：
+								$(selector).attr({attribute:value, attribute:value,...})
+								eg.$("img").attr({width:"150",height:"100"});
+
+								使用函数设置属性和值：
+								$(selector).attr(attribute,function(index,currentvalue))
+								  attribute	规定属性的名称。
+								  function(index,currentvalue)	规定要返回属性值到集合的函数
+								eg.
+								$("img").attr("width",function(n,v){
+											return v-50;
+										});
+
+removeAttr() 					方法从被选元素移除一个或多个属性。
+								$(selector).removeAttr(attribute)
+								$("p").removeAttr("id class");
+
+										
+
+// 添加元素
+append() 						在被选元素的结尾插入内容
+								$(selector).append(content,function(index,html))
+								  content	必需。规定要插入的内容（可包含 HTML 标签）
+								  			HTML 元素|jQuery 对象|DOM 元素
+								  index - 返回集合中元素的 index 位置。
+								  html - 返回被选元素的当前 HTML。 	
+								eg.
+									var txt1="<p>文本。</p>";              // 使用 HTML 标签创建文本
+									var txt2=$("<p></p>").text("文本。");  // 使用 jQuery 创建文本
+									var txt3=document.createElement("p");
+									txt3.innerHTML="文本。";               // 使用 DOM 创建文本 text with DOM
+									$("body").append(txt1,txt2,txt3);        // 追加新元素
+  								
+  								使用函数在被选元素的结尾插入内容
+  								$("p").append(function(n){
+										return "<b>该P元素的下标为 " + n + "。</b>";
+									});
+
+
+appendTo() 					    方法在被选元素的结尾插入 HTML 元素。
+								$(content).appendTo(selector)
+									content	必需。规定要插入的内容（必须包含 HTML 标签）。
+											注意：如果 content 是已存在的元素，它将从当前位置被移除，并在被选元素的结尾被插入。
+									selector	必需。规定把内容追加到哪个元素上。
+
+								eg.
+								$("<span>shuaitong</span>").appendTo('p')  //在p标签结尾加入span标签
+
+								eg2.
+								$('h1').appendTo('p')  //将已经存在的h1标签移除，插入到p标签结尾
+
+
+
+prepend() 						在被选元素的开头插入内容
+								$(selector).prepend(content,function(index,html))
+								用法同append（），不过是在元素的开头插入。
+
+prependTo()						在被选元素的开头插入 HTML 元素
+								$(content).prependTo(selector)
+								用法同prependTo(),不过是在元素的开头插入HTML元素。
+
+
+
+after() 						在被选元素之后插入内容
+								$(selector).after(content,function(index))
+									index - 返回集合中元素的 index 位置
+								eg.
+								var txt1="<b>I </b>";                    // 使用 HTML 创建元素
+								var txt2=$("<i></i>").text("love ");     // 使用 jQuery 创建元素
+								var txt3=document.createElement("big");  // 使用 DOM 创建元素
+								txt3.innerHTML="jQuery!";
+								$("img").after(txt1,txt2,txt3);          // 在图片后添加文本
+
+								eg.使用函数插入内容
+								$("p").after(function(n){
+										return "<div>上面的P元素下标是 " + n + "。</div>";
+									});
+
+insertAfter()					在被选元素后插入 HTML 元素，用法同appendTo()
+
+before()						在被选元素之前插入内容
+								$(selector).before(content,function(index))
+								用法同after(),只不过在元素之前插入内容。
+
+insertBefore()					在被选元素前插入 HTML 元素,用法同prependTo()
+
+
+
+
+//删除元素
+
+remove() 					    删除被选元素（及其子元素),该方法也会移除被选元素的数据和事件.
+								如需移除元素，但保留数据和事件，请使用 detach() 方法代替。
+								如只需从被选元素移除内容，请使用 empty() 方法。
+								$(selector).remove()
+								eg. $("h1").append($("#p1").remove())  
+										//将id=p1的元素移除，加到h1的结尾,但是此元素的事件和数据也被移去
+
+							    remove() 方法也可接受一个参数，允许您对被删元素进行过滤。该参数可以是任何 jQuery 选择器的语法。
+							    eg.$("p").remove(".italic");  //删除 class="italic" 的所有 <p> 元素
+
+detach()						移除被选元素（保留数据和事件）
+								$(selector).detach()
+								eg. $("h1").append($("#p1").detach())  
+								        //将id=p1的元素移除，加到h1的结尾,会保留此元素的事件和数据
+
+empty()   						删除从被选元素所有子节点和内容,该方法不会移除元素本身，或它的属性
+								$(selector).empty()
+								eg.$("div").empty();
+
+
+
+
+//尺寸
+width()							方法设置或返回元素的宽度（不包括内边距、边框或外边距）
+								$(selector).width(value)
+								 value  默认单位是 px。对于em, pt, etc要使用""
+								使用函数设置高度：
+								$(selector).height(function(index,currentheight))
+								eg.
+								$("div").width(function(n,c){
+												return c+200;
+										});
+
+
+height()						方法设置或返回元素的高度（不包括内边距、边框或外边距）
+innerWidth()					方法返回元素的宽度（包括内边距）
+innerHeight()					方法返回元素的高度（包括内边距）
+outerWidth()					方法返回元素的宽度（包括内边距和边框）
+outerHeight()					方法返回元素的高度（包括内边距和边框）		
+
 								
