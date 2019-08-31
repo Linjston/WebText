@@ -735,6 +735,67 @@ css() 						    方法设置或返回被选元素的一个或多个样式属性�
 											  });						
 
 
+offset() 						方法返回或设置匹配元素相对于文档的偏移（位置）。
+								当用于返回偏移时： $(selector).offset()
+								该方法返回第一个匹配元素的偏移坐标。它返回一个带有两个属性（以像素为单位的 top 和 left 位置）的对象。
+								eg.
+								$("p").text($("p").offset().top +"," + $("p").offset().left);
+
+								
+								当用于设置偏移时： $(selector).offset({top:value,left:value})
+								该方法设置所有匹配元素的偏移坐标。
+								eg. $("p").offset({top:200,left:200});
+
+								eg.自己建立一个对象
+								newPos=new Object();
+							    newPos.left="0";
+							    newPos.top="100";
+							    $("p").offset(newPos);
+
+								使用函数设置偏移坐标：
+								$(selector).offset(function(index,currentoffset))
+														$("p").offset(function(n,c){
+									newPos=new Object();
+									newPos.left=c.left+100;
+									newPos.top=c.top+100;
+									return newPos;
+								});  //返回的是一个对象，这个对象带有top和left属性
+
+	
+offsetParent()					返回第一个定位的祖先元素
+								eg.一个绝对定位的div，里面有一个p标签，
+							    $("p").offsetParent().css("backgroud","red")  
+							    //返回的是div这个元素,设置其背景为红色
+
+position()						方法返回第一个匹配元素的位置（相对于它的有定位的父元素）
+								该方法返回一个带有两个属性（以像素为单位的 top 和 left 位置）的对象
+								$(selector).position()
+								eg.
+								x=$("p").position();
+								alert("顶部位置: " + x.top + "左部位置: " + x.left);							    
+scrollLeft()					设置或返回被选元素的水平滚动条位置（当滚动条位于最左侧时，位置是 0。）
+								当用于返回位置时：
+								该方法返回第一个匹配元素的滚动条的水平位置。
+								$(selector).scrollLeft()
+								eg.
+								<div style="border:1px solid black;width:100px;height:130px;overflow:auto">
+								....
+								</div>  //有水平滚动条可以拉
+								$("div").scrollLeft()  
+
+
+								当用于设置位置时：
+								该方法设置所有匹配元素的滚动条的水平位置。
+								$(selector).scrollLeft(position)
+									position	规定以像素为单位的水平滚动条位置。
+								$("div").scrollLeft(100);
+
+
+scrollTop() 					方法设置或返回被选元素的垂直滚动条位置。
+								提示：当滚动条位于最顶部时，位置是 0。
+								方法同scrollLeft().
+
+
 
 
 //获得和设置 内容&&属性 
@@ -808,7 +869,13 @@ removeAttr() 					方法从被选元素移除一个或多个属性。
 								$(selector).removeAttr(attribute)
 								$("p").removeAttr("id class");
 
-										
+
+clone() 						方法生成被选元素的副本，包含子节点、文本和属性。
+								$(selector).clone(true|false)
+								true  规定需复制事件处理程序。
+								false 默认。规定不复制事件处理程序。		
+								eg.
+								$("body").append($("p:first").clone(true));							
 
 // 添加元素
 append() 						在被选元素的结尾插入内容
@@ -923,3 +990,194 @@ outerWidth()					方法返回元素的宽度（包括内边距和边框）
 outerHeight()					方法返回元素的高度（包括内边距和边框）		
 
 								
+
+
+
+
+
+
+
+
+
+
+///jQuery 遍历
+//向上遍历 DOM 树
+parent()						返回被选元素的直接父元素
+								$(selector).parent(filter)
+									filter	可选。规定缩小搜索父元素范围的选择器表达式。
+								eg.寻找span的直接父元素，但是有俩个，所以需要过滤
+								<ul>ul (祖父节点)  
+									<li class="1">li (直接父节点)
+										<span>span</span>
+									</li>
+									<li class="2">li (直接父节点)
+										<span>span</span>
+									</li>
+								</ul>   									
+
+								$("span").parent("li.1").css("color","black");
+
+parents()						返回被选元素的所有祖先元素		
+								DOM 树：该方法从父元素向上遍历 DOM 元素的祖先，直至文档根元素的所有路径<html>。
+								如果 filter 参数为空，该方法将从直接父元素直至 <body> 和 <html> 的所有路径中选取元素集合中的所有祖先。因此传递一个缩小搜索结果范围的选择器表达式是非常有用的。
+								$(selector).parents(filter)
+									如需返回多个祖先，请使用逗号分隔每个表达式。
+								eg.
+								$("span").parents("div,li").css({"color":"red","border":"2px solid red"});
+
+
+parentsUntil()					返回介于两个给定参数之间的所有祖先元素
+								DOM 树：该方法从父元素向上遍历 DOM 元素的祖先，直至文档根元素的所有路径，直到到达指定的元素为止。
+								如果两个参数都为空，该方法将返回所有祖先元素（与 parents() 方法相同）。
+								$(selector).parentsUntil(stop,filter)
+										stop	可选。表示在哪里停止搜索匹配的祖先元素的选择器表达式、元素、jQuery 对象。
+										filter	
+										可选。规定缩小搜索介于 selector 与 stop之间的祖先元素范围的选择器表达式
+										注意：如需返回多个祖先元素，请使用逗号分隔每个表达式
+								eg.
+								$("span").parentsUntil("div","ul，li").css({"color":"red","border":"2px solid red"});
+								//span向上遍历到div停止，第二个参数选择要的元素ul和li	，第二个参数为空代表div之前的所有祖先									
+
+closest() 						方法获得匹配选择器的第一个祖先元素，从当前元素开始沿 DOM 树向上。
+								$(selector).closest(selector)
+								eg.div中有一个ul ul里面有2个li  第2个li.2
+								$("li.2").closest("ul").css("backgroud","red") 
+
+
+
+
+//遍历 - 后代
+children() 						方法返回被选元素的所有直接子元素。
+								$(selector).children(filter)
+								eg.
+								$("ul").children("li:first").css("color","red");
+
+
+find()							返回被选元素的后代元素
+								$(selector).find(filter)
+								 filter 是必须的
+								如需返回所有的后代元素，请使用 "*" 选择器。
+								eg.
+								$("body").find("div,li,.1")
+
+
+//遍历 - 同胞
+siblings() 						返回被选元素的所有同级元素,同级元素是共享相同父元素的元素。
+								DOM 树：该方法沿着 DOM 元素的同级元素向前和向后遍历。
+								$(selector).siblings(filter)
+								$("div").siblings("p")
+
+next()							返回被选元素的后一个同级元素,该方法只返回一个元素
+								$(selector).next(filter)
+								eg.
+								$("div").next()
+
+nextAll()						返回被选元素之后的所有同级元素
+								$(selector).nextAll(filter)
+								$("div").nextAll("p") //选择div元素的所有同级p元素
+
+nextUntil()                     返回介于两个给定参数之间的每个元素之后的所有同级元素
+								nextUntil的stop包括，但是parentUntil的stop不包括。
+								$(selector).nextUntil(stop,filter)
+								eg.
+								$("li").nextUntil("li.stop","li.1") 
+								//li之后到li.stop的同胞元素中，选择li.1元素
+
+prev()							返回被选元素的前一个同级元素
+prevAll()						返回被选元素之前的所有同级元素
+prevUntil()						返回介于两个给定参数之间的每个元素之前的所有同级元素	 
+                                (用法同next、nextAll、nextUntil)
+
+
+//遍历 - 过滤
+first()							返回被选元素的第一个元素
+								$(selector).first()
+								eg.$("p").first()  //返回第一个p元素
+
+last()							返回被选元素的最后一个元素
+								$(selector).last()
+								eg.$("p").last()  //返回最后一个p元素
+
+eq()                            返回带有被选元素的指定索引号的元素
+								索引号从 0 开头，所以第一个元素的索引号是 0（不是 1）。
+								$(selector).eq(index)   //index必需。规定元素的索引。可以是整数或负数。
+								eg.$("p").eq(-2).css("background-color","yellow");//p元素的倒数第二个元素
+
+filter()						把匹配元素集合缩减为匹配选择器或匹配函数返回值的新元素
+								该方法让您规定一个条件。不符合条件的元素将从选择中移除，符合条件的元素将被返回。
+								$(selector).filter(criteria,function(index))
+								 criteria																	可选。规定要从被选元素组合中返回的选择器表达式、jQuery对象、一个或多个元素。	
+								 function(index)	
+									可选。为集合中的每个元素规定要运行的函数。如果返回true，则保留元素，否则元素将被移除。							
+								eg.返回所有偶数号的 <p> 元素
+								$("p").filter(":even")
+
+								eg.返回多个条件
+								$("p").filter(".intro,#outro")
+
+								eg.使用函数选取拥有两个 <span> 元素在其内的所有 <p> 元素。
+								$("p").filter(function(){  return $("span",this).length==2;})
+								.css("background-color","yellow");
+								
+not() 							方法返回不匹配标准的所有元素。与filter()相反
+								该方法让您规定一个条件。不符合条件的元素将从选择中返回，符合条件的元素将被移除。
+								$(selector).not(criteria,function(index))
+								eg.返回所有不是偶数号的p元素
+								$("p").not(":even")
+
+								eg.使用函数选取不拥有两个 <span> 元素在其内的所有 <p> 元素。
+								$("p").not(function(){  return $("span",this).length==2;})
+								.css("background-color","yellow");
+
+
+each() 							方法为每个匹配元素规定要运行的函数。提示：返回 false 可用于及早停止循环。
+								$(selector).each(function(index,element))
+								function(index,element)	必需。为每个匹配元素规定运行的函数。
+									index - 选择器的 index 位置。
+									element - 当前的元素（也可使用 "this" 选择器）。
+								eg.
+								$("li").each(function(n){
+										if(n==2) return false;  //返回false 结束循环
+										alert($(this).text())			
+									});
+
+map()							把当前匹配集合中的每个元素传递给函数，产生包含返回值的新 jQuery 对象
+								$(selector).map(function(index,element))
+								//map()的返回值是包裹了一个Array的jQuery对象。如果要获取其中真正的Array，可以用get()方法。
+								eg.
+								 $("p").append($(':checkbox').map(function() {
+								    if(this.checked) return this.id;  //复选盒 选中的将它的id显示出来
+								  }).get().join(','));
+
+//其他
+slice() 						方法选取基于索引的元素的子集	
+								$(selector).slice(start,stop)
+								eg.
+								$("p").slice(1,3).css("background-color","yellow");	
+								//选取p元素集合 索引1到索引3的p元素
+
+add() 							方法将元素添加到匹配元素的集合中。
+								该方法把元素添加到整个文档上，如果规定了 context 参数则只添加到上下文元素内部。
+								$(selector).add(element,context)
+									element	必需。规定要添加到已存在的元素集合的选择器表达式、jQuery 对象、一个或多个元素、HTML 片段。
+									context	可选。规定选择器表达式在文档中开始进行匹配的位置。
+								eg.
+								$("h1").add("p").add("span").css("background-color","yellow");
+								//即p元素和span元素 ，加入到h1的集合中，这样p和span就跟随了h1的样式
+
+
+end() 							方法结束当前链条中的最近的筛选操作，并将匹配元素集还原为之前的状态。
+								eg.
+								$('ul.first').find('.foo').css('background-color', 'red')
+  								.end().find('.bar').css('background-color', 'green');
+
+  								//这条命令链检索第一个列表中类名为 foo 的项目，并把它们的背景设置为红色。end() 会将对象还原为调用 find() 之前的状态，所以第二个 find() 查找的是 <ul class="first"> 内的 '.bar' ，而不是在列表的 <li class="foo"> 中查找
+
+
+
+
+
+
+
+///jQuery-Ajax
+  								
