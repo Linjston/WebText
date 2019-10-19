@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>FlexBox-九宫格</title>
+	<meta charset="utf-8">
+	<style type="text/css">
+	    *{
+	    	padding: 0;
+	    	margin:0;
+	    }
+		.squ-4 {
+		  position: relative;
+		  width: 100%;
+		  height: 0;
+		  padding-bottom: 100%; /* padding百分比是相对父元素宽度计算的  使得高度一直与宽度相等  */
+		  margin-bottom: 30px;
+		  border:1px solid red;
+		}
+		.squ-4 .squ-inner {
+		  position: absolute;
+		  top: 0;
+		  left: 0;
+		  width: 100%;
+		  height: 100%; /* 铺满父元素容器，这时候宽高就始终相等了 */
+		}
+		.squ-4 .squ-inner>div {
+		  width: calc(97% / 3); 
+		  height: calc(97% / 3);
+		  margin-right: 1%;
+		  margin-bottom: 1%;
+		  overflow: hidden;
+		}
+		.squ-4 .flex {
+		  display: flex;
+		  flex-wrap: wrap;
+		  align-content: space-between;
+		}
+		.flex>div {
+		  flex-grow: 1;
+		  background-color: skyblue;
+		  text-align: center;
+		  color: #fff;
+		  font-size: 50px;
+		  line-height: 2;
+		}
+		.flex>div:nth-of-type(3n) {
+		  margin-right: 0;
+		}
+		.flex>div:nth-of-type(n+7) {
+		  margin-bottom: 0;
+		}
+	</style>
+</head>
+<body>
+<div class="squ-4">
+  <div class="squ-inner flex">
+     <div class="item">1</div>
+     <div class="item">2</div>
+     <div class="item">3</div>
+     <div class="item">4</div>
+     <div class="item">5</div>
+     <div class="item">6</div>
+     <div class="item">7</div>
+     <div class="item">8</div>
+     <div class="item">9</div>
+  </div>
+</div>
+ <div style="background:red;width:100px;height:200px;">aaaa</div>>
+</body>
+</html>

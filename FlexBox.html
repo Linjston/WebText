@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>FlexBox</title>
+	<meta charset="utf-8">
+	<style type="text/css">
+	*{
+		margin:0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+	body{
+		background: #111;color: #fff;
+	}
+	a{
+		color: #fff;
+		text-decoration:none;
+	}
+	nav{
+		text-align: center;
+		height: 100px;
+		text-transform: capitalize;	
+		display: flex;
+		flex-wrap: wrap;
+	}
+	nav >a{
+		background: #00000f;
+		flex-grow: 2;
+		display: flex;
+		align-items: center;
+	}
+	nav >a >span {
+		flex:1;
+	}
+	nav >a:hover{
+		background: #0000ff;
+	}
+	.sign{
+		background: #00003f;
+		flex-grow: 1;
+	}
+	@media (max-width: 460px){
+		nav >a {
+			flex-basis: 25%;
+		}
+	}
+
+
+
+
+
+  /*例子和介绍*/
+		.wrap{
+			
+			height:500px;
+			border:1px solid black;
+			display: flex;
+			/*盒子变为伸缩容器 Flex Container ;容器中的小盒子称为伸缩项 Flex Item*/
+			flex-direction:row;
+			/*改变主轴反向，侧轴一直与主轴垂直
+			  row(默认，从左往右),row-reverse,
+			  column(从上往下),column-reserve */
+			/*flex-wrap: wrap;*/
+			/*改变侧轴方向
+			  nowrap(默认 不换行)，wrap（换行）,wrap-reserve（翻转侧轴方向和换行  ） 
+			*/
+			/*简写方式	flex-flow: <flex-direction> <flex-wrap>;*/
+
+
+
+			/*justify-content:space-between;*/
+			/*控制伸缩项在主轴的展现方式 
+			flex-start(默认 向主轴起点方向对齐),
+			flex-end(向主轴终点方向对齐),
+			center（居中）,
+			space-between（将多余的空白分配给每个伸缩项，但左右俩侧第一个伸缩项不分配）,
+			space-around(将多余的空白均匀分配给每个伸缩项)*/
+
+
+			/*align-items:flex-start;*/
+			/*控制伸缩项在侧轴的展现方式
+			 stretch(默认 如果伸缩项没有定高度，则拉伸伸缩项的高度，直到充满伸缩容器),
+			 flex-start(向侧轴起点方向对齐),
+			 center:(居中);
+			 flex-end:(向侧轴终点方向对齐);
+			*/
+
+
+			/*align-content:space-around;*/ 
+			/*控制伸缩项所组成的行（列）在侧轴的展现方式（该属性在只有一行（列）的时候不生效）
+			 stretch:(默认 自行分配空白，充斥整个容器);
+			 flex-statr，
+			 center，
+			 flex-end，
+			 space-between，
+			 space-around	
+			*/
+		}
+		.wrap >div{   /*这里的div都是伸缩项*/
+			/*width:100px;*/
+			height: 100px;
+			border:1px solid black;
+			background: skyblue;	
+			flex-basis:100px;
+				/*定义伸缩项在伸缩前的尺寸 auto|length
+				 如果设置为0，多余的空间不会分配给伸缩项；
+
+				 设置了grow 和shrink的伸缩项将以它的尺寸为基准
+				*/    
+				/*n个伸缩项宽度为N;d为容器宽度,
+				  N>d,进行收缩;
+				  N<d,进行伸展.*/
+			flex-grow: 1;
+			flex-shrink: 1;
+			/*简写方式  flex:flex-grow flex-shrink flex-basis  ;
+				flex：none;(0 0 auto)
+			 */
+		}
+		.wrap >div:first-of-type{
+				background:red;
+				order:0; 
+				/*通常所有伸缩项的order都是为0，order越大，越排到后面*/
+
+				/*align-self:flex-start;*/
+				/*控制指定的伸缩项在侧轴的展现方式  值与align-items一样*/ 
+
+
+				flex-grow:2;
+				/*控制伸缩项在伸缩行的伸展程度 integer*/
+				flex-shrink:2;
+				/*控制伸缩项在伸缩行的收缩程度 integer*/	
+
+
+				/*flex-grow: 定义剩余空间的分成。默认为0，即如果存在剩余空间，也不放大。
+				  flex-shrink: 定义了项目的缩小比例。flex-shrink的默认值为1，flex-shrink的值为0时不缩放。
+				  flex-basis: 定义了项目占据的主轴空间。浏览器根据这个属性，计算主轴多余空间或不足空间的大小。它的默认值为auto，即项目的本来大小。
+				  flex-basis的优先级高于width属性，如果只设置了width属性，flex-basis为auto，则项目的原始长度等于width，而如果同时设置了width和flex-basis，则项目的原始长度等于flex-basis。
+				*/		
+			};
+	</style>
+</head>
+<body>
+<div class="wrap">
+	<div>1</div>
+	<div>2</div>
+	<!-- <div>2</div>
+	<div>2</div>
+	<div>2</div>
+	<div>2</div>
+	<div>2</div>
+	<div>2</div>
+	<div>2</div>
+	<div>end</div>
+	<div>2</div>
+	<div>2</div>
+	<div>2</div>
+	<div>2</div>
+	<div>2</div>
+	<div>2</div>
+	<div>2</div>
+	<div>2</div>
+	<div>2</div>
+	<div>2end</div> -->
+	
+</div>
+
+<nav>
+	<a href="#"><span>首页</span></a>
+	<a href="#"><span>视频</span></a>
+	<a href="#"><span>代码</span></a>
+	<a href="#"><span>课程</span></a>
+	<a href="#" class="sign sign-in"><span>登录</span></a>
+	<a href="#" class="sign sign-out"><span>退出</span></a>
+</nav>
+</body>
+</html>
