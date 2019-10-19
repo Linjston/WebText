@@ -1,11 +1,21 @@
 AJAX 简介
 AJAX 是一种在无需重新加载整个网页的情况下，能够更新部分网页的技术。
 
+【为什么会有跨域？那必须得说同源政策，同源指的是三个同源：1，协议相同，域名相同，端口相同，例如http://y.localhost.com:7001/public/3.html；这些网址协议是http://域名是y.localhost.com:，端口号是7001，在这三个都相同的话就是同源
+同源：http://y.localhost.com:7001/public/5.html，
+同域不同端口http://y.localhost.com:7002/public/3.html，
+协议不同https://y.localhost.com:7001/public/3.html
+域不同http://x.localhost.com:7001/public/3.html,
+
+不同源的网址不能不可以共享cookie，LocalStorage ，dom也无法获取，ajax不能发送，防止了恶意的网站窃取数据，保证了用户信息的安全，所以同源政策是必须的，
+】
+
+
 
 什么是 AJAX ？
 		AJAX = 异步 JavaScript 和 XML。
 		AJAX 是一种用于创建快速动态网页的技术。
-		通过在后台与服务器进行少量数据交换，AJAX可以使网页实现异步更新。这意味着可以在不重新加载整个网页的情况下，对网页的某部分进行更新。
+		通过在后台与服务器进行少量数据交换异步更新，AJAX可以使网页实现。这意味着可以在不重新加载整个网页的情况下，对网页的某部分进行更新。
 		传统的网页（不使用 AJAX）如果需要更新内容，必需重载整个网页面。
 
 

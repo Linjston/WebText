@@ -100,8 +100,8 @@ contain：  把背景图像扩展至最大尺寸，以使其宽度和高度完�
 个人总结： background-origin:可以定位背景图像在边框盒、内边距、内容框中的哪一个。
           background-position:可以定义背景图像的起始位置（如果有background-origin，background-origin定义好才轮到它）
           
-          background-clip:可以定位背景在边框盒、内边距、内容框中的哪一个。一般用来设置颜色背景
-          （当背景只是图片且background-origin也有定义，只理会background-origin）
+          background-clip:裁剪背景在边框盒、内边距、内容框中的哪一个。
+          
 
 
 3.CSS 边框属性（Border 和 Outline）
@@ -195,7 +195,7 @@ color      可选。阴影的颜色。请参阅 CSS 颜色值。
 inset      可选。将外部阴影 (outset) 改为内部阴影。
 
 eg.正方形多阴影
-box-shadow:-10px 0px 10px red,   /*左边阴影*/
+box-shadow:-10px 0px 10px red,   /*左边阴影 h-shadow v-shadow blur color*/ 
             0px -10px 10px black,  /*上边阴影*/
             10px 0px 10px green,  /*右边阴影*/
             0px 10px 10px blue;" /*下边阴影*/ >
@@ -289,7 +289,7 @@ content:"Section " counter(section) ". "; //counter() 用于获取计数器
 h2:before 
 {
 counter-increment:subsection;
-content:counter(section) "." counter(subsection) " ";
+content:""counter(section) "." counter(subsection) " ";
 }
 </style>
 
@@ -1012,3 +1012,175 @@ fixed
 浮动：
 浮动的框可以向左或向右移动，直到它的外边缘碰到包含框或另一个浮动框的边框为止。
 由于浮动框不在文档的普通流中，所以文档的普通流中的块框表现得就像浮动框不存在一样。
+
+
+
+
+
+
+
+
+
+
+
+
+////css面试题
+1.权重计算
+important > 行间样式 > id > class | 属性 > 标签选择器 > 通配符
+  css权重
+  important                  Infinity
+  行间样式                    1000
+  id                          100
+  class |属性| 伪类             10
+  标签选择器| 伪元素              1
+  通配符                         0
+
+2、css选择器
+基本选择器：
+    通用元素选择器，ID选择器，类选择器，标签选择器，属性选择器
+组合选择器：
+    分组选择器：用逗号连接
+    后代选择器：用空格分开连接
+    子元素选择器：用>号连接
+    毗邻元素选择器：用 + 连接
+伪类选择器：
+    ：first-child，：link，：visited，：active，：hove，：focus
+伪元素选择器：
+    ：first-line，：first-letter，：before，：after
+
+
+3.行级元素与块级元素
+行级元素(inline, css display属性)：span， strong， em， a ，del，i，code
+    a.内容决定元素所占位置; b.不可以通过css改变宽高
+
+块级元素(block，css display属性)：div， p, ul, li ,ol, form, address，h1~h6，table > tr > th, td
+    a.独占一行; b.可以通过css改变宽高
+
+行级块元素(inline-block，css display属性)：img， input，select，button，textarea
+    a.内容决定大小; b.可以更改宽高
+
+两者的关系:
+  行级元素只能嵌套行级元素;
+  块级元素元素可以嵌套任何元素;
+    除了 <p>标签不可以嵌套<div> ,<p>会被分成两个；<a>标签不可以嵌套<a>标签
+
+
+4、盒模型
+盒模型组成部分：外边距 + 盒壁 border + 内边距 padding + 盒子内容 width + height
+   box-sizing：content-box（设置为标准盒模型），border-box（设置为IE盒模型）
+      标准盒模型: 盒子width = content的宽度
+      IE盒模型： 盒子width = content宽度 + border左右宽度 + padding左右宽度
+
+
+5.层模型
+absolute：
+  脱离原来位置进行定位
+  相对于最近的有定位的父级进行定位，如果没有，那么相对于文档进行定位
+
+relative：
+  保留原来位置进行定位
+  相对于自己于原来的位置进行定位
+
+fixed：
+  固定在屏幕的位置上
+
+
+6.margin塌陷和BFC
+父子嵌套的margin，在垂直方向取两者的最大值，子元素会带动父元素的变化
+  解决办法：触发bfc
+
+margin合并：兄弟元素在margin-top和margin-bottom上会重叠合并
+  解决办法：只设置一个元素的margin，或者触发bfc
+
+BFC (Block formatting context) “块级格式化上下文”：它是页面中的一块渲染区域，有一套渲染规则，决定了其子元素如何布局，以及和其他元素之间的关系和作用。
+
+【只有普通文档流中块框的垂直外边距才会发生外边距合并。行内框、浮动框或绝对定位之间的外边距不会合并。】
+block format context 触发方法:
+    position: absolute或fixed
+    display: inline-block、table-cell
+    float: left/right
+    overflow: hidden
+
+
+7.浮动模型
+任何定义为float的元素都会自动被设置为一个块状元素显示，相当于被定义display：block；声明浮动元素产生了浮动流
+  所有产生了浮动流的元素，块级元素看不到他们；
+  产生了bfc的元素和文本类属性（带有inline属性）的元素以及文本都能看到浮动元素；
+
+clear可以清除浮动，其属性值有四个：
+  left：清除左边的浮动对象，如果左边存在浮动对象，则当前元素会在浮动对象底下显示。
+  right：清除右边的浮动对象，如果右边存在浮动对象，则当前元素会在浮动对象底下显示。
+  both：清除两边的浮动对象，不管哪边存在浮动对象，则当前元素都会在浮动对象底下显示。
+  none：默认值。允许两边都可以有浮动对象，当前元素、浮动元素不会换行显示。
+
+清除浮动：
+  eg.在浮动元素下面添加一个<p>元素，
+      设置css属性clear： both，border：0 solid black清除浮动流，让父级元素的高度随着浮动元素自适应
+
+  eg.利用伪元素清除浮动， 设置伪元素为块级元素，并且添加clear属性
+   div:after{
+      display:block;
+      content:"";
+      clera:both
+   }
+
+   eg.触发bfc，让父元素看到浮动流
+
+
+
+8.伪元素
+before（在元素之前）和after（在元素之后）两个伪元素
+    a.每个标签都存在，可以通过css选中伪元素进行修改，
+    b.必须加上css content属性
+    c.默认是行级元素
+    d.可以当作正常元素使用
+
+
+
+9.水平居中和垂直居中
+水平居中:
+    行级元素：对父元素设置text-align：center;
+
+    flex布局:父元素设置display:flex; justify-content:center; 
+             父元素“display:flex; flex-direction:column;"，子元素"align-self:center";
+
+
+    定宽块级元素：主要通过margin
+              设置左右margin为auto; eg.margin:0 auto;
+              通过display：table-cell和margin-left实现css水平居中;
+              position：absolute; 子元素给剩余元素宽度一半的margin-left;
+              position: relative,float:left 和margin-left实现水平居中;
+
+    不定宽块级元素：
+              width:fit-content实现水平居中，需要配合“margin: 0 auto; text-align: center”使用
+              设置子元素为display:inline,然后在父元素上设置text-align:center;
+
+
+垂直居中：
+    父元素固定，子元素为单行内联文本：设置父元素的height等于line-height
+    父元素固定，子元素为单行或者多行内联文本：设置父元素的display:table-cell，在设置vertical-align:middle
+    块状元素:设置子元素position:fixed（absolute），然后设置margin:auto; top: 0; left: 0; bottom: 0; right: 0;
+    通用方案: flex布局，给父元素设置{display:flex; align-items:center;}。
+
+
+
+
+10.css布局
+Flex布局：
+设为Flex布局以后，子元素的float、clear、vertical-align属性将失效
+    容器的属性
+        flex-direction: 决定主轴的方向
+        flex-wrap:是否换行，换行的方式
+        flex-flow: 前两者的缩写形式
+        justify-content:主轴的对齐方式
+        align-items:交叉轴的对齐方式
+        align-content：多轴线的对齐方式
+    项目属性
+        order：项目排列顺序
+        flex-grow:项目的放大比例，默认为0
+        flex-shrink:项目的缩小比例，默认为1
+        flex-basis：项目占据的空间大小
+        flex：前三者的合并
+        align-self：允许单个项目与其他项目对齐方式不一样，可覆盖align-items属性
+
+

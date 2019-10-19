@@ -4,6 +4,29 @@ JavaScript 是属于 HTML 和 Web 的编程语言。
 JavaScript 在 1995 年由 Brendan Eich 发明，并于 1997 年成为一部 ECMA 标准。
 ECMA-262 是其官方名称。ECMAScript 6 （发布于 2015 年）是最新的 JavaScript 版本。
 
+目录：I.JavaScript Array 对象；
+ 	 II.JavaScript Date 对象;
+ 	 III.JavaScript Math 对象;
+ 	 IV.JavaScript String 对象;
+ 	 V.JavaScript RegExp 对象;
+ 	 VI.JavaScript Number 对象;
+ 	 VII.JavaScript Boolean 对象;
+ 	 VIII.顶层函数（全局函数）;
+ 	 IX.js补充.
+ 	    IX.1.break 语句
+ 	    IX.2.JavaScript 错误 - Throw 和 Try to Catch
+ 	    IX.3.JavaScript 作用域：作用域指的是您有权访问的变量集合。
+ 	    IX.4.JavaScript 提升（Hoisting）:提升（Hoisting）是 JavaScript 将声明移至顶部的默认行为。
+ 	    IX.5.JavaScript Use Strict:"use strict"; 定义 JavaScript 代码应该以“严格模式”执行。
+ 	    IX.6.JavaScript this 关键词
+ 	    IX.7.JavaScript Let :(Internet Explorer 11 或更早的版本不完全支持 let 关键词。)
+ 	    IX.8.JavaScript Const:(Internet Explorer 10 或更早版本不支持 const 关键词。)
+ 	    IX.9.JavaScript 调试JavaScript 调试;
+ 	    IX.10.JavaScript JSON
+ 	    IX.11.javascript 对象
+ 	 X.JS面试题
+
+
 
 I.
 JavaScript Array 对象:
@@ -574,7 +597,8 @@ start	可选。从哪里开始搜索。负值将从结尾开始的给定位置�
 eg.
 var fruits = ["Apple", "Orange", "Apple", "Mango"];
 var a = fruits.lastIndexOf("Apple");
-输出：a为：2
+var b = fruits.IndexOf("Apple");
+输出：a为：2,b为：0
 
 
 10.Array.find()
@@ -647,7 +671,7 @@ getSeconds()		:返回 Date 对象的秒数 (0 ~ 59)。 d.getSeconds()
 getMilliseconds()	:返回 Date 对象的毫秒(0 ~ 999)。 d.getMilliseconds()   //eg.var d = new Date();
 																		    alert(d.getDate());   //输出11
 																		    alert(d.getDay());    //0
-																		    alert(d.getMonth());   //8
+																		    alert(d.getMonth());   //7
 																		    alert(d.getFullYear());//2019
 
 
@@ -1188,7 +1212,9 @@ new RegExp(pattern, attributes);
 如果参数 pattern 是正则表达式而不是字符串，那么 RegExp() 构造函数将用与指定的 RegExp 相同的模式和标志创建一个新的 RegExp 对象。
 
 如果不用 new 运算符，而将 RegExp() 作为函数调用，那么它的行为与用 new 运算符调用时一样，只是当 pattern 是正则表达式时，它只返回 pattern，而不再创建一个新的 RegExp 对象。
-
+eg.
+ var reg = /abc/;
+ var reg1 = RegExp(reg);   //返回的是reg的引用
 
 抛出
 SyntaxError - 如果 pattern 不是合法的正则表达式，或 attributes 含有 "g"、"i" 和 "m" 之外的字符，抛出该异常。
@@ -1200,6 +1226,11 @@ TypeError - 如果 pattern 是 RegExp 对象，但没有省略 attributes 参数
 i	执行对大小写不敏感的匹配。
 g	执行全局匹配（查找所有匹配而非在找到第一个匹配后停止）。
 m	执行多行匹配。
+eg.
+  var str = "abdfdsf\nadjfl";
+  var reg = /^a/gm;
+  str.match(reg);   // ["a","a"]
+  如果reg为/^a/g   不识别\n  
 
 方括号:
 方括号用于查找某个范围内的字符：
@@ -1211,20 +1242,25 @@ m	执行多行匹配。
 [A-z]		查找任何从大写 A 到小写 z 的字符。
 [adgk]		查找给定集合内的任何字符。
 [^adgk]		查找给定集合外的任何字符。
-(red|blue|green)	查找任何指定的选项。
+(red|blue|green)	查找任何指定的选项。 ()子表达式,后面加上\1表示反向引用第一个子表达式的结果
+	   eg.var reg=/(a)\1\1\1/g   //表示匹配/aaaa/g
+	      var reg=/(\w)\1\1\1/g  //子表达式\w匹配到的结果，后面3个跟这个结果一
+	      var reg=/(\w)\1(\w)\2/g  //xxyy
+
+
 
 
 元字符:
 元字符（Metacharacter）是拥有特殊含义的字符：
-.		查找单个字符，除了换行和行结束符。
+.		查找单个字符，除了换行和行结束符。						  * === [^\r\n]
 
-\w		查找单词字符。   	单词字符包括：a-z、A-Z、0-9，以及下划线。
-\W		查找非单词字符。  \W 元字符用于查找非单词字符。
+\w		查找单词字符。   	单词字符包括：a-z、A-Z、0-9，以及下划线。  \w===[0-9A-z_]
+\W		查找非单词字符。  \W 元字符用于查找非单词字符。             \W ===[^\w]
 
-\d		查找数字。       
-\D		查找非数字字符。
+\d		查找数字。       										   \d === [0-9]	
+\D		查找非数字字符。										   \D === [^\d]
 
-\s		查找空白字符。        空白字符可以是：
+\s		查找空白字符。        空白字符可以是：					   \s === [\t\n\r\v\f ]
 \S		查找非空白字符。
 							空格符 (space character)
 							制表符 (tab character)
@@ -1238,16 +1274,22 @@ m	执行多行匹配。
 					 	eg./\bm/ 匹配 "moon" 中的 'm'；
 						/oo\b/ 不匹配 "moon" 中的 'oo'，因为 'oo' 后面的 'n' 是一个单词字符；
 						/oon\b/ 匹配 "moon" 中的 'oon'，因为 'oon' 位于字符串的末端，后面没有单词字符；
+						eg. var str = "abc ccd ccdadf" //有6个单词边界
+						    var reg = /\bc/  //["c"] 
+						    /*reg =/\bccd\b/  //["ccd"]
+						      reg =/\bccd\B/  //["ccd"] 能匹配到ccdadf中的ccd
+						    */   
 
+ 
 \B		匹配非单词边界。  \B 元字符通常用于查找不处在单词的开头或结尾的匹配。
 						eg./\B../ 匹配 "noonday" 中的 'oo'，
 						而 /y\B./ 匹配 "possibly yesterday." 中的 'ye'。
 
 \0		查找 NUL 字符。   
-\n		查找换行符。
+\n		查找换行符。  
 \f		查找换页符。
 \r		查找回车符。
-\t		查找制表符。
+\t		查找制表符。   eg. var str="abc\tjal";  var reg=/\tj/;  str.match(reg); //识别字符串中的\t得写出来
 \v		查找垂直制表符。
 
 \xxx	查找以八进制数 xxx 规定的字符。eg.对字符串中的八进制 127 (W) 进行全局搜索：
@@ -1258,16 +1300,18 @@ m	执行多行匹配。
 
 \uxxxx	查找以十六进制数 xxxx 规定的 Unicode 字符。
 
+有16层， \u010000 - \u01ffff,\u010000 - \u01ffff,.....\u100000 - \u10ffff
+第一层一般忽略01，\u0000 - \uffff
 
 
 
 量词:
-n+				匹配任何包含至少一个 n 的字符串。
-n*				匹配任何包含零个或多个 n 的字符串。
-n?				匹配任何包含零个或一个 n 的字符串。
-n{X}			匹配包含 X 个 n 的序列的字符串。
-n{X,Y}			匹配包含 X 至 Y 个 n 的序列的字符串。
-n{X,}			匹配包含至少 X 个 n 的序列的字符串。
+n+				匹配任何包含至少一个 n 的字符串。    eg.  var str = "aabc";  
+n*				匹配任何包含零个或多个 n 的字符串。     var reg =/\w*/g;  //["aabc",""]贪婪模式 能多匹配不匹配少
+n?				匹配任何包含零个或一个 n 的字符串。          reg = /\d*/g; //["","","",""] 按光标匹配
+n{X}			匹配包含 X 个 n 的序列的字符串。        reg = /a+?/g; //加个？表示非贪婪模式 ["a"]
+n{X,Y}			匹配包含 X 至 Y 个 n 的序列的字符串。 eg.var str = "aaaaaaaaaaa";
+n{X,}			匹配包含至少 X 个 n 的序列的字符串。      var reg = /\w{2,4}/g; //["aaaa","aaaa","aaa"];
 				eg.对包含四位数字序列的子串进行全局搜索
 				var str="100, 1000 or 10000?";var patt1=/\d{4}/g;
 
@@ -1314,7 +1358,13 @@ lastIndex			:一个整数，标示开始下一次匹配的字符位置。
 source				:正则表达式的源文本。(该文本不包括正则表达式直接量使用的定界符/.../，也不包括标志 g、i、m。)
 
 
-
+【lastIndex 全局匹配时相当于游标，没有全局匹配时，一直是0；lastIndex 也可以手动修改；
+eg. var str = "ababab";  var reg =/ab/g;
+     console.log(reg.exec(str)); //   返回类数组["ab"，index:0,input:"ababab"] 这个时候reg.lastIndex为2
+     console.log(reg.exec(str)); //   返回类数组["ab"，index:2,input:"ababab"] 这个时候reg.lastIndex为4
+     console.log(reg.exec(str)); //   返回类数组["ab"，index:4,input:"ababab"] 这个时候reg.lastIndex为6
+     console.log(reg.exec(str)); //   返回null    这个时候reg.lastIndex为0  
+】
 
 
 
@@ -1428,7 +1478,7 @@ match					：找到一个或多个正则表达式的匹配。
 						除了这些常规的数组元素之外，返回的数组还含有两个对象属性。
 						index 属性声明的是匹配文本的起始字符在 stringObject 中的位置，
 						input 属性声明的是对 stringObject 的引用。
-
+						eg.["ab"，index:0,input:"ababab"]
 
 						如果 regexp 具有标志 g，则 match() 方法将执行全局检索，找到 stringObject 中的所有匹配子字符串。
 						如果找到了一个或多个匹配子串，则返回一个数组。
@@ -1484,7 +1534,20 @@ replace() 				:方法用于在字符串中用一些字符替换另一些字符�
                        输出：aaA bB% ccC
 
 
+                       eg.the-first-name  变成驼峰写法 theFirstName
+                         var str = "the-first-name";
+                         var reg = /-(\w)/g;
+                         str.replace(reg,function($,$1){//匹配多少个，运行多少次函数
+                            return $1.toUpperCase();
+                         })
 
+
+                       eg.100000000  变为 100.000.000
+                        思路：将 空字符串 换成 .    从后面数起数字个数为3的倍数的前面的空字符串 换成 .
+                        						  而且这些数字不能是边界 有可能变成 .100.000.000
+                        var str="100000000";
+                        var reg = /(?=(\B)(\d{3}$)+)/g;
+                        str.replace(reg,".");
 
 
 
@@ -1948,7 +2011,7 @@ encodeURIComponent() 		：函数可把字符串作为 URI 组件进行编码。
 							1.该方法不会对 ASCII 字母和数字进行编码，
 							也不会对这些 ASCII 标点符号进行编码： - _ . ! ~ * ' ( ) 。
 
-							2.其他字符（比如 ：;/?:@&=+$,# 这些用于分隔 URI 组件的标点符号），都是由一个或多个十六进制的转义序列替换的。
+							2.其他字符（比如 ;/?:@&=+$,# 这些用于分隔 URI 组件的标点符号），都是由一个或多个十六进制的转义序列替换的。
 
 							请注意 encodeURIComponent() 函数 与 encodeURI() 函数的区别之处，前者假定它的参数是 URI 的一部分（比如协议、主机名、路径或查询字符串）。因此 encodeURIComponent() 函数将转义用于分隔 URI 各个部分的标点符号。
 							eg.
@@ -3452,7 +3515,7 @@ function Person(first, last, age, eye) {
 var person1 = new Person("lin","juntong",22,"black");
 //用大写首字母对构造器函数命名是个好习惯。
 //在构造器函数中，this 是没有值的。它是新对象的替代物。 当一个新对象被创建时，this 的值会成为这个新对象。
-
+ 
 为构造器添加属性:
 //与向已有对象添加新属性不同，您无法为对象构造器添加新属性;eg.Person.nationality = "English";(错误)
 //如需向构造器添加一个新属性，您必须添加到构造器函数; eg. function Person(...){ this.nationality = "English"}
@@ -3496,7 +3559,7 @@ Person.prototype.name = function() {
 
 
 
-ECMAScript 5 (2019) ES5
+ECMAScript 5 (2009) ES5
 ECMAScript 5 特性
 这些是 2009 年发布的新特性：
 	"use strict" 指令
@@ -3974,11 +4037,559 @@ function  showId() {
 
 
 
+X.JS面试题
+1. javascript的typeof返回哪些数据类型.
+答案：string,boolean,number,undefined,function,object
+
+2. 例举3种强制类型转换和2种隐式类型转换?
+答案：强制（parseInt,parseFloat,number）
+隐式（== ===）
+
+3. split() join() 的区别
+答案：前者是将字符串切割成数组的形式，后者是将数组转换成字符串
+
+4. 数组方法pop() push() unshift() shift()
+答案：push()尾部添加 pop()尾部删除
+unshift()头部添加 shift()头部删除
+
+5. IE和标准下有哪些兼容性的写法
+答案：
+
+var ev = ev || window.event
+document.documentElement.clientWidth || document.body.clientWidth
+Var target = ev.srcElement||ev.target
+
+6. ajax请求的时候get 和post方式的区别
+答案：
+一个在url后面 ，一个放在虚拟载体里面
+get有大小限制(只能提交少量参数)
+安全问题
+应用不同 ，请求数据和提交数据
+
+7. call和apply的区别
+答案：
+Object.call(this,obj1,obj2,obj3)
+Object.apply(this,arguments)
+
+8. ajax请求时，如何解析json数据
+答案：使用JSON.parse
+
+9. 事件委托是什么
+答案: 利用事件冒泡的原理，让自己的所触发的事件，让他的父元素代替执行！
+
+10. 闭包是什么，有什么特性，对页面有什么影响
+答案：闭包就是能够读取其他函数内部变量的函数,使得函数不被GC回收，如果过多使用闭包，容易导致内存泄露
+
+
+11. 如何阻止事件冒泡
+答案：ie:阻止冒泡ev.cancelBubble = true;非IE ev.stopPropagation();
+
+
+12. 如何阻止默认事件
+答案：(1)return false；(2) ev.preventDefault();
+
+
+13. 添加 删除 替换 插入到某个接点的方法
+答案：
+
+1）创建新节点
+createElement() //创建一个具体的元素
+createTextNode() //创建一个文本节点
+
+2）添加、移除、替换、插入
+appendChild() //添加
+removeChild() //移除
+replaceChild(a,b) //替换 a replace b
+insertBefore(a,b) //插入 insert a before b
+
+3）查找
+getElementsByTagName() //通过标签名称
+getElementsByName() //通过元素的Name属性的值
+getElementById() //通过元素Id，唯一性
+
+
+
+14. 解释jsonp的原理，以及为什么不是真正的ajax
+答案：动态创建script标签，回调函数
+Ajax是页面无刷新请求数据操作
+
+15. document load 和document ready的区别
+答案：document.onload 是在结构和样式,外部js以及图片加载完才执行js
+document.ready是dom树创建完成就执行的方法，原生种没有这个方法，jquery中有 $().ready(function)
+
+
+16. ”==”和“===”的不同
+答案：前者会自动转换类型,再判断是否相等
+后者不会自动类型转换，直接去比较
+
+
+17. 函数声明与函数表达式的区别？
+在Javscript中，解析器在向执行环境中加载数据时，对函数声明和函数表达式并非是一视同仁的，解析器会率先读取函数声明，并使其在执行任何代码之前可用（可以访问），至于函数表达式，则必须等到解析器执行到它所在的代码行，才会真正被解析执行。
+
+
+18. 对作用域上下文和this的理解，看下列代码：
+var User = {
+ count: 1,
+ getCount: function() {
+  return this.count;
+ }
+};
+console.log(User.getCount()); // what?
+var func = User.getCount;
+console.log(func()); // what?
+问两处console输出什么？为什么？
+答案:是1和undefined。
+　　func是在window的上下文中被执行的，所以不会访问到count属性。
+
+
+19. 看下面代码，给出输出结果。
+for(var i = 1; i <= 3; i++){  //建议使用let 可正常输出i的值
+  setTimeout(function(){
+      console.log(i);   
+  },0); 
+};
+答案：4 4 4。
+原因：Javascript事件处理器在线程空闲之前不会运行。
+解决方法：
+a.使用闭包
+这个办法的原理是创建了闭包作用域, 每次循环会生成一个新的闭包作用域, 使得延迟函数回调可以访问到正确的值
+注意, 闭包作用域里必须声明变量j, 如果是一个空的作用域, 那不会产生作用
+
+    for (var i = 1; i <= 3; i++) {
+        (function(j) {
+            setTimeout(function timer() {
+                console.log(j);
+            }, 10)
+        })(i)
+    }
+
+
+
+b.使用ES6的let
+let来劫持块作用域, 注意, 这个变量i不只会声明一次, 每次迭代的时候都会声明i, 每次迭代后, i的值都会使用
+上一个迭代的值来初始化这个变量, 形成一个块作用域
+
+    for (let i = 1; i <= 3; i++) {
+        setTimeout(function timer() {
+            console.log(i);
+        }, i*1000)
+    }
+创建了3个块作用域，每次创建块作用域都重新声明i,而且使用上次迭代的值来初始化。
+
+
+
+20. 当一个DOM节点被点击时候，我们希望能够执行一个函数，应该怎么做?
+box.onlick= function(){}
+box.addEventListener("click",function(){},false);
+<button onclick="xxx()"></button>
+
+
+21. Javascript的事件流模型都有什么?
+“事件冒泡”：事件开始由最具体的元素接收，然后逐级向上传播
+
+“事件捕捉”：事件由最不具体的节点先接收，然后逐级向下，一直到最具体的
+
+“DOM事件流”：三个阶段：事件捕捉，目标阶段，事件冒泡
+
+22. 看下列代码,输出什么?解释原因。
+var a = null;
+alert(typeof a);
+答案：object
+解释：null是一个只有一个值的数据类型，这个值就是null。表示一个空指针对象，所以用typeof检测会返回"object"
+
+
+
+23.null和undefined的区别？
+null是一个表示"无"的对象，转为数值时为0；undefined是一个表示"无"的原始值，转为数值时为NaN。
+当声明的变量还未被初始化时，变量的默认值为undefined。 null用来表示尚未存在的对象
+
+undefined表示"缺少值"，就是此处应该有一个值，但是还没有定义。
+典型用法是：
+（1）变量被声明了，但没有赋值时，就等于undefined。
+（2）调用函数时，应该提供的参数没有提供，该参数等于undefined。
+（3）对象没有赋值的属性，该属性的值为undefined。
+（4）函数没有返回值时，默认返回undefined。
+
+null表示"没有对象"，即该处不应该有值。
+典型用法是：
+（1） 作为函数的参数，表示该函数的参数不是对象。
+（2） 作为对象原型链的终点。
+
+
+
+24.new操作符具体干了什么呢?
+1、创建一个空对象，并且 this 变量引用该对象，同时还继承了该函数的原型。
+2、属性和方法被加入到 this 引用的对象中。
+3、新创建的对象由 this 所引用，并且最后隐式的返回 this 。
+
+
+
+25.js延迟加载的方式有哪些？
+defer和async、动态创建DOM方式（创建script，插入到DOM中，加载完毕后callBack）、按需异步载入js
+
+
+
+26. Flash、Ajax各自的优缺点，在使用中如何取舍？
+Flash ajax对比：
+(1)Flash适合处理多媒体、矢量图形、访问机器；对CSS、处理文本上不足，不容易被搜索。
+(2)ajax对CSS、文本支持很好，支持搜索；多媒体、矢量图形、机器访问不足。
+
+共同点：与服务器的无刷新传递消息、用户离线和在线状态、操作DOM
+
+
+27.希望获取到页面中所有的checkbox怎么做？(不使用第三方框架)
+var inputs = document.getElementsByTagName("input");//获取所有的input标签对象
+var checkboxArray = [];//初始化空数组，用来存放checkbox对象。
+for(var i=0;i<inputs.length;i++){
+  var obj = inputs[i];
+  if(obj.type=='checkbox'){
+     checkboxArray.push(obj);
+  }
+}
+
+
+
+28.写一个function，清除字符串前后的空格。（兼容所有浏览器）
+String.prototype.trim= function(){
+
+return this.replace(/^\s+/,"").replace(/\s+$/,"");
+
+}
+
+
+
+29.javascript语言特性中，有很多方面和我们接触的其他编程语言不太一样,请举例
+
+javascript语言实现继承机制的核心就是 1 (原型)，而不是Java语言那样的类式继承。Javascript解析引擎在读取一个Object的属性的值时，会沿着 2 (原型链)向上寻找，如果最终没有找到，则该属性值为 3 （undefined）；如果最终找到该属性的值，则返回结果。与这个过程不同的是，当javascript解析引擎执行“给一个Object的某个属性赋值”的时候，如果当前Object存在该属性，则改写该属性的值，如果当前的Object本身并不存在该属性，则赋值该属性的值。
 
 
 
 
 
+30.Cookie在客户机上是如何存储的
+Cookies就是服务器暂存放在你的电脑里的文本文件，好让服务器用来辨认你的计算机。当你在浏览网站的时候，Web服务器会先送一小小资料放在你的计算机上，Cookies 会帮你在网站上所打的文字或是一些选择都记录下来。当下次你再访问同一个网站，Web服务器会先看看有没有它上次留下的Cookies资料，有的话，就会依据Cookie里的内容来判断使用者，送出特定的网页内容给你。
+
+
+31.javascript是面向对象的，怎么体现javascript的继承关系？
+使用prototype原型来实现。
+
+
+32.form中的input可以设置为readonly和disable，请问2者有什么区别？
+readonly不可编辑，但可以选择和复制；值可以传递到后台
+disabled不能编辑，不能复制，不能选择；值不可以传递到后台
+
+
+33.列举javaScript的3种主要数据类型，2种复合数据类型和2种特殊数据类型。
+主要数据类型：string, boolean, number
+
+复合数据类型：function, object
+
+特殊类型：undefined，null
+
+34.Ajax原理
+(1)创建ajax对象（XMLHttpRequest/ActiveXObject(Microsoft.XMLHttp)）
+if(!XMLHttpRequest)  {var xhr = new ActiveXObjext(Microsoft.XMLHttp);}
+else 				{var xhr = new XMLHttpRequest(); }
+
+(2)打开请求
+
+xhr.open('GET', 'example.txt', true);
+
+(3)发送请求
+
+xhr.send(); 发送请求到服务器
+
+(4)接收响应
+
+xhr.onreadystatechange =function(){}
+
+i.当readystate值从一个值变为另一个值时，都会触发readystatechange事件。
+
+ii.当readystate==4时，表示已经接收到全部响应数据。
+
+iii.当status 在200-300之间或者304（缓存）执行回调函数，表示服务器成功返回页面和数据。
+
+iv.如果ii和iii内容同时满足，则可以通过xhr.responseText，获得服务器返回的内容。
+
+
+
+
+34.解释什么是Json:
+(1)JSON 是一种轻量级的数据交换格式。
+(2)JSON 独立于语言和平台，JSON 解析器和 JSON 库支持许多不同的编程语言。
+(3)JSON的语法表示三种类型值，简单值(字符串，数值，布尔值，null),数组，对象
+
+
+35.js中的3种弹出式消息提醒（警告窗口，确认窗口，信息输入窗口）的命令式什么？
+alert
+confirm
+prompt
+
+
+
+36.浏览器的滚动距离：
+可视区域距离页面顶部的距离:
+scrollTop=document.documentElement.scrollTop||document.body.scrollTop
+
+
+37.可视区的大小：
+(1)innerXXX（不兼容ie）
+window.innerHeight 可视区高度，包含滚动条宽度
+window.innerWidth  可视区宽度，包含滚动条宽度
+
+(2)document.documentElement.clientXXX(兼容ie)
+document.documentElement.clientWidth可视区宽度，不包含滚动条宽度
+document.documentElement.clientHeight可视区高度，不包含滚动条宽度
+
+
+38.offsetWidth offsetHeight和clientWidth clientHeight的区别
+(1)offsetWidth （content宽度+padding宽度+border宽度）
+(2)offsetHeight（content高度+padding高度+border高度）
+(3)clientWidth（content宽度+padding宽度）
+(4)clientHeight（content高度+padding高度）
+
+
+
+39.闭包
+	子函数能被外部调用到，则该作用链上的所有变量都会被保存下来。
+闭包的好处
+(1)希望一个变量长期驻扎在内存当中(不被垃圾回收机制回收)
+(2)避免全局变量的污染
+(3)私有成员的存在
+(4)安全性提高
+
+
+40.冒泡排序算法
+冒泡排序
+var array = [5, 4, 3, 2, 1];
+var temp = 0;
+for (var i = 0; i <array.length; i++){
+for (var j = 0; j <array.length - i; j++){
+if (array[j] > array[j + 1]){
+temp = array[j + 1];
+array[j + 1] = array[j];
+array[j] = temp;
+ }
+}
+
+
+
+41.js 实现一个函数对javascript中json 对象进行克隆
+var oldObject ="sdf";
+   var newObject = JSON.parse(JSON.stringify(oldObject));
+   console.log(newObject);
+或者
+    var a = 'dddd';
+    function cp(a){return JSON.parse(JSON.stringify(a))}
+    console.log(cp(a));
+
+
+42.请用js计算1-10000中出现的0 的次数
+var a=Date.now();
+var count=new Array(100).fill('').map((_, index) => index + 1).filter(item => /0/.test(item))
+.reduce((count, item) => { return count + (String(item).match(/0/g) || []).length}, 0);
+console.log(count);
+console.log(Date.now()-a);
+
+//fill()方法将一个数组的所有元素从开始索引填充到具有静态值的结束索引  
+//new Array(10000).fill('')  创建了一个有10000个元素的数组，元素的值是空字符串；
+//map()返回一个数组，数组的每个元素为其索引加一
+
+
+
+43.写一个function，清除字符串前后的空格。（兼容所有浏览器）
+function trim(str) {
+    if (str & typeof str === "string") {
+        return str.replace(/(^\s*)|(\s*)$/g,""); //去除前后空白符
+    }
+}
+
+
+44.降维数组
+var arr=[[1,2],[3,4]];
+function Jw(obj){
+     return Array.prototype.concat.apply([],obj);
+}
+Jw(arr);
+
+//apply：调用一个对象的一个方法，用另一个对象替换当前对象。例如：B.apply(A, arguments);即A对象应用B对象的方法。
+ 调用Array.prototype.concat（）方法的是[],参数是 arr=[[1,2],[3,4]];  最后得到[1,2,3,4]
+
+//apply最多只能有两个参数——新this对象和一个数组argArray，如果arg不是数组则会报错TypeError；
+//call则可以传递多个参数，第一个参数和apply一样，是用来替换的对象，后边是参数列表。B.call(A, args1,args2);
+
+
+
+45.判断一个字符串中出现次数最多的字符，统计这个次数
+var str = 'asdfssaaasasasasaa';
+var json = {};
+
+for (var i = 0; i < str.length; i++) {
+if(!json[str.charAt(i)]){
+json[str.charAt(i)] = 1;
+}else{
+json[str.charAt(i)]++;
+}
+};
+
+var iMax = 0;
+var iIndex = '';
+for(var i in json){
+if(json[i]>iMax){ 
+iMax = json[i];
+iIndex = i;
+}
+}
+alert('出现次数最多的是:'+iIndex+'出现'+iMax+'次');
+
+
+46.写出3个使用this的典型应用
+事件： 如onclick this->发生事件的对象
+构造函数 this->new 出来的object
+call/apply 改变this
+
+
+47.JavaScript中如何检测一个变量是一个String类型？请写出函数实现
+···
+typeof(obj) == 'string'
+obj.constructor == String;
+
+48.请说出三种减低页面加载时间的方法
+	1、压缩css、js文件
+	2、合并js、css文件，减少http请求
+	3、外部js、css文件放在最底下
+	4、减少dom操作，尽可能用变量替代不必要的dom操作
+
+
+
+
+
+49.js基础数据类型和引用类型分别是什么？这个前提条件下写一个getType，返回相应的类型
+1.基本数据类型（自身不可拆分的）：Undefined、Null、Boolean、Number、String
+2.引用数据类型（对象）：Object （Array，Date，RegExp，Function）
+ES6基本数据类型多了个symbol 据说这道题刷了百分之二十的人 感谢Abbyshen提出
+
+function gettype(nm){
+    return Object.prototype.toString.call(nm);
+}
+
+
+50.vue双向数据绑定的原理是什么
+首先传输对象的双向数据绑定 Object.defineProperty(target, key, decription),在decription中设置get和set属性（此时应注意description中get和set不能与描述属性共存）
+数组的实现与对象不同。
+同时运用观察者模式实现wather，用户数据和view视图的更新
+
+51、一个原型链继承的问题
+    // 有一个构造函数A，写一个函数B，继承A
+    function A (num) {
+        this.titileName = num;
+    }
+    A.prototype = {
+        fn1: function () {},
+        fn2: function () {}
+    }
+
+    function B（x）{
+        A.call(this,x);
+    }
+
+   	Object.setPrototyeOf(B.prototype,A.prototype);
+
+   	new B("shuaitong");
+
+
+
+52.http的cache机制，以及200状态下怎么实现 from cache（表示接触最多的就是304的from                         cache）（用于优化，没有接触过，需要理解）
+
+定义：浏览器缓存（Browser Caching）是为了加速浏览，浏览器在用户磁盘上对最近请求过的文档进行存储，当访问者再次请求这个页面时，浏览器就可以从本地磁盘显示文档，这样就可以加速页面的阅览。
+
+cache的作用：
+1、减少延迟，让你的网站更快，提高用户体验。
+2、避免网络拥塞，减少请求量，减少输出带宽。
+
+实现手段
+Cache-Control中的max-age是实现内容cache的主要手段，共有3种常用策略：max-age和Last-Modified（If-Modified-Since）的组合、仅max-age、max-age和ETag的组合。
+
+对于强制缓存，服务器通知浏览器一个缓存时间，在缓存时间内，下次请求，直接用缓存，不在时间内，执行比较缓存策略。
+对于比较缓存，将缓存信息中的Etag和Last-Modified通过请求发送给服务器，由服务器校验，返回304状态码时，浏览器直接使用缓存。
+
+
+
+53.JavaScript不借助第三个变量交换a,b两个变量值
+  i.a=[b,b=a][0]  
+		b=a 是赋值表达式、可以像普通的表达式一样用于任何表达式中，也包括在数组中使用。
+		a=[b,b=a][0]的执行顺序是：
+		第一步把b的值放入数组的0下标中；
+		第二步执行b=a赋值表达式，对b重新赋值，并把这个值放入数组的1下标，这个数组的1下标是没有用的，b=a写这里是为了让它在第三步之前执行。
+		第三步把数组的0下标赋值给a。
+
+  ii.a = a ^ b;
+	 b = a ^ b;  //b^b=0 a^0=a
+	 a = a ^ b;  //a^a=0  b^0=b
+		这个交换两个变量而无需借助第3个临时变量过程，其实现主要是基于异或运算的如下性质：
+		1.任意一个变量X与其自身进行异或运算，结果为0，即X^X=0
+		2.任意一个变量X与0进行异或运算，结果不变，即X^0=X
+		3.异或运算具有可结合性，即a^b^c=（a^b）^c=a^（b^c）
+		4.异或运算具有可交换性，即a^b=b^a
+
+
+54.js数据双向绑定原理
+
+双向数据绑定底层的思想非常的基本，它可以被压缩成为三个步骤：
+	1.我们需要一个方法来识别哪个UI元素被绑定了相应的属性
+	2.我们需要监视属性和UI元素的变化
+	3.我们需要将所有变化传播到绑定的对象和元素
+
+
+	
+eg.
+
+input=document.getElenmentById('a');
+title = document.getElementsByTagName('h1')[0];
+
+
+Object.defineProperty(input, 'val', { //这里必须定义一个新的属性名称，不可以用value，否则会报错。
+    get: function () {
+        return this.value;
+    },
+    /*一个给属性提供 getter 的方法，如果没有 getter 则为 undefined。当访问该属性时，该方法会被执行，方法执行时没有参数传入，但是会传入this对象（由于继承关系，这里的this并不一定是定义该属性的对象）。
+	默认为 undefined。
+	*/  
+    set: function (val) {       //将赋予的值放入val 
+        this.value = val;
+        title.innerHTML = val;
+    }
+    /*一个给属性提供 setter 的方法，如果没有 setter 则为 undefined。当属性值修改时，触发执行该方法。该方法将接受唯一参数，即该属性新的参数值。
+	默认为 undefined。
+	*/
+});
+
+input.val = 'good';  //同时更新input.value和h1的文字了
+
+
+
+
+
+////js时间线
+1.创建Document对象，开始解析web页面。解析HTML元素和他们的文本内容后添加Element对象和Text节点到文档中。这个阶段 document.readyState = ‘loading’ 。
+
+2.遇到link外部css，创建线程加载，并继续解析文档。
+
+3. 遇到script外部js，并且没有设置async、defer，浏览器加载，并阻塞，等待js加载完成并执行该脚本，然后继续解析文档。
+
+4.遇到script外部js，并且设置有async、defer，浏览器创建线程加载，并继续解析文档。 对于async属性的脚本，脚本加载完成后立即执行。（禁止使用document.write()）
+
+5.遇到img等，先正常解析dom结构，然后浏览器异步加载src，并继续解析文档。
+
+6当文档解析完成，document.readyState = 'interactive'。
+
+7.文档解析完成后，所有设置有defer的脚本会按照顺序执行。（禁止使用document.write()）;
+
+8.document对象触发DOMContentLoaded事件，这也标志着程序执行从同步脚本执行阶段，转化为事件驱动阶段。
+
+9当所有async的脚本加载完成并执行后、img等加载完成后，document.readyState = ‘complete’，window对象触发load事件。
+
+10.从此，以异步响应方式处理用户输入、网络事件等。
 
 
 ////五大主流浏览器介绍和内核

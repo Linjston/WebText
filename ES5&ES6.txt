@@ -1,0 +1,1021 @@
+ES5:(2011)
+ (1) JSON.parse() 将json字符串转化为对象
+  第一个参数必须是严格按照json写法的字符串，即name值要加双引号；
+  第二个参数是一个函数，遍历json   function（key,value）{}  
+  eg.
+  var string = "{"a":10,"b":'hehe'}";
+  JSON.parse(string,function(key,value){...})
+
+
+  JSON.stringify() 将json对象转换为json字符串
+  第一个参数为json对象（只是对象也会转换为json字符串）；
+  第二个参数为过滤函数： function（key,value）{......}
+  eg.var a={
+     "aa":10,
+     "bb":20
+  }
+  console.log(JSON.stringify(a,function(key,value){
+    if(value == 20) return undefined;
+    else return vlaue
+  }))
+
+  最后打印出来为 "{"aa":10}"
+
+  第三个参数，为推进 （1-10）对象里面的key值推进几个空格
+
+
+ (2) Object
+   i.Object.getPrototypeOf()  返回对象原型 （跟prototype差不多）
+	   eg.
+	    function leo(){
+	    	this.f=20
+	    }
+	    
+	    leo.prototype={
+	        a:10
+	    }
+
+	    console.log(Object.getPrototypeOf(new leo()));
+	    最后打印出来一个对象，里面有a:10 
+
+  ii.Object.keys( )  以数组的形式拿到对象的属性
+     eg.将一个对象的key值放进一个数组
+     一般使用for-in循环：
+     var obj = {
+         a:10,
+         b:20
+     };
+     var arr = [];
+     for(var i in a){
+         arr.push(i);
+     }
+
+     使用
+     arr2=Object.keys(obj);
+     最后打印出来的都一样
+
+
+  iii.Object.values() 以数组的形式拿到对象的值 跟上面的类似
+
+
+  iv.Object.create()  创建一个具有指定原型并且可以选择性的包含属性的对象
+   
+  	a.可以用于对象的继承：
+  	eg.
+  	function leo(){
+
+  	}
+  	leo.prototype.a=10;
+  	function leo2(){
+  		this.z = 20
+  	}
+  	leo2.prototype.f=10;
+  	leo.prototype = Object.create(leo2.prototype); 
+  	【leo继承leo2的原型对象，而leo.prototype = new leo2()  leo继承的是leo2的实例对象】
+  	console.log(leo.prototype.f);
+  	console.log(leo.prototype.a);//但是leo.prototype原本的对象被覆盖了，a属性没有了
+  	结果出来10和undefined
+
+【
+__proto__和constructor属性是对象所独有的；
+  每个函数在创建的时候，JS会同时创建一个该函数对应的prototype对象，
+  prototype属性是函数所独有的，因为函数也是一种对象，所以函数也拥有__proto__和constructor属性。
+
+__proto__属性的作用就是当访问一个对象的属性时，如果该对象内部不存在这个属性，那么就会去它的__proto__属性所指向的那个对象（父对象）里找，一直找，直到__proto__属性的终点null，再往上找就相当于在null上取值，会报错。通过__proto__属性将对象连接起来的这条链路即我们所谓的原型链。
+
+prototype属性的作用就是让该函数所实例化的对象们都可以找到公用的属性和方法，即f1.__proto__ === Foo.prototype。
+constructor属性的含义就是指向该对象的构造函数，所有函数（此时看成对象了）最终的构造函数都指向Function。
+
+  eg.
+   function Foo(){
+
+   }
+   var f1 = new Foo();
+
+   f1.__proto__=== Foo.prototype; 
+   f1本身没有constructor，但是Foo.prototype里面有；所以f1的构造函数为：f1.__proto__.constructor。
+】
+
+  b.不想放入一个指定原型:Object.create(null，{
+         key:{ //四个约束，默认都为true
+           	value:..,
+           	writable:false|true,//可不可以修改这个值
+           	enumerable:fales|true,
+           	//是否允许枚举，如果不允许，例如Object.keys.(obj),出来为空数组，还有for-in循环不了
+           	configurable:flase|true //是否允许删除元素   eg.delete o.a;
+         }，
+         key1:{....}
+         ...
+    })
+    
+
+
+ v.Object.seal(object)                Object.isSealed(object) //判断对象是否可以添加和删除属性
+   a.不能向该对象添加属性； 
+   b.所有属性的configurable：false，即不允许删除
+   c.但是一旦重新赋值，就会解封
+     eg. var obj = {a:20}
+      	 Object.seal(obj);
+      	 obj = {a:10}  //给对象重新赋值
+      	 obj.b=20;  //可以继续添加属性了
+
+ vi.Object.preventExtensions(object)   Object.isExtensible(object) //判断对象是否可以添加属性
+    不能向该对象添加属性；
+    但是一旦重新赋值，就会失效；
+
+
+ vii.Object.freeze(object)   //seal的升级版  Object.isFrozen(object) //判断对象是否冻结
+     a.configurable:false;
+     b.writable:falese;
+     c.不能添加属性
+     d.一旦重新赋值，就会失效
+
+ viii.Object.defineProperty()  //定义一个新属性或者修改旧属性
+      参数：对象，属性，修改内容和其约束
+      eg.
+      var obj = {a:10};
+      Object.defineProperty(obj,'a',{
+          value:20,
+          writable:false,
+          enumerable:true,
+          configurable:false
+      })
+
+
+  ix. object.hasOwnProperty(property)  
+  	确定某个对象是否具有指定的属性
+  	实例化对象和in 有区别：
+  	eg.
+  	console.log('className' in document.body) ;  // true
+  	console.log(document.body.hasOwnProperty('classname')); //false 因为不是实例化对象
+
+  	eg1.
+  	var a = new String("aaa");
+  	console.log(a.hasOwnProperty('split'));//false  
+  	console.log(String.prototype.hasOwnProperty('split')); //true  String.prototype才是对象
+
+
+  x.Object.setPrototypeOf(obj1,obj2);  //obj1的__proto__ 指向obj2
+     eg.function leo(){this.name="shuaitong";};       
+        leo.prototype.b=20;
+
+        function leo2(){this.age=10;};
+        leo2.prototype={
+        	a:function(){
+        	   alert("1");
+        	}
+        };
+
+        
+
+         Object.setPrototypeOf(leo.prototype,leo2.prototype);
+        //leo.prototype = new leo2();    ES5之前的继承方式 
+         俩者的区别：
+         1. Object.setPrototypeOf(leo.prototype,leo2.prototype); // leo的__proto__指向leo2的原型对象
+         2. leo.prototype = new leo2()等同于Object.setPrototypeOf(leo.prototype,new leo2())  
+         												   // leo.prototype指向leo2的实例对象
+         													leo2实例对象中的内部指针又可以指向其原型对象
+
+		console.log(leo.prototype.age);// 1.找不到age 为undefined;  2.可以找到age 为10
+        console.log(leo2.prototype.name);// 父类不能用子类的属性 undefined
+
+
+
+        【继承理解：
+           eg.function Person (name) {
+            this.name = name;
+        };
+
+        Person.prototype.getName = function () {    //对原型进行扩展
+            return this.name;
+        };
+
+        function Parent (age) {
+            this.age = age;
+        };
+
+        Parent.prototype = new Person('老明');//这句将Parent的原型对象指针指向Persion的实例对象
+
+        //new  Parent("name") 首先会有自己的实例对象，其实例对象中有内部指针__proto__指向它的原型对象，
+        然后其原型对象继承Persion的实例对象,即Parent.prototype是Persion的实例对象，
+        最后Persion的实例对象中有一个内部指针__proto__指向了Persion的原型对象。
+        这样就形成了原型链。
+        】
+
+
+
+(3).严格模式（ie8以前不兼容）
+   a.消除了一堆js上的静默模式，通过改变他们来抛出错误；
+   b.严格模式修复了js引擎执行优化的错误，严格模式让js运行速度更快；
+   c.严格模式集中了es的未来的版本可能会定义的一些语言。
+
+   'use strict';//在需要使用严格模式的代码前加
+
+   1.不 var 的变量不认为是全局的；
+   2.严格模式会引起静默失效，像一些永恒的变量是不允许赋值的，eg：window、NaN;
+     对象属性的约束writable:false；configurable:false;或者delete   属性赋值,删除会报错;
+   3. 属性更规整了，不允许出现不规整的属性赋值；
+   	  eg.false.true= 1;
+   	     'width'.a=1;
+   4.增加了一些关键字不允许赋值；
+     eg. var eval =1 ;
+         var arguments= 1;
+   5.函数内参数的正确使用.
+   	eg.
+   	   function leo(a,a,c){
+   	   	  'use strict';
+   	      console.log(a+c);
+   	   };
+   	   leo(1,2,3);
+
+
+(4) Array   
+	every,some,filter,forEach函数接受 3 个参数：
+		项目值
+		项目索引
+		数组本身
+
+
+    1.every   是对数组中每一项运行给定函数，如果该函数对每一项返回true,则返回true。
+     var arr = [1,2,3];
+     var resule=arr.every(function(x){
+     	console.log(x);       //一旦条件不满足，就不继续往下看了 只打印 1,2
+         return x<=2;
+     })
+     console.log(result); //false
+
+    2.some  是对数组中每一项运行给定函数，如果该函数对任一项返回true，则返回true。
+     var arr = [1,2,3];
+     var result=arr.some(function(x){
+     	console.log(x);       //一旦条件满足，就不继续往下看   最后只打印1
+         return x<=2;
+     })
+     console.log(result); //true
+
+
+     3.fileter   创建一个包含通过测试(return true)的数组元素的新数组
+      var arr = [1,2,3,'5','7',null];
+      var arr2 = arr.filter((x)=>{
+           return x<=3;
+      });
+
+      console.log(arr2);// [1,2,3]
+
+     4.forEach  为每个数组元素调用一次函数（回调函数）。【无返回值】 
+
+
+     5.map    为每个数组元素调用一次函数（回调函数）。返回一个数组
+       var arr = ['a','b'];
+      var arr2 = arr.map((x)=>{
+           return x.toUpperCase();
+      });  
+
+      console.log(arr2);// ['A','B']
+
+
+(5)bind 
+   bind类似call ,但是bind不运行；
+   eg.
+     function show (x,y){
+        console.log(this);
+     }
+
+     show.call(1,2,3); //直接运行show
+     show.bind(1,2)(3); // bind() 不运行，要在后面再加一个（），2个（）都可以传参，从左往右，此处x=2,y=3,this=1
+
+
+
+
+ES6(2015)
+	(1). 声明方式   - let/const
+     let  ————变量不允许重复声明，但可以重复赋值 ；
+      使用var:
+      eg.for(var i=0;i<10;i++){}  最后i会泄露出来，为10
+      但使用let 可以防止变量泄露：
+        let i=7;
+        for(let i=0;i<10;i++){}   
+        此处i为7
+      在循环中用 let 声明了变量 i，那么只有在循环内，变量 i 才是可见的。
+
+	【块作用域：
+		通过 var 关键词声明的变量没有块作用域。
+	    1.
+		在 ES2015 之前，JavaScript 是没有块作用域的。
+		在块 {} 内声明的变量可以从块之外进行访问。
+		eg.
+		{ 
+		  var x = 10; 
+		}
+		// 此处可以使用 x
+
+		2.可以使用 let 关键词声明拥有块作用域的变量。
+		在块 {} 内声明的变量无法从块外访问：
+		eg.
+		{ 
+		  let x = 10;
+		}
+		// 此处不可以使用 x
+
+
+
+
+	重新声明变量:
+		1.var
+		使用 var 关键字重新声明变量会带来问题。
+		在块中重新声明变量也将重新声明块外的变量：
+		eg.
+		var x = 10;
+		// 此处 x 为 10
+		{ 
+		  var x = 6;
+		  // 此处 x 为 6
+		}
+		// 此处 x 为 6
+
+
+		2.let
+		使用 let 关键字重新声明变量可以解决这个问题。
+		在块中重新声明变量不会重新声明块外的变量：
+		eg.
+		var x = 10;
+		// 此处 x 为 10
+		{ 
+		  let x = 6;
+		  // 此处 x 为 6
+		}
+		// 此处 x 为 10
+
+		允许：
+		允许在程序的任何位置使用 var 重新声明 var 变量；
+		在不同的作用域或块中，通过 let 重新声明变量是允许的；
+		eg.
+		let x = 2;   // 允许
+		{
+		  let x = 3;   // 允许
+		}
+		{
+		  let x = 4;   // 允许
+		}
+		document.getElementById("demo").innerHTML = x;  //x=2
+
+		不允许：
+		在相同的作用域，或在相同的块中，通过 var 重新声明一个 let 变量是不允许的；
+		在相同的作用域，或在相同的块中，通过 let 重新声明一个 var 变量是不允许的；
+		在相同的作用域，或在相同的块中，通过 let 重新声明一个 let 变量是不允许的；
+	】
+
+	//通过 let 关键词定义的全局变量不属于 window 对象;
+	//通过 let 定义的变量不会被提升到顶端。在声明 let 变量之前就使用它会导致 ReferenceError。
+	  变量从块的开头一直处于“暂时死区”，直到声明为止.
+
+
+
+	const  ————常量 变量不允许重复声明，也不允许重复赋值；
+
+	【块作用域:
+		在块作用域内使用 const 声明的变量与 let 变量相似。
+
+
+		在声明时赋值:
+		JavaScript const 变量必须在声明时赋值;eg.const PI = 3.14159265359;
+
+
+		不是真正的常数:
+		它没有定义常量值。它定义了对值的常量引用。
+		因此，我们不能更改常量原始值，但我们可以更改常量对象的属性。
+
+		原始值:如果我们将一个原始值赋给常量，我们就不能改变原始值.
+
+		常量对象可以更改:您可以更改常量对象的属性
+		eg.
+		// 您可以创建 const 对象：
+		const car = {type:"porsche", model:"911", color:"Black"};
+
+		// 您可以更改属性：
+		car.color = "White";
+
+		// 您可以添加属性：
+		car.owner = "Bill";
+
+
+		常量数组可以更改:您可以更改常量数组的元素
+		eg.
+		// 您可以创建常量数组：
+		const cars = ["Audi", "BMW", "porsche"];
+
+		// 您可以更改元素：
+		cars[0] = "Honda";
+
+		// 您可以添加元素：
+		cars.push("Volvo");
+
+		但是您无法重新为常量数组赋值：
+		eg.
+		const cars = ["Audi", "BMW", "porsche"];
+		cars = ["Honda", "Toyota", "Volvo"];    // ERROR】
+
+
+
+
+	重新声明：
+		在程序中的任何位置都允许重新声明 JavaScript var 变量；
+		在同一作用域或块中，不允许将已有的 var 或 let 变量重新声明或重新赋值给 const：
+		eg.
+		var x = 2;         // 允许
+		const x = 2;       // 不允许
+		{
+		  let x = 2;     // 允许
+		  const x = 2;   // 不允许
+		}
+
+		在同一作用域或块中，为已有的 const 变量重新声明声明或赋值是不允许的;
+		在另外的作用域或块中重新声明 const 是允许的：
+		eg.
+		const x = 2;       // 允许
+		const x = 3;       // 不允许
+		x = 3;             // 不允许
+		var x = 3;         // 不允许
+		let x = 3;         // 不允许
+		{
+		  const x = 2;   // 允许
+		  const x = 3;   // 不允许
+		  x = 3;         // 不允许
+		  var x = 3;     // 不允许
+		  let x = 3;     // 不允许
+		}
+	】
+
+	//通过 const 定义的变量不会被提升到顶端。const 变量不能在声明之前使用。
+
+
+
+(2)字符串
+	a. string.charCodeAt(num)   //获取字符串中某个字符的编码
+	   eg. let a='asd';  console.log(a.charCodeAt(0));   //结果为97
+
+	b.String.fromCharCode(编码)  //获取编码对应的字符
+	  eg. console.log(String.fromCharCode(97));   //结果为a
+   
+   eg.document.body.onkeydown=function(e){
+       console.log(e.keyCode);
+       console.log(String.fromCharCode(e.keyCode));
+   }
+	
+
+   c.string.repeat(n) 接收一个参数，重复n次字符串
+    eg. var str = "ads";
+        console.log(str.repeat(5));
+
+   d.string.includes(char,index) 第一个参数要查找的内容  第二个参数从哪个索引开始查  查到返回true,否则false
+     eg. var str = 'ddsadf';
+          str.includes('sa',2);  //true
+          str.includes('sa',3);  //false  
+
+   e.string.startsWith(char,index) 第一个参数要查的内容 第二个参数开始搜索的位置，默认为0 内容如果在开头，返回true
+     string.endsWith(char,index)   第一个参数要查的内容 第二个参数字符串长度             内容在最后，返回true
+
+     eg. var str = 's dffg';
+         str.startsWith('d',2);  //true
+         str.endsWith('f',4);  //true
+
+    f.模板  ${}在``中使用,当需要使用变量时，放里面    ES6字符串放在``中 
+      eg.let a = `dd`
+         let c = `ad${a}`  //'addd'
+
+      eg. var json ={
+         'div':`<div></div>`,
+         'span':`<span></span>`
+      }
+
+      document.write(`${json.div+json.span}`);
+
+      eg.函数调用 
+        function show(){};
+        show``;
+
+    g.模板深入
+      模板里面可以放入函数及传参 ；
+        eg.function show(n){
+           return n;
+        }
+        var str = `showsfa ${show(5)}`; //showsfa 5
+      模板字符串嵌套：
+      eg.
+      css:
+        outer>div{width:200px;height:200px;background:#ccc;display:none}
+        outer>div:first-of-type{display:block}
+      js:
+       var json ={
+          inputValue:['shuaitong','Linjston','bang'],
+          divValue :['最帅','最聪明','最懒']
+      }
+        var creatNode = json=>`<div class=outer>
+                  ${json.intputValue.map((v)=>`<input type=button  value=${v}>).join('')`}
+                  ${json.divValue.map((v)=>`<div>${v}</div>).join('')`}
+          </div>`    //``里面内容代表return的内容，return的为字符串
+
+      document.body.innerHTML=createNode(json);
+
+(3)数组
+    find() 方法为数组中的每个元素都调用一次函数执行：
+      当数组中的元素在测试条件时返回 true 时, find() 返回符合条件的元素，之后的值不会再调用执行函数。
+      如果没有符合条件的元素返回 undefined
+      注意: find() 对于空数组，函数是不会执行的。
+      注意: find() 并没有改变数组的原始值。
+    eg.
+    eg.查找（返回）大于 18 的第一个元素的值
+      var numbers = [4, 9, 16, 25, 29];
+      var first = numbers.find((value)=>{return value >18}); //first 为25
+
+    findIndex() 方法返回通过测试函数的第一个数组元素的索引。    
+      eg.查找（返回）大于 18 的第一个元素的值的索引
+      var numbers = [4, 9, 16, 25, 29];
+      var first = numbers.findIndex((value)=>{return value >18});
+      输出：first为：3
+
+(4)函数
+   a.箭头函数：
+    eg. x= x=>x;
+      等于
+      var x = function(x){return x}; //函数表达式
+
+
+  b.延展参数 延展类型不限
+   eg.function show (x={a:3,b:4},y=6){
+      console.log(x.a+","+x.b); //如果没有传参数，用我延展的值，x={a:3,b:4},y=6，如果传了参数，则x.b为undefined
+   }
+   show({a:2});
+
+  c.扩展运算符 ... 
+    I.数组的扩展运算符:
+      I.1 可以将数组转换为参数序列:
+       eg.function add(x, y) {
+            return x + y;
+          }
+          const numbers = [4, 38];
+          add(...numbers) // 42
+
+       eg2.//通过push函数，将一个数组添加到另一个数组的尾部
+          // ES5的 写法
+          var arr1 = [0, 1, 2];
+          var arr2 = [3, 4, 5];
+          Array.prototype.push.apply(arr1, arr2);
+
+          // ES6 的写法
+          var arr1 = [0, 1, 2];
+          var arr2 = [3, 4, 5];
+          arr1.push(...arr2);
+
+      I.2 可以复制数组
+       eg.const arr1 = [1, 2];
+          const arr2 = [...arr1];
+
+      I.3 合并数组
+      eg.var arr1 = ['a', 'b'];
+          var arr2 = ['c'];
+          var arr3 = ['d', 'e'];
+           
+          // ES5的合并数组
+          arr1.concat(arr2, arr3);
+          // [ 'a', 'b', 'c', 'd', 'e' ]
+           
+          // ES6的合并数组
+          [...arr1, ...arr2, ...arr3]
+          // [ 'a', 'b', 'c', 'd', 'e' ]
+
+      I.4 扩展运算符可以与解构赋值结合起来，用于生成数组
+       (如果将扩展运算符用于数组赋值，只能放在参数的最后一位，否则会报错。)
+       eg.let a=`<div></div>`;
+        document.write(a.repeat(5));
+
+        var divs = [...document.querySelectorAll('div')];//document.querySelectorAll('div')返回类数组
+        console.log(divs);
+
+       eg2.function show(x,...y){  
+           console.log(y); //此处y为数组，将剩下的参数放在数组y [2,3,4]
+       }
+
+       show(1,2,3,4);
+
+       eg3.扩展运算符将字符串转为真正的数组
+          [...'hello']
+          // [ "h", "e", "l", "l", "o" ]
+
+
+
+    II.对象中的扩展运算符(...)用于取出参数对象中的所有可遍历属性，拷贝到当前对象之中;
+    eg.
+    let bar = { a: 1, b: 2 };
+    let baz = { ...bar }; // { a: 1, b: 2 }
+    上述方法实际上等价于:
+    let bar = { a: 1, b: 2 };
+    let baz = Object.assign({}, bar); // { a: 1, b: 2 }  
+
+    //如果相同属性，后面对象覆盖前面对象的属性
+    let bar = {a: 1, b: 2};
+    let baz = {...bar, ...{a:2, b: 4}};  // {a: 2, b: 4}
+
+    【javascript中有两种数据类型，分别是基础数据类型和引用数据类型。基础数据类型是按值访问的，常见的基础数据类型有Number、String、Boolean、Null、Undefined，这类变量的拷贝的时候会完整的复制一份；引用数据类型比如Array，在拷贝的时候拷贝的是对象的引用，当原对象发生变化的时候，拷贝对象也跟着变化：
+    eg.
+      let obj1 = { a: 1, b: 2};
+      let obj2 = { ...obj1, b: '2-edited'}; //扩展运算符拷贝的对象是基础数据类型，因此对obj2的修改并不会影响obj1
+      console.log(obj1); // {a: 1, b: 2}
+      console.log(obj2); //  {a: 1, b: "2-edited"}
+
+    eg.
+      let obj1 = { a: 1, b: 2, c: {nickName: 'd'}}; 
+      let obj2 = { ...obj1};                //拷贝的obj中的属性c是引用型数据类型，所以所以修改会影响obj1
+      obj2.c.nickName = 'd-edited';
+      console.log(obj1); // {a: 1, b: 2, c: {nickName: 'd-edited'}}
+      console.log(obj2); // {a: 1, b: 2, c: {nickName: 'd-edited'}}
+
+    】
+  
+    eg.简易选项卡
+     [...document.quarySelectorAll['input']].find((x,y)=>{
+           x['onclick']=()=>{
+
+               [...document.quarySelectorAll('div')].find(d=>{
+                     d.style.display='none';
+               });
+               [...document.quarySelectorAll('div')][y].style.display="block";
+           };
+     });
+
+  【 
+    var bbb = document.getElementById('btn');
+    // 手动触发事件
+    if (bbb.fireEvent){
+        bbb.fireEvent('onclick');
+    }
+    else{
+        ev = document.createEvent("HTMLEvents");  
+        ev.initEvent("click", false, true);  
+        bbb.dispatchEvent(ev);  
+    }
+
+    // jquery触发
+    // bbb.trigger('click');
+  】
+
+
+
+  d.生成器函数(Generator)
+    // 生成器函数和普通的函数不一样，调用它的话函数并不会立刻执行
+    //它会返回此生成器的迭代器,迭代器是一个对象，每调用一次next就可以返回一个值对象
+    //第一次调用next会返回一个对象，此对象有两个属性，一个是value就是yield后面那个值，一个是done表示是否迭代完成
+    //每当调用生成器对象的.next()方法时，函数恢复运行直至遇到下一个yield表达式，其作用是用于迭代。因此k.next()的目的是为了返回不同的字符串。在最后的k.next()中，使用done:true表示结束。到达函数末端意味着返回的结果是undefined，所以代码片段中使用value: undefined结尾
+
+    function* 函数名(){
+        yield ()=>{
+          ...
+        };
+
+        yield ()=>{
+         ....
+        };
+
+    }
+
+    调用： 函数名().next().value();
+    按顺序执行yield的函数
+
+
+    eg.function* show(){
+        console.log("tingle");
+        yield ()=>{
+           console.log("1");
+        };
+
+        yield ()=>{
+           console.log("2");
+        };
+
+        yield ()=>{
+           console.log("3");
+        };
+
+    };
+    var k = show();
+    document.onclick =()=>{
+       var z=k.next();
+       z.value();
+       console.log(z.done);
+      
+    }
+    //点击第一次，出来1；第二次点击，使用第二个yield ,出来2
+
+    e.对象中的set 和get
+      var json ={
+          set  leo(x){ 
+                console.log(x)
+          },
+          get  leo(){
+               return {
+                    get oxe(){
+                        console.log("3");
+                    },
+                    set oxe(x){
+                        console.log(x);
+                    }
+               };
+          },
+          //leo:1    如果get leo() 和leo 同时存在，为undefined
+      }
+
+      json.leo=1; //赋值时使用set 的leo(),1为参数 只支持一个参数
+
+      console.log(json.leo.oxe); //不赋值时使用get 的leo(),返回一个对象，再调用oxe()
+      json.leo.oxe="shuaitong"; //赋值使用set oxe(x)
+
+    f.其他：
+     i. in    判断属性是否在对象上
+       eg. var json ={
+          'leo':18
+       }
+       console.log('leo' in json);// true 
+
+       eg.兼容事件绑定【ie支持attachEvent;谷歌支持addEventListenr】
+        function addEvent(obj,event,fn){
+            'attachEvent' in window ? obj.attachEvent('on'+event,fn):obj.addEventListenr(event,fn);
+        }
+
+     ii.for of  【键值对的没法使用，例如对象用不了】
+       eg.  var arr = [3,4,6,2];
+         for(var i of arr){console.log(i);}  //3,4,6,2
+
+     iii.new Set() 为一个对象 ,跟数组用的多
+       eg.var set = new Set();  
+        特性：禁止重复；
+         set.add（1）;  
+         set.add(1);
+         set.add(2);//[1,2]  创建的类数组 
+
+         set.has(1);//查找有没有该元素  true
+         set.size  //类似数组的length 指的是长度
+         set.keys()
+         set.values() //俩者一样，因为只有键值
+         for(var i of set.values()){console.log(i);}
+         set.delete(2);//删除元素
+         set.clear(); //清除全部
+
+      iv.new Map() 为一个对象，跟对象用的多
+        eg.var map = new Map();
+           map.set('key','value');//添加键值对  
+           map.set('key2','value2'); //{'key' =>'value','key2'=>'value2'}
+
+
+
+ (5)面向对象  
+    a.结构赋值
+     eg. let [a,b,c] = [10,20,30];  
+     变量跟后面的结构一样就行：
+     eg. let [a,[b,c]]= [10,[20,30]];
+       let {a,b}= {a:10,b:20}   //使用对象赋值，key值和变量名要相同   
+
+    用于函数传参：
+    eg. function show(z=[1,2,3]){
+       var [a,b,c] = z;
+       var obj ={
+          'name':'shuaitong',
+          'age':10
+       }
+
+       var {name,age}=obj; //直接用name,age   不用再obj.name或者obj.age     
+    }
+    show([3,4,5]);
+
+
+    b.ES6中的类 
+     class a{
+        constructor(){
+          this.name ='shuaitong';
+          this.s=function(){}
+        };
+        show(){}
+     }
+     new a();
+
+     //constructor(){}构造实例对象，class 除了构造函数的其他属于原型
+
+     eg.选项卡
+
+      <div id="box">
+        3个input 按钮
+        3个div
+      </div>
+
+      class tab(){
+         constructor(x){
+            this.box = document.getElementById(x);
+            this.allInput = this.box.getElementsByTagName('input');
+            this.allDiv = this.box.getElementsByTagName('div');
+            tihs.init();
+            this.index=0;
+         };
+         init(){
+             for(let i=0;i<this.allInput.length,i++){
+                 this.allInput[i].onclick =()=>{
+                  this.index=i;
+                  this.hide();
+                  this.show(this.index);
+                }.bind(this)
+             }
+         };
+         hide(){
+            for(let i=0;i<this.allInput.length,i++){
+                this.allInput[i].style.className="";
+                this.allDiv[i].style.display='none';
+            }
+         };
+
+         show(x){
+                this.allInput[x].style.className="active";
+                this.allDiv[x].style.display='block';
+         }
+
+      }
+
+      class  autoplay extends tab{
+          construtor(x){
+             super(x);
+          }
+          autoplay(){
+             setInterval(()=>{    //这里箭头函数谁使用this指谁，但如果是function，指的是window
+                this.index++;
+                if(this.index == this.allInput.length) this.index=0;
+                this.hide();
+                this.show(this.index);
+             },1000);         
+          }
+      }
+
+      new tab('box');
+      new autoplay('box').autoplay();
+
+    c.ES6继承 extends
+      class  parent{
+          constructor(l){
+            this.name=l;
+            this.sss='sss';
+            console.log("fuqin");
+          }
+
+          m(){ console.log(this.name)}
+      }
+
+      class child extends parent{
+          constructor(l){
+              super(l); // 先调用父亲的构造函数，还有将父亲的私有属性继承过来   child继承parent的方法
+              this.age=10;
+              this.name='shuaitong';
+              this.b=function(){}
+          }
+          a(){}
+      }
+
+      new  child('adf');    // 首先child实例化一个对象，对象中继承父对象constructor中的属性以及自己添加的属性；
+                              然后__proto__指向自己的原型，里面主要是child自己的方法，然后下一个__proto__指向父对象的原型，里面是父对象的方法
+
+   【1、当作函数使用:
+    super()在这里相当于Parent.prototype.constructor.call(this) 调用的是Parent的构造函数，但是返回的确是child的实例，super内部的this指的是child;
+
+    2、当作对象使用:
+    eg.super内部的this指的是子类实例
+    class A {
+       constructor() {
+          this.x = 1;
+       }
+   }
+
+    class B extends A {
+       constructor() {
+          super();
+          this.x = 2;
+          super.x = 3;   //通过super对某个属性赋值，这时super就是this，赋值的属性会变成子类实例的属性。
+          console.log(super.x); // undefined
+          console.log(this.x); // 3
+       }
+    }
+    let b = new B();
+  
+    在普通方法中，指向父类的原型对象：
+    eg.
+    class A {
+         constructor() {
+                super();
+                console.log(super.c()); // 2
+          }
+         c() {
+              return 2;
+         }
+    }
+
+    class B extends A {
+         constructor() {
+                super();
+                console.log(super.c()); // 2
+          }
+    }
+    let b = new B();
+    //子类B当中的super.c()，就是将super当作一个对象使用。
+    这时，super在普通方法之中，指向A.prototype，所以super.c()就相当于A.prototype.c()。
+   】
+     
+
+     ES5：js 几种继承方式：
+     方法1：构造函数继承
+        function Father1(){
+            this.father_Property1 = "父类属性1"
+            this.father_Property2 = "父类属性2"
+        }
+        Father1.prototype.father_Property3 = "父类原型上的属性3"
+        function Son1(){
+            Father1.call(this);//或apply  
+            this.name="son";
+        }
+
+        new Son1();
+        //用构造函数实现继承时，子类无法继承父类原型上的属性，也就是Son1的__proto__没有指到父类上
+
+
+      方法2：原型链式继承
+        eg. ES6之前的继承
+           function a(){
+              this.name= 'a';
+              this.age=10;
+              this.f=function(){}
+           }
+           a.prototype.aa1='aa1';
+           function  b(){
+              this.bname='b';
+              this.bage=29;
+           }
+           b.prototype = new a();   //原型链继承
+
+           var b1=new b();
+           var b2=new b();    
+        //  首先b实例化一个对象，对象中是自己构造函数中的属性，然后__proto__指向的是a的实例化对象，
+            因为b.prototype = new a(); b的原型指针指向了a的实例化对象， 最后__proto__指向a自己的原型对象
+        //问题在于原型链继承会导致 b1和b2共用父类，其中一个改了父类的属性，双方都改变；
+
+
+      方法3：组合式继承
+        function Father(){
+            this.father_Property1 = ["父类属性01","父类属性02","父类属性03"]
+            this.father_Property2 = "父类属性2"
+        }
+        Father.prototype.fa='father';
+        function Son(){
+            Father.call(this);//或apply
+        }
+        Son.prototype = new Father();
+        var  b1 = new Son();
+        var  b2 = new Son();   
+        //这样b1,b2都继承了自己父类的属性，相互之间不会影响，也指定了原型对象
+        //  首先Son实例化一个对象，对象中是自己构造函数中的属性和父亲Father的属性；
+            然后__proto__指向的是Father的实例化对象，因为Son.prototype = new Father(); b的原型指针指向了a的实例化对象；
+            最后__proto__指向Father自己的原型对象。
+        //父类的构造函数是被执行了两次的，第一次：Son1.prototype = new Father1();第二次：实例化的时候会被执行；
+          所以Son的实例会有父类的属性，然后__proto__指向的父类实例对象也有相同的属性
+
+
+      优化:Son.prototype = Object.create(Father.prototype); 代替  Son.prototype = new Father();
+        直接将Son的__proto__直接指向Father的原型，而不指向Father的实例化对象，这样就避免了2次实例化；
+
+    d.
+
+
+
+
+ (6).Promise
+ Promise 是一个对象；
+ 
+  new Promise (function(resolve,reject){
+ 	 resolve();// 运行then函数
+ 	 reject();//运行catch函数
+  }).then(function(){
+
+  }).catch(function(){
+ 
+  })  //另一种写法，不写catch,在then(function(){},function(){}) 写多一个函数，reject()的时候运行第二个函数;
+
+
+Promise 静态方法：
+  Promise.resolve([..,..]).then();   //参数放在数组中
+  Promise.reject([..,...]).catch();
+
+  //竞速方法：
+  Promise.race([new Promise(function(resolve,reject){
+          setTimeout(resolve,2000);
+  },new Promise(function(resolve,reject){
+          setTimeout(resolve,1000);
+  }]).then().catch（）   //哪个快看哪个，参数为数组  1s后运行then()
+
+
+  //规整方法 --只要有一个失败，就reject(),只有全部成功，才resolve()
+  Promise.all([new Promise(function(resolve,reject){
+          setTimeout(resolve,2000);
+  },new Promise(function(resolve,reject){
+          setTimeout(resolve,1000);
+  }]).then().catch()     //2s后运行then()  []数组中的所有promise对象一起执行

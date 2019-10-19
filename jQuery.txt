@@ -1180,4 +1180,288 @@ end() 							方法结束当前链条中的最近的筛选操作，并将匹配�
 
 
 ///jQuery-Ajax
-  								
+//jQuery方法
+$.ajax() 							方法执行 AJAX（异步 HTTP）请求。 	
+								所有的 jQuery AJAX 方法都使用 ajax() 方法。该方法通常用于其他方法不能完成的请求。
+								$.ajax({name:value, name:value, ... })
+
+								该参数规定 AJAX 请求的一个或多个名称/值对。
+								async				布尔值，表示请求是否异步处理。默认是 true。
+								type				规定请求的类型（GET 或 POST）。
+								url					规定发送请求的 URL。默认是当前页面。
+								xhr					用于创建 XMLHttpRequest 对象的函数。
+								username			规定在 HTTP 访问认证请求中使用的用户名。
+								password			规定在 HTTP 访问认证请求中使用的密码。			
+								data				规定要发送到服务器的数据。
+								timeout				设置本地的请求超时时间（以毫秒计）。
+								context				为所有 AJAX 相关的回调函数规定 "this" 值。				scriptCharset		规定请求的字符集。
+								jsonp				在一个 jsonp 中重写回调函数的字符串。
+								jsonpCallback		在一个 jsonp 中规定回调函数的名称。
+								traditional			布尔值，规定是否使用参数序列化的传统样式。
+
+								cache				
+							    布尔值，表示浏览器是否缓存被请求页面。默认是 true。
+							    dataType 为 script 和 jsonp 时默认为 false。设置为 false 将不缓存此页面。
+
+								global			
+								布尔值，规定是否为请求触发全局 AJAX 事件处理程序。默认是 true。
+
+								contentType			
+								发送数据到服务器时所使用的内容类型。
+								默认是："application/x-www-form-urlencoded"。	
+
+								dataType			预期的服务器响应的数据类型。
+									"xml": 返回 XML 文档，可用 jQuery 处理。
+									"html": 返回纯文本 HTML 信息；包含的 script 标签会在插入 dom 时执行。
+									"script": 返回纯文本 JavaScript 代码。不会自动缓存结果。除非设置了 "cache" 			参数。注意：在远程请求时(不在同一个域下)，所有 POST 请求都将转为 			  GET 请求。（因为将使用 DOM 的 script标签来加载）
+									"json": 返回 JSON 数据 。
+									"jsonp": JSONP 格式。使用 JSONP 形式调用函数时，如 "myurl?callback=?" 			jQuery 将自动替换 ? 为正确的函数名，以执行回调函数。
+									"text": 返回纯文本字符串
+
+							
+								ifModified	布尔值，规定是否仅在最后一次请求以来响应发生改变时才请求成功。默认是false。
+
+								
+								processData	
+								布尔值，规定通过请求发送的数据是否转换为查询字符串。默认是 true。
+								
+								//请求前后的函数
+								beforeSend(xhr) 			发送请求前运行的函数。
+								error(xhr,status,error)	 	如果请求失败要运行的函数。	
+								dataFilter(data,type)	
+								用于处理 XMLHttpRequest原始响应数据的函数。在请求成功之后调用。传入返回的数据以及 "dataType" 参数的值。并且必须返回新的数据（可能是处理过的）传递给 success 回调函数。
+								success(result,status,xhr)	当请求成功时运行的函数。
+								complete(xhr,status)	请求完成时运行的函数（在请求成功或失败之后均调用，即在 						   success 和 error 函数之后）。
+
+								【如果指定了 script 或者 jsonp 类型，那么当从服务器接收到数据时，实际上是用了 <script> 标签而不是 XMLHttpRequest 对象。这种情况下，$.ajax() 不再返回一个 XMLHttpRequest 对象，并且也不会传递事件处理函数，比如 beforeSend。】
+													
+
+							    eg.
+							    $.ajax({url:"demo_ajax_load.txt",async:true,success:function(result){
+									$("div").html(result);
+								}});
+
+
+
+$.ajaxSetup()					为将来的 AJAX 请求设置默认值
+								$.ajaxSetup({name:value, name:value, ... })
+								键/值对 跟 $.ajax()一样
+								eg.
+								$.ajaxSetup({
+								  url: "/xmlhttp/",
+								  global: false,
+								  type: "POST"
+								});
+								$.ajax({ data: myData });
+
+
+
+$.get() 						方法使用 HTTP GET 请求从服务器加载数据。
+								$.get(URL,data,success(data,status,xhr),dataType)
+								该函数是简写的 Ajax 函数，等价于：
+									$.ajax({
+									  url: url,
+									  data: data,
+									  success: success,
+									  dataType: dataType
+									});
+
+								eg.
+								$("button").click(function(){
+									$.get("/try/ajax/demo_test.php",function(data,status){
+										alert("数据: " + data + "\n状态: " + status);
+									});
+								});
+
+$.getJSON()						使用 HTTP GET 请求从服务器加载 JSON 编码的数据	
+								$(selector).getJSON(url,data,success(data,status,xhr))
+								该函数是简写的 Ajax 函数，等价于：
+									$.ajax({
+									  url: url,
+									  data: data,
+									  success: callback,
+									  dataType: json
+									});							
+
+								$.each()  $.each()是对数组，json和dom结构等的遍历
+								eg1.遍历一维数组
+								var arr1=['aa','bb','cc','dd'];
+ 								$.each(arr1,function(i,val){ ..}
+ 								//两个参数，第一个参数表示遍历的数组的下标，第二个参数表示下标对应的值
+
+ 								eg2.遍历二维数组
+ 								var arr2=[['aaa','bbb'],['ccc','ddd'],['eee','fff']];
+								$.each(arr2,function(i,item){...}
+							   //两个参数，第一个参数表示下标，第二个参数表示一维数组中的每一个数组
+
+							   eg3.处理json
+							   var json1={key1:'a',key2:'b',key3:'c'};
+								 $.each(json1,function(key,value){...})  //遍历键值对
+
+							   eg4.处理dom元素
+							   $.each($('input:hidden'),function(i,val){...}//i索引，val value值
+
+							   eg.
+							   $("button").click(function(){
+									$.getJSON("demo_ajax_json.js",function(result){
+										$.each(result, function(i, field){  
+										//遍历result这个对象，i和field分别为键和值
+											$("div").append(field + " ");
+										});
+									});
+								});
+
+
+$.getScript()					使用 AJAX 的 HTTP GET 请求从服务器加载并执行 JavaScript
+								$(selector).getScript(url,success(response,status))
+								等同于：
+								$.ajax({
+									  url: url,
+									  dataType: "script",
+									  success: success
+									});
+
+								$.getScript("demo_ajax_script.js"，functio(response){
+  									$("div").text(response);
+								});
+
+
+$.post()					    使用 AJAX 的 HTTP POST 请求从服务器加载数据
+								$(selector).post(URL,data,success(data,status,xhr),dataType)
+								等同于：
+								$.ajax({
+									  type: 'POST',
+									  url: url,
+									  data: data,
+									  success: success,
+									  dataType: dataType
+									});
+
+								对于 jQuery 1.5，也可以向 success 回调函数传递 jqXHR 对象（jQuery 1.4 中传递的是 XMLHttpRequest 对象）
+								eg.
+								$("input").keyup(function(){
+									txt=$("input").val();
+									$.post("demo_ajax_gethint.php",{suggest:txt},function(result){
+										$("span").html(result);
+									});
+								});
+
+
+
+
+$.param()						创建数组或对象的序列化表示，适合在 URL 查询字符串或 Ajax 请求中使用。			
+								$.param(object,trad)
+									object	必需。规定要序列化的数组或对象。
+									trad	可选。布尔值，指定是否使用参数序列化的传统样式。
+								【序列化的值可在生成 AJAX 请求时用于 URL 查询字符串中】
+								eg.
+								personObj=new Object();
+									personObj.firstname="John";
+									personObj.lastname="Doe";
+									personObj.age=50;
+									personObj.eyecolor="blue"; 
+									$("button").click(function(){
+										$("div").text($.param(personObj));
+									});
+								序列化后：firstname=John&lastname=Doe&age=50&eyecolor=blue
+
+								对于 jQuery 1.3，如果传递的参数是一个函数，那么用 .param() 会得到这个函数的返回值，而不是把这个函数作为一个字符串来返回。
+
+								对于 jQuery 1.4，.param() 方法将会通过深度递归的方式序列化对象，以便符合现代化脚本语言的需求，比如 PHP、Ruby on Rails 等。你可以通过设置 jQuery.ajaxSettings.traditional = true; 来全局地禁用这个功能。
+
+
+//$(selector)的方法
+serialize() 					方法通过序列化表单值，创建 URL 编码文本字符串。
+								序列化的值可在生成 AJAX 请求时用于 URL 查询字符串中。
+								.serialize() 方法创建以标准 URL编码表示的文本字符串。它的操作对象是代表表单元素集合的 jQuery 对象。
+
+								【注释：只会将”成功的控件“序列化为字符串。如果不使用按钮来提交表单，则不对提交按钮的值序列化。如果要表单元素的值包含到序列字符串中，元素必须使用 name 属性。】
+								eg.
+								<form>
+								  <div><input type="text" name="a" value="1" id="a" /></div>
+								  <div><input type="text" name="b" value="2" id="b" /></div>
+								  <div><input type="hidden" name="c" value="3" id="c" /></div>
+								  <div>
+								    <textarea name="d" rows="8" cols="40">4</textarea>
+								  </div>
+								  <div><select name="e">
+								    <option value="5" selected="selected">5</option>
+								    <option value="6">6</option>
+								    <option value="7">7</option>
+								  </select></div>
+								  <div>
+								    <input type="checkbox" name="f" value="8" id="f" />
+								  </div>
+								  <div>
+								    <input type="submit" name="g" value="Submit" id="g" />
+								  </div>
+								</form>
+
+								$('form').submit(function() {
+								  alert($(this).serialize());
+								  return false;
+								});
+
+								输出标准的查询字符串：a=1&b=2&c=3&d=4&e=5
+
+
+serializeArray()				编码表单元素集为 names 和 values 的数组
+								$(selector).serializeArray()
+								通过序列化表单值来创建对象（name 和 value）的数组。
+								您可以选择一个或多个表单元素（如输入和/或文本区），或表单元素本身。
+								eg.
+								x=$("form").serializeArray();  //x为数组[{name:value},{name:value}....]
+								$.each(x, function(i, field){
+									$("#results").append(field.name + ":" + field.value + " ");
+								});
+
+								
+
+
+
+
+load()							从服务器加载数据，并把返回的数据放置到指定的元素中	
+								【注意：还存在一个名为 load 的 jQuery 事件方法。调用哪个，取决于参数。	】
+								$(selector).load(url,data,function(response,status,xhr))
+								 function参数：
+									response - 包含来自请求的结果数据
+									status - 包含请求的状态（"success"、"notmodified"、"error"、"timeout"、"parsererror"）
+									xhr - 包含 XMLHttpRequest 对象	
+
+								eg.通过input的输入，显示匹配项。
+								$(document).ready(function(){
+								    $("input").keyup(function(){
+								        txt=$("input").val();  //获得input的value值
+								        $("span").load("demo_ajax_gethint.php",{suggest:txt});
+								    });
+								});											
+
+								eg.使用回调函数
+								$(document).ready(function(){
+									$("button").click(function(){
+										$("div").load("demo_cd_catalog.xml",function(response,status,xhr){
+											if (status=="success"){
+												$("div").html("<ol></ol>");  
+												$(response).find("artist").each(function(){
+													var item_text = $(this).text();
+													$('<li></li>').html(item_text).appendTo('ol');
+												}
+											else{
+													$("div").html("错误信息: <br/>" + xhr.status + " " + xhr.statusText)
+												}
+											alert("总共有 "+$(response).find("cd").size()+" 张 CD")
+										 
+										});
+									});
+								});
+								//$(response).find("artist") response返回的是xml，通过find找到其后代元素artist;
+								在对每个artist元素each遍历。
+
+
+
+ajaxStart()						规定第一个 AJAX 请求开始时运行的函数, AJAX 请求发送前执行函数。
+								它是一个 Ajax 事件。	
+								详细说明:
+								无论在何时发送 Ajax 请求，jQuery 都会检查是否存在其他 Ajax 请求。如果不存在，则 jQuery 会触发该 ajaxStart 事件。在此时，由 .ajaxStart() 方法注册的任何函数都会被执行。
+								【注意：自 jQuery 版本 1.8 起，该方法只被附加到文档】
+								$(document).ajaxStart(function())
