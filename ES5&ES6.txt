@@ -763,6 +763,7 @@ ES6(2015)
         eg.var map = new Map();
            map.set('key','value');//添加键值对  
            map.set('key2','value2'); //{'key' =>'value','key2'=>'value2'}
+           /////
 
 
 

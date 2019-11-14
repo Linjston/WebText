@@ -106,7 +106,7 @@ join()		:把数组的所有元素放入一个字符串。元素通过指定的�
             var arr = ["a","b","c"];  arr.join(".");     结果：a.b.c
 
 
-pop()		:删除并返回数组的最后一个元素  
+pop()		:删除并返回数组的最后一个元素  （改变了原数组）
             语法：arrayObject.pop()
             返回值 	arrayObject 的最后一个元素。
             pop() 方法将删除 arrayObject 的最后一个元素，把数组长度减 1，并且返回它删除的元素的值。
@@ -117,7 +117,7 @@ pop()		:删除并返回数组的最后一个元素
                   a,b
 
 
-push()		:向数组的末尾添加一个或更多元素，并返回新的长度。
+push()		:向数组的末尾添加一个或更多元素，并返回新的长度。（改变了原数组）
  			语法：arrayObject.push(newelement1,newelement2,....,newelementX)
  			返回值	把指定的值添加到数组后的新长度。
  			push() 方法可把它的参数顺序添加到 arrayObject 的尾部。
@@ -128,9 +128,9 @@ push()		:向数组的末尾添加一个或更多元素，并返回新的长度�
             结果：5
             	 a,b,c,d,e
 
-shift()		:删除并返回数组的第一个元素,类似pop()
+shift()		:删除并返回数组的第一个元素,类似pop()（改变了原数组）
 
-unshift()	:向数组的开头添加一个或更多元素，并返回新的长度。
+unshift()	:向数组的开头添加一个或更多元素，并返回新的长度。（改变了原数组）
 			语法：arrayObject.unshift(newelement1,newelement2,....,newelementX)
 			参数
 			newelement1	必需。向数组添加的第一个元素。
@@ -146,7 +146,8 @@ unshift()	:向数组的开头添加一个或更多元素，并返回新的长度
             	 d,e,a,b,c
 
 
-reverse()	：颠倒数组中元素的顺序。
+reverse()	：将数组中的元素顺序颠倒。（改变了原数组）
+
  			 eg.<script type="text/javascript">
 				var arr = new Array(3)
 				arr[0] = "George"
@@ -173,7 +174,7 @@ slice()		:从某个已有的数组返回选定的元素
 
 
 
-splice()	:删除元素，并向数组添加新元素。
+splice()	:删除元素，并向数组添加新元素。（改变原数组）
 			向/从数组中添加/删除项目，然后返回被删除的项目,该方法会改变原始数组。
 			语法：arrayObject.splice(index,howmany,item1,.....,itemX)
 			参数
@@ -192,7 +193,7 @@ splice()	:删除元素，并向数组添加新元素。
 
 
 
-sort()		:对数组的元素进行排序
+sort()		:对数组的元素进行排序（改变原数组）
 			语法：arrayObject.sort(sortby)
 			参数
 			sortby	可选。规定排序顺序。必须是函数。
@@ -202,7 +203,7 @@ sort()		:对数组的元素进行排序
 			如果想按照其他标准进行排序，就需要提供比较函数，该函数要比较两个值，然后返回一个用于说明这两个值的相对顺序的数字。比较函数应该具有两个参数 a 和 b，其返回值如下：
 				若 a 小于 b，在排序后的数组中 a 应该出现在 b 之前，则返回一个小于 0 的值。
 				若 a 等于 b，则返回 0。
-				若 a 大于 b，则返回一个大于 0 的值。
+				若 a 大于 b，在排序后的数组中 a 应该出现在 b 之后,则返回一个大于 0 的值。
 
 			返回值
 			对数组的引用。请注意，数组在原数组上进行排序，不生成副本。
@@ -233,6 +234,35 @@ sort()		:对数组的元素进行排序
            arr1.sort(compare('age'));
            结果：[{name:zz,age:26},{name:gg,age:30},{name:ll,age:34}]
 
+
+Array.from() :方法从一个类似数组或可迭代对象创建一个新的，浅拷贝的数组实例。
+			  语法：Array.from(arrayLike[, mapFn[, thisArg]])
+			  参数：arrayLike  想要转换成数组的伪数组对象或可迭代对象。
+			       mapFn 	  可选参数，如果指定了该参数，新数组中的每个元素会执行该回调函数。
+			       thisArg    可选参数，执行回调函数 mapFn 时 this 对象。
+
+			  返回值：一个新的数组实例
+
+			  eg.从字符串生成数组：
+			   Array.from('foo'); // [ "f", "o", "o" ]
+
+			  eg2.从 Set 生成数组(可用与去除数组重复项)
+			   const set = new Set(['foo', 'bar', 'baz', 'foo']);
+			   Array.from(set);// [ "foo", "bar", "baz" ]
+
+			  eg3.从类数组对象（arguments）生成数组
+			   function f() {
+				  return Array.from(arguments);
+				}
+				f(1, 2, 3);//[1,2,3]
+
+			  eg4.从 Map 生成数组
+			  	const map = new Map([[1, 2], [2, 4], [4, 8]]);
+				Array.from(map);  // [[1, 2], [2, 4], [4, 8]]
+
+				const mapper = new Map([['1', 'a'], ['2', 'b']]);
+				Array.from(mapper.values());     // ['a', 'b'];
+				Array.from(mapper.keys());		// ['1', '2'];
 
 
 
@@ -320,7 +350,7 @@ valueOf()	：返回数组对象的原始值
 
 
 
-会返回新数组的方法：concat()、slice()、splice()【返回删除部分】
+不修改原组的方法：concat()、slice()、join();
 
 
 
@@ -339,7 +369,7 @@ new Array();
 
 new Array(size);    
 //参数 		size 是期望的数组元素个数。返回的数组，length 字段将被设为 size 的值。
-//返回值 	当调用构造函数时只传递给它一个数字参数，该构造函数将返回具有指定个数、元素为 undefined 的数组。		
+//返回值 	当调用构造函数时只传递给它一个数字参数，该构造函数将返回具有【指定个数、元素为 undefined 】的数组。		
 
 new Array(element0, element1, ..., elementn); 
 //参数 		element ..., elementn 是参数列表。当使用这些参数来调用构造函数 Array() 时，新创建的数组的元素就会被初始化为这些值。它的 length 字段也会被设置为参数的个数
@@ -381,8 +411,8 @@ Array.isArray(fruits);     // 返回 true
 function isArray(x) {
     return x.constructor.toString().indexOf("Array") > -1;
 }
-
-
+// return  Object.prototype.toString.call(x).indexOf("Array") >-1
+						
 假如参数为数组，则上面的函数始终返回 true。
 或者更准确的解释是：假如对象原型包含单词 "Array" 则返回 true。
 
@@ -391,8 +421,8 @@ var fruits = ["Banana", "Orange", "Apple", "Mango"];
  
 document.getElementById("demo").innerHTML = fruits instanceof Array;// 返回 true
 
-
-
+//instanceof用于判断一个变量是否某个对象的实例
+//eg.function test(){};var a=new test();alert(a instanceof test)会返回true。
 
 查找最高（或最低）的数组值：
 var points = [40, 100, 1, 5, 25, 10];
@@ -410,7 +440,7 @@ function myArrayMax(arr) {
     return Math.max.apply(null, arr);
 }
 
-（Math.max.apply([1, 2, 3]) 等于 Math.max(1, 2, 3)。）
+（Math.max.apply(null,[1, 2, 3]) 等于 Math.max(1, 2, 3)。）
 
 对数组使用 Math.min()
 您可以使用 Math.min.apply 来查找数组中的最低值：
@@ -426,7 +456,10 @@ function myArrayMin(arr) {
 数组迭代方法：
 1.
 Array.forEach()   【所有浏览器都支持 Array.forEach()，除了 Internet Explorer 8 或更早的版本】
-forEach() 方法为每个数组元素调用一次函数（回调函数）。【无返回值】
+forEach() 方法为每个数组元素调用一次函数（回调函数）。【无返回值】 
+//当数组元素为undefined时，该数组元素不调用函数；
+//eg.var arr=[1,2,3]; arr[4]=5;  var i=0;  arr.forEach(()=>{i++;}); 
+//结果i为4,只调用了4次函数,arr[3]的值为undefined,不调用函数
 eg.
 var txt = "";
 var numbers = [45, 4, 9, 16, 25];
@@ -453,6 +486,7 @@ Array.map()
 map() 方法通过对每个数组元素执行函数来创建新数组。
 map() 方法不会对没有值的数组元素执行函数。
 map() 方法不会更改原始数组。
+//当数组元素为undefined时，该数组元素不调用函数；
 eg.
 var numbers1 = [45, 4, 9, 16, 25];
 var numbers2 = numbers1.map(myFunction);
@@ -534,16 +568,20 @@ reduceRight() 方法不会减少原始数组。
 6.Array.every()
 every() 方法检查所有数组值是否通过测试。
 every()是对数组中每一项运行给定函数，如果该函数对每一项返回true,则返回true。
+//当有一个函数检查到false,停止后面几项调用函数
 
 eg.这个例子检查所有数组值是否大于 18：
 var numbers = [45, 4, 9, 16, 25];
+var i=0;
 var allOver18 = numbers.every(myFunction);
 
 function myFunction(value, index, array) {
+  i++;
   return value > 18;
 }
-
+console.log(i);
 输出：allOver18为：false
+最后i为2；因为检查到 第二项 4>18 为false，后面停止继续调用函数
 
 请注意此函数接受 3 个参数：
 	项目值
@@ -554,14 +592,20 @@ function myFunction(value, index, array) {
 7.Array.some()
 some() 方法检查某些数组值是否通过了测试。
 some()是对数组中每一项运行给定函数，如果该函数对任一项返回true，则返回true。
+//当有一个函数检查到true,停止后面几项调用函数
+
 eg.检查某些数组值是否大于 18：
+var i=0;
 var numbers = [45, 4, 9, 16, 25];
 var someOver18 = numbers.some(myFunction);
 function myFunction(value, index, array) {
+  i++;
   return value > 18;
 }
+console.log(i);
 
 输出：someOver18为：true
+最后i为1；因为 第一项 45>18 true,停止调用后面的函数
 
 请注意此函数接受 3 个参数：
 	项目值
@@ -593,11 +637,12 @@ array.lastIndexOf(item, start)
 参数
 item	必需。要检索的项目。
 start	可选。从哪里开始搜索。负值将从结尾开始的给定位置开始，并搜索到开头。
+返回值   该检索元素在数组中的下标
 
 eg.
 var fruits = ["Apple", "Orange", "Apple", "Mango"];
 var a = fruits.lastIndexOf("Apple");
-var b = fruits.IndexOf("Apple");
+var b = fruits.indexOf("Apple");
 输出：a为：2,b为：0
 
 
@@ -996,21 +1041,25 @@ anchor() 				:方法用于创建 HTML 锚。
 
 
 charAt(index)			:返回在指定位置的字符。 index:表示字符串中某个位置的数字，即字符在字符串中的下标。
-						如果参数 index 不在 0 与 string.length 之间，该方法将返回一个空字符串。
+						【如果参数 index 不在 0 与 string.length 之间，该方法将返回一个空字符串。】
 						eg.var str = "hello" ;  str.charAt(0);  输出：h
+											    str.charAt(5);  输出:""
 
 charCodeAt(index)	    :返回在指定的位置的字符的 Unicode 编码。这个返回值是 0 - 65535 之间的整数。
-						如果 index 是负数，或大于等于字符串的长度，则 charCodeAt() 返回 NaN。
+						【如果 index 是负数，或大于等于字符串的长度，则 charCodeAt() 返回 NaN。】
 						eg.var str = "hello";   str.charCodeAt(1);  输出：101     （e的ascll码值）
+												str.charCodeAt(5);| str.charCodeAt(-1) 输出： NaN
 
-fromCharCode()			：从字符编码创建一个字符串。接受一个指定的 Unicode 值，然后返回一个字符串。
+String.fromCharCode()	：从字符编码创建一个字符串。接受一个指定的 Unicode 值，然后返回一个字符串。
 						String.fromCharCode(numX,numX,...,numX)
 						numX	必需。一个或多个 Unicode 值，即要创建的字符串中的字符的 Unicode 编码。
-						（该方法是 String 的静态方法，它不能作为您已创建的 String 对象的方法来使用。因此它的语法应该是 String.fromCharCode()）
+						【该方法是 String 的静态方法，它不能作为您已创建的 String 对象的方法来使用。因此它的语法应该是 String.fromCharCode()】
 						eg.document.write(String.fromCharCode(72,69,76,76,79)) 输出：HELLO
+						
 
 concat() 				：方法用于连接两个或多个字符串。（类似Array对象的concat)
 						 使用 " + " 运算符来进行字符串的连接运算通常会更简便一些
+
 slice()					:提取字符串的片断，并在新的字符串中返回被提取的部分。
 
 
@@ -2084,23 +2133,23 @@ undefined		指示未定义的值。
 
 事件句柄：
 HTML 4.0 的新特性之一是有能力使 HTML 事件触发浏览器中的动作（action），比如当用户点击某个 HTML 元素时启动一段 JavaScript。下面是一个属性列表，这些属性可插入 HTML 标签来定义事件动作。
+【后面打叉代表不支持事件冒泡,每个event都有一个event.bubbles属性，可以知道它可否冒泡】
+onload		某个页面或图像被完成加载         	×
+onunload	用户退出页面						×
+onerror		当加载文档或图像时发生某个错误		×
+onabort		图像加载被中断					×
 
-onload		某个页面或图像被完成加载
-onunload	用户退出页面
-onerror		当加载文档或图像时发生某个错误
-onabort		图像加载被中断
-
-onblur		元素失去焦点
-onfocus		元素获得焦点
+onblur		元素失去焦点						×
+onfocus		元素获得焦点						×
 onchange	用户改变域的内容
 onselect	文本被选定
 
-onclick		鼠标点击某个对象
+onclick		鼠标点击某个对象		
 ondblclick	鼠标双击某个对象
 onkeyup		某个键盘的键被松开
 onkeydown	某个键盘的键被按下
 onkeypress	某个键盘的键被按下或按住
-onmouseup	某个鼠标按键被松开
+onmouseup	某个鼠标按键被松开		
 onmousedown	某个鼠标按键被按下
 onmouseover	鼠标被移到某元素之上
 onmouseout	鼠标从某元素移开
@@ -2109,7 +2158,7 @@ onmousemove	鼠标被移动
 
 onreset		重置按钮被点击
 onsubmit	提交按钮被点击
-onresize	窗口或框架被调整尺寸
+onresize	窗口或框架被调整尺寸				×
 
 
 
@@ -4503,6 +4552,7 @@ function gettype(nm){
 
 定义：浏览器缓存（Browser Caching）是为了加速浏览，浏览器在用户磁盘上对最近请求过的文档进行存储，当访问者再次请求这个页面时，浏览器就可以从本地磁盘显示文档，这样就可以加速页面的阅览。
 
+
 cache的作用：
 1、减少延迟，让你的网站更快，提高用户体验。
 2、避免网络拥塞，减少请求量，减少输出带宽。
@@ -4567,7 +4617,119 @@ Object.defineProperty(input, 'val', { //这里必须定义一个新的属性名�
 input.val = 'good';  //同时更新input.value和h1的文字了
 
 
+55.js 数组去重的几种方式及原理
+let arr = [1,1,'true','true',true,true,15,15,false,false, undefined,undefined, null,null, NaN, NaN,'NaN', 0, 0, 'a', 'a',{},{}];
 
+ i.使用数组的filter, 过滤重复元素：
+ 将数组的元素进行判断，通过判断自己创建的对象中有无该元素（属性），
+ 有则返回false,
+ 无则在元素前加上该元素的类型然后加入对象中，赋值为true,相当于返回了true.
+
+ function unique1(params) {
+		let obj = {};
+		return arr.filter((item,index,arr)=>{
+			return obj.hasOwnProperty(typeof item + item)?false:(obj[typeof item + item] = true)
+		})
+}
+console.log(unique1(arr)); //[1, "true", true, 15, false, undefined, null, NaN, "NaN", 0, "a", Object]
+//每个数组元素前面加上类型，所以一定能去除重复项
+
+
+ii.使用ES6 Set
+ Set 对象允许你存储任何类型的唯一值，无论是原始值或者是对象引用。
+ Array.from() 方法从一个类似数组或可迭代对象中创建一个新的数组实例
+ eg.console.log(Array.from('foo')); // Array ["f", "o", "o"]
+ eg2.console.log(Array.from([1, 2, 3], x => x + x));  //Array [2, 4, 6]
+
+ function unique2(arr) {
+	return Array.from(new Set(arr))
+ }
+console.log(unique2(arr));
+//[1, "true", true, 15, false, undefined, null, NaN, "NaN", 0, "a", Object, Object]
+//Set 认为NaN是 Number类型中的唯一值；  但因为每个对象都是引用类型，所以即使属性一样，也不同
+
+ iii.indexOf() 方法可返回某个指定的字符串值在字符串中首次出现的位置。利用indexOf检索的字符串值没有出现，则该方法返回 -1。
+  function unique2(params) {
+	let temp = [];
+	let len = params.length;
+	for(let i = 0; i < len; i++) {
+		if(temp.indexOf(params[i]) === -1) {
+		 temp.push(params[i]);
+		}
+	}
+	return temp;
+  }
+  unique4(arr);   
+  //[1, "true", true, 15, false, undefined, null, NaN, NaN, "NaN", 0, "a", Object, Object]
+  //像NaN 非数 代表的不一样，所以认为不是相同的；还有对象 引用不同，所以认为不一样；
+
+56.js题
+var a = {};
+var b = {key: 'b'};
+var c = {key: 'c'};
+var d = [3,5,6];
+a[b] = 123;
+a[c] = 345;
+a[d] = 333;
+console.log(a[b]);  // 345
+console.log(a[c]);  // 345
+console.log(a[d]);  // 333
+
+a{[object Object]:345, 3,4,6:333}
+
+
+
+
+57.不适用循环语句（包括map、forEach方法）实现一个100长度的数组，索引值和值相同的数组[0,1,2,3,4,5........99]
+ var arr = new Array(100);
+  i.[...arr.keys()];
+
+  ii.Array.from(arr.keys());
+
+  iii.Array.from({length: 100});
+
+58. jsonp原理，jquery是怎么实现的，这样实现有什么好处和坏处
+原理:
+在同源策略下,在某个服务器下的页面是无法获取到该服务器以外的数据的;
+Jquery中ajax 的核心是通过 XmlHttpRequest获取非本页内容，而jsonp的核心则是动态添加 <script>标签来调用服务器提供的 js脚本
+当我们正常地请求一个JSON数据的时候，服务端返回的是一串 JSON类型的数据，而我们使用 JSONP模式来请求数据的时候服务端返回的是一段可执行的 JavaScript代码。
+因为jsonp 跨域的原理就是用的动态加载 script的src ，所以我们只能把参数通过 url的方式传递, 所以jsonp的 type类型只能是get ！
+
+	$.ajax({
+	    url: 'http://192.168.1.114/yii/demos/test.php', //不同的域
+	    type: 'GET', // jsonp模式只有GET 是合法的
+	    data: {
+	        'action': 'aaron'
+	    },
+	    dataType: 'jsonp', // 数据类型
+	    jsonp: 'backfunc', // 指定回调函数名，与服务器端接收的一致，并回传回来
+	})
+	其实jquery 内部会转化成
+	http://192.168.1.114/yii/demos/test.php?backfunc=jQuery2030038573939353227615_1402643146875&action=aaron
+	然后动态加载
+	<script type="text/javascript" src="http://192.168.1.114/yii/demos/test.php?backfunc=>
+	然后后端就会执行backfunc(传递参数 )，把数据通过实参的形式发送出去。
+
+
+59. js垃圾回收机制知道哪些，v8引擎使用的哪一种
+	js的两种回收机制
+	1 标记清除（mark and sweep）
+	2 引用计数（reference counting）
+
+	javascript与V8引擎
+	垃圾回收机制的好处和坏处
+
+	好处：大幅简化程序的内存管理代码，减轻程序猿负担，并且减少因为长时间运转而带来的内存泄露问题。
+
+	坏处：自动回收意味着程序猿无法掌控内存。ECMAScript中没有暴露垃圾回收的接口，我们无法强迫其进行垃圾回收，更加无法干预内存管理。
+
+
+60.作用域什么时候生成的？
+页面加载-->创建window全局对象，并生成全局作用域-->然后生成执行上下文，预解析变量(变量提升)，生成全局变量对象；
+$scope
+
+
+ /////
 
 
 ////js时间线

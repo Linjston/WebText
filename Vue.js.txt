@@ -1,0 +1,780 @@
+Vue.js 
+
+、、、目录：///1简单vue实例
+         ///2.模式
+         ///3.创建全局组件
+         ///4.组件传值
+         ///5.Vue实例的生命周期钩子
+         ///6.Vue的模板语法
+         ///7.计算属性，方法和侦听器
+         ///8.Vue中的样式绑定
+         ///9.Vue中的条件渲染
+         ///10.列表渲染
+         ///11.组件细节
+         ///12.组件参数校验与非props特性
+         ///13.给组件绑定原生事件
+         ///14.Vue中的作用域插槽
+         ///15.动态组件与v-once指令
+         Vue中的动画特效：
+         ///16.Vue中的CSS动画原理（过渡）
+         ///17.在Vue中使用Animation.css库
+         ///18.在vue中同时使用过度和动画
+         ///19.Vue中的js动画与Velocity.js的结合
+
+///1简单vue实例：
+head标签中引进vue.js库
+ <body>
+  <div id="app">{{content}}</div>
+
+ <script>
+   var app = new Vue({
+      el:'#app', //指的是Vue实例的范围是id为app的dom结点，包括其子孙
+      data:{
+         content:'hello world'
+      }
+   })
+
+   setTimeout(()=>{
+   	 app.$data.content = 'shuaitong';
+   }, 2000)
+ </script>  
+ </body>
+
+///2.模式
+MVP模式
+  view(视图层，DOM结点) ->			        <- Model
+      		 		   <- Presenter(控制器)  ->
+
+  视图层发出请求给控制器，控制器可以通过ajax去获取数据，然后控制器对DOM进行操作，更新view层
+
+MVVM模式:
+1.Vue(VM层)监听Model层数据的变化，然后去改变View层；
+2.Vue(VM层)监听View层事件触发，然后通过VM层的代码改变Model层的数据，然后再执行1.
+
+所以我们主要写的是View层和Modle层。
+             ViewModel
+        ->  DOM Listeners  ->  
+   View                       Model  
+  	|	<-  Data Bindings  <-	|
+    |			  |				|
+   DOM  		 Vue 		  Plain js Object
+
+
+///3.创建全局组件
+eg.E:\VScode-vue\todolist.html
+
+Vue.component("TodoItem",{
+  props:[content], 
+	template:"<li>todo  item</li>"
+})
+除了模板，其他跟正常组件一样。
+
+
+///4.组件传值
+i.父子组件传值：
+eg.E:\VScode-vue\todolist.html
+父传子：
+  <div id="root">
+      <ul>
+  //1.root父组件传值给todo-item子组件，通过在子组件上绑定一个变量，例如绑定content， 将 item的值绑定给content
+         <todo-item v-bind:content="item" 
+                    v-bind:index="index"
+                    v-for="(item,index) in list">
+         </todo-item>
+      </ul>
+    </div>
+
+
+    var TodoItem={
+   //2.子组件里面通过props来接收父组件绑定的变量
+        props:['content','index'], 
+          template:"<li>{{content}}</li>",
+      };
+
+    var app = new Vue({
+        el:'root',
+        data:{
+           list:['af',"sdf"]
+        },
+        components:{
+           TodoItem:TodoItem 
+           //使用组件时不能用这个名字的格式，要使用todo-item
+        }
+    })
+
+单向数据流：父传子的数据可以随意修改，但是子组件不能修改接收的数据。
+
+
+子传父：
+  1.在父组件中的子组件绑定一个自定义事件，并监听这个事件；
+  2.在子组件中触发这个事件，并将值传递给这个事件；
+  3.为父组件中这个自定义事件写一个触发函数，其参数为子组件传递给事件的值。
+body:
+  <div id="root">
+      <ul>
+         <todo-item v-bind:content="item" 
+                v-bind:index="index"
+                 v-for="(item,index) in list"
+                 @delete="handleItemDelete">
+    //上面就是第1步和第3步，创建了自定义事件和触发函数
+         </todo-item>
+      </ul>
+    </div>
+
+script:
+  var TodoItem={
+      props:['content','index'], 
+        template:"<li @click='handleItemClick'>{{content}}</li>",
+        methods:{
+          handleItemClick:function(){
+            this.$emit("delete",this.index)
+          //此处为第2步，触发自定义事件和传值
+          }
+        }
+
+    };
+
+    var app = new Vue({
+      el:'#root',
+      data:{
+        todoValue:'',
+        list:[]
+      },
+      methods:{
+       handleBtnClick:function(){
+        this.list.push(this.todoValue);
+        this.todoValue = '';
+        },
+        handleItemDelete:function(index){
+            this.list.splice(index,1)
+        }
+        },
+        components:{
+          TodoItem:TodoItem
+        }  //注册组件
+    })
+
+ii.非父子组件间的传值：
+ 方式一：VueX
+
+ 方式二：Bus/总线/发布订阅模式/观察中模式
+ eg.E:\VScode-vue\N-pass value.html
+   1.通过在Vue的原型中加入属性，这个属性是一个vue实例的引用：Vue.prototype.bus = new Vue()
+   这样每个vue实例都有这个属性；
+
+   2.在要接收数据的非父子组件中使用生命周期函数监听这个bus实例的自定义事件，还有设置回调函数，参数为传递的值：
+   mounted:function(){
+        var this_ = this;
+        this.bus.$on('change',function(msg){
+            this_.selfContent = msg;
+            //这里面的this指的是bus这个实例，所以要保存外面的this
+        })
+    }
+
+    3.要发送数据的非父子组件，通过触发bus实例中的自定义事件，来传值：
+    methods:{
+        handleClick:function(){
+          this.bus.$emit('change',this.selfContent)
+        }
+      }
+
+2个非父子组件A和B，
+A通过触发bus实例中的change事件，传递数据出去；
+B通过监听change事件，获得数据。
+同理，
+B通过触发bus实例中的change2事件，传递数据出去；
+A通过监听change2事件，获得数据。
+
+
+
+
+///5.Vue实例的生命周期钩子
+生命周期函数就是vue实例在某一个时间点会自动执行的函数。
+
+  i.new Vue() 新建Vue实例 
+  -->ii.初始化（事件&生命周期）    beforeCreate() 
+  -->iii.初始化（注入&校验）       created()
+  -->iv.是否指定el -->否 -->当调用vm.&mount(el)函数时转到 v
+                  -->是  转到 v
+  -->v.是否指定template  -->是 将template编译到render函数中（渲染）
+                        -->否 将el外部的HTML作为template编译（渲染）  beforeMount()
+  -->vi.创建vm.$el并替换 el(挂载el)    mounted()
+  -->vii.挂载完毕   --> 当data被修改    beforeUpdata()
+                                   --> 虚拟DOM重新渲染并应用更新    updated() 
+  -->viii.当调用vm.$destory()      beforeDestory()
+  -->ix.解除绑定 销毁子组件以及时间监听器    
+  -->x.销毁完毕                     destroyed()   
+  
+
+
+///6.Vue的模板语法
+三者里面都可以写js语法：
+Vue 实例中data:{val:"<h1>shuaitong</h1>"}
+i.插值表达式 eg.{{val}}   //<h1>shuaitong</h1>
+ii.v-text  eg.<div v-text="val + 'zuishuai'"></div> 
+   //<h1>shuaitong</h1>zuishuai
+iii.v-html  eg.<div v-html='val'></div>
+    //shuaitong (使用h1标签)
+
+
+///7.计算属性，方法和侦听器
+eg.E:\VScode-vue\computed.html
+i.计算属性：computed 
+//计算属性 会进行缓存，当里面使用的数据没有改变过，不会重新计算，使用缓存的结果；
+当使用的数据改变了，才重新计算。
+eg.computed:{
+      fullName:function(){
+        console.log("计算了一次");
+        return this.firstName + " " + this.lastName;
+      }
+    }
+ 调用2次{{fullName}}，但只打印1次“计算了一次”
+
+ ii.方法：methods
+ eg.data:{
+      firstName:'shuaitong',
+      lastName:'zuishuai',
+      age:22
+    }
+    methods:{
+      fullName:function(){
+        console.log("计算了一次");
+        return this.firstName + " " + this.lastName;
+      }
+    }
+
+    {{fullName()}} ,{{age}},{{fullName()}}
+ //方法 没有缓冲机制，每次使用都要重新渲染一次，
+   所以会打印2次 “计算了一次”；
+   而且只要数据发生变化，所有都要重新渲染
+   假如改变age的值，fullName也会重新渲染，会再打印一次“计算了一次”
+
+
+iii.监听器 watch
+监听某个属性数据的变化，执行对应的执行函数.
+eg.
+data:{
+      firstName:'shuaitong',
+      lastName:'zuishuai',
+      fullName:"hahaha",
+      age:22
+    },
+
+watch:{
+        firstName:function(){
+          console.log("计算了一次");
+          this.fullName=this.firstName + " " + this.lastName;
+        },//监听firstName,变化执行firstName
+        lastName:function(){
+          console.log("计算了一次");
+          this.fullName=this.firstName + " " + this.lastName;
+        }//监听lastName,变化执行firstName
+      }
+
+  {{fullName}} ,{{age}},{{fullName}}
+ 
+ //一开始fullName存在，而且firstName和lastName没变化
+ 所以没有发生改变；
+ 当你改变firstName或lastName其中一个，就会执行对应的函数
+
+
+
+iv.计算属性的getter和setter
+eg.
+computed:{
+    fullName:{
+        get：function(){
+          return this.firstName + " " + this.lastName;
+        },//当获取该属性时，使用get方法
+        set:function(val){
+          var arr = val.split(" ");
+          this.firstName = arr[0];
+          this.lastName = arr[1];
+        }//当设置属性时，使用set方法，参数为设置值
+    }
+} //计算属性依赖的值改变时，引起计算属性的重新计算
+
+
+
+
+///8.Vue中的样式绑定
+eg.E:\VScode-vue\style-bind.html
+i.class的对象绑定
+给DOM结点绑定样式【 :class="{类名：布尔值}" 】
+通过控制布尔值控制类的使用或不使用
+eg.
+<div @click="handleDivClick"
+       :class="{activated:isActivated}"
+    >
+      shuaitong
+    </div>
+通过控制isActivated的真假转换，从而控制activated类的出现或者消失：
+this.isActivated = !this.isActivated;
+
+
+ii.使用绑定的变量值当作绑定的类
+【 ：class = "[变量1，变量2,....]" 】
+eg.
+<div id="app">
+    <div @click="handleDivClick"
+       :class="[activated]"
+    >
+      shuaitong
+    </div>
+通过改变vue实例中 activated的字符串值，来决定类名，通过绑定点击事件来修改activated的字符串值：
+his.activated = this.activated === "activated2"?"":"activated2";
+
+
+iii.使用【：style="[对象1,对象2]"】,样式写在对象中
+eg.
+<div :style = "[styleObj,{fontSize:'50px'}]"
+       @click="handleDivClick"
+    >
+      shuaitong
+    </div>
+
+data:{  
+        styleObj:{},
+        styleObj1:{
+          background:"pink"
+        }
+      }
+注意的点，像font-size这种格式的css属性要写成小驼峰格式fontSize；可以像使用this.styleObj.background = "red"，去改变样式;
+也可以先给空对象，然后通过判断对象是否为空，赋值：
+第一种：this.styleObj = Object.keys(this.styleObj).length == 0 ? this.styleObj1:{};
+第二种：(JSON.stringify(this.styleObj) == "{}");
+第三种：
+        for in 循环判断
+        var obj = {};
+        var b = function() {
+        for(var key in obj) {
+        return false;
+        }
+        return true;
+        }
+        alert(b());//true
+
+
+
+
+///9.Vue中的条件渲染
+eg.E:\VScode-vue\conditional-rendering.html
+i.v-if ="show" 和 v-show ="show":
+当show为false,
+ v-show只是将div的style="display: none;",该div已经渲染了，在DOM树上；
+ v-if:该div未渲染，不在DOM树上.
+
+ ii.v-if="show"和 v-else-if和v-else (需要紧贴在一起使用)
+【vue.js 2.1.0版本以上可以使用v-else-if】
+eg.
+   <div v-if="case === 'a'">a</div>
+   <div v-else-if="case === 'b'">b</div>
+   <div v-else>other</div>
+
+通过判断case的值决定，先判断v-if，再判断v-else-if，最后是v-else 
+
+
+iii.key值解决复用问题
+eg.
+<div v-if="show">
+      用户名：<input key="username"/>
+    </div>
+    <div v-else="show">
+      e-mail:<input key="e-mail"/>
+    </div>
+    当切换时，因为俩者组成的DOM元素是一样的，为了提升性能，vue后台会做出处理，当DOM元素相同时，会复用之前的那个DOM，所以用的是同一个input，内容没有改变，但如果加上key值(唯一标识)，key值不一样的，不会复用；key值相同，就会复用。
+
+
+
+
+
+///10.列表渲染
+eg.E:\VScode-vue\list-rendering.html
+v-for :(key值每个循环项的唯一标识,只能是数字或者字符串)
+数组遍历：
+eg.  <div  v-for="(item,index) in list"
+        :key="item.id"
+    >...</div>
+
+i.不能直接通过数组下标索引来修改数组vm.list[4]=".."，只能用数组的变异方法去修改。//push,pop,unshift,shift,splice,sort,resever
+eg.app.list.splice(1,1,{id:"9",text:"..."})
+
+ii.通过改变数组引用也可以更新页面，就是将list指向一个新数组；
+
+iii.使用Vue.set() 【往数组最后面添加元素或者改变已有元素】
+eg.
+Vue.set(this.list,4,"beijing"); 中间是索引值
+eg.或者使用实例
+app.$set(this.list,4,"beijing");
+
+对象遍历：
+eg.  <div  v-for="(item,key,index) in obj"
+        :key="obj.id"
+    >...</div>
+第一个为值，第二个为键，第三个为索引
+
+
+i.如果要往对象obj中加值，可以使用改引用的方式，obj指向一个新的对象。
+eg.
+  obj = {....,address:"...."}
+
+ii.使用Vue.set() 添加属性也能更新页面
+eg.
+Vue.set(this.obj,"address","beijing")
+
+也可以用实例的$set():
+eg.
+app.$set(this.obj,"address","beijing")
+
+
+模板占位符（不会被渲染到页面上):
+eg.
+<template  v-for="(item,index) of list"
+            :key="item.id"
+    >
+      <div>{{index}}</div>
+      <span>{{item.text}}</span>
+    </template>
+
+ 模板占位符：template 不会被渲染出来，比用div好
+
+
+
+
+ ///11.组件细节
+ eg.E:\VScode-vue\bug.html
+ i. is="组件名"
+ 【有些标签下面只能是某些标签，如果不是就会跳出外层标签；
+ 像table>tbody>tr,如果tbody里面直接用组件代替，会跳出table;】
+ eg.
+ <table>
+      <tbody>
+        <row></row>
+        <row></row>
+        <row></row> 
+      </tbody>      
+  </table>
+
+最后渲染出来：
+<tr><td>row</td></tr>
+<tr><td>row</td></tr>
+<tr><td>row</td></tr>
+<table><tbody></tbody></table>
+出现bug.
+
+ 假如你想用组件的形式代替tr,可以这么写：
+ eg.
+<div id="root">
+    <table>
+      <tbody>
+        <tr is="row"></tr>
+        <tr is="row"></tr>
+        <tr is="row"></tr>
+      </tbody>
+    </table>
+  </div>
+  <script type="text/javascript">
+    Vue.component("row",{
+      template:'<tr><td>row</td></tr>'
+    })
+    var app = new Vue({
+      el:"root"
+    })
+
+<tr is="row"></tr>用组件row来代替tr标签。
+
+
+ii.对于非根组件的子组件，子组件中的data必须是一个函数,根组件的data是一个对象，因为只被掉用一次；
+子组件可能被调用多次，通过一个函数返回一个对象，使得每个组件数据有自己独立的存储空间，不会出现多个子组件相互影响。
+eg.
+Vue.component("row",{
+      data:function(){
+        return {
+          content:"row"
+        }
+      },
+      template:'<tr><td>{{content}}</td></tr>'
+    })
+    //对于非根组件的子组件，data必须是一个函数
+
+    var app = new Vue({
+      el:"#root"，
+      data:{....}
+    })
+    //根组件的data为一个对象
+
+
+iii.ref
+通过在DOM节点设置ref属性，然后在vue实例中通过this.$refs.ref获取DOM结点的引用;
+eg.
+<div @click="handleClick"
+       ref='hello'
+    >   
+       hello world  
+</div>
+
+methods:{
+        handleClick:function(){
+          console.log(this.$refs.hello.innerHTML)
+        }
+}
+
+ref也可以作为组件的引用：
+eg.E:\VScode-vue\bug.html
+
+
+
+///12.组件参数校验与非props特性
+i.对父传子的数据进行校验
+ eg.
+ props:{
+        content:{
+          type:[String,Number],
+          require:true, //该属性一定要传
+          default:'默认值',//不传时的默认值
+          validator:function(value){
+            return (value.length > 5)
+          }//校验器  传入的内容长度必须大于5，通过布尔值来表示校验通不通过
+        }        
+      }
+
+ii.非props特性
+props特性：当父组件向子组件使用属性传递数据，而子组件声明了传递过来的属性，父组件和子组件会形成一种映射。
+eg.
+<div id="root">
+    <child :content="str"></child>
+</div>
+
+Vue.component("child",{
+      props:['content'],
+      template:'<div>{{content}}</div>'
+});
+
+渲染出来后，<div>sss</div>
+渲染出来的DOM是没有显示父组件传给子组件的属性
+
+
+
+非props特性是子组件没有声明传过来的属性。
+渲染出来是会在组件最外层DOM出现该属性，而且子组件没法使用该属性。
+eg.
+<div id="root">
+    <child :content="str"></child>
+</div>
+
+Vue.component("child",{
+      template:'<div>hello</div>'
+});
+而且渲染出来后：<div content="sss">hello</div>
+
+
+
+///13.给组件绑定原生事件
+i.
+在元素上绑定的原生事件，监听的是原生事件：
+eg.
+<div @click="handleClick">click</div>
+
+在组件上绑定的是自定义事件，监听的是自定义事件：
+eg.
+<child  @click="handleClick"></child>
+//这里的click不是原生的click事件，而是自定义事件，需要用this.$emit('click')触发。
+
+ii.
+如何直接在组件监听原生事件，使用修饰符 .native:
+eg.
+<child  @click.native="handleClick"></child>
+//此时监听的click为原生事件
+
+
+
+
+///14.Vue中的作用域插槽\
+eg.E:\VScode-vue\Vue-slot.html
+i.父组件中的子组件中定义插槽内容
+eg.
+<div id="root">
+    <child>
+      <template slot-scope="props">
+        <li >{{props.item}}</li>
+      </template>
+    </child>
+  </div>
+父组件给子组件传递插槽,插槽内容是<template></template>包裹着；
+slot-scope="props"表示子组件传进来的数据放在props中
+
+ii.子组件模板中用<slot></slot>来表示插槽，内容是父组件传过来的<template></template>
+同时子组件可以向插槽中传值：
+eg.
+data:function(){
+        return {
+          list: [1,2,3,4]
+        }
+      },
+template:`<div>
+            <ul>
+              <slot
+                v-for="item in list"
+                :item="item"
+              ></slot>
+            </ul>
+             </div>`
+传进插槽的属性item 由父组件的子组件中的template的属性slot-scope="props"接收
+
+
+
+///15.动态组件与v-once指令
+eg.E:\VScode-vue\Dynamic command&v-once.html
+i.通过改变组件名动态显示组件：
+<component :is="组件名"></component>
+
+ii.每次切换会销毁前一个组件，创建后一个组件，会很浪费资源,解决方法：v-once
+
+在组件的模板上加上v-once,之后第一次渲染组件会将其保存在内存中;当再次切换到该组件，直接从内存拿出以前的，不用再重新创建，有效解决静态组件的效率：
+eg.
+Vue.component('child-one',{
+      template:`<div v-once>child-one</div>`
+    })
+
+
+
+///16.Vue中的CSS动画原理(过渡)
+eg.E:\VScode-vue\vue-css.html
+i.
+使用transition标签包裹要动画的元素：
+<transition name="fade">
+    <div v-if="show">hello world</div>
+</transition>
+
+//加name属性，其所有类的前缀为name属性的值；
+eg .fade-enter
+//没加，默认为v
+eg .v-enter
+
+当动画从显示->消失：
+1.动画第一帧，有.v-leave 和.v-leave-active 决定样式；
+(一般不设置)；
+2.动画开始，移除.v-leave，加上.v-leave-to；
+3.动画结束，移除.v-leave-to 和 .v-leave-active.
+
+当动画从消失->显示：
+1.动画第一帧，有.v-enter 和.v-enter-active 决定样式；
+2.动画开始，移除.v-enter，加上.v-enter-to；
+3.动画结束，移除.v-enter-to 和 .v-enter-active.
+
+.v-leave-active和.v-enter-active整个动画周期都在
+
+ii.可以自定义类的名字
+在transition的属性中添加：
+<transition
+  enter-active-class="enter"
+  leave-active-class="leave"
+><div v-show="show">shuaitong</div>
+</transition>
+则
+.v-enter-active 会被  .enter代替；
+.v-leave-active 会被  .leave代替。
+
+
+
+
+
+///17.在Vue中使用Animation.css库
+eg.E:\VScode-vue\vue-css-animation.html
+i.百度animate.css库，下载到本地，使用link标签引入：
+<link rel="stylesheet" type="text/css" href="./animate.css">
+
+ii.使用transition标签更改类名
+格式默认为：
+enter-active-class="animated 动画效果的类"
+leave-active-class="animated 动画效果的类"
+
+eg.
+<transition 
+    name="fade" 
+    enter-active-class="animated swing"
+    leave-active-class="animated shake"
+    appear
+    appera-active-class="animated swing"
+    >
+    <div v-if="show">hello world</div>
+</transition>
+
+//  加上appear 和appear-active-class="animated swing"
+可以让元素在第一次出现就使用动画
+
+
+
+
+
+
+///18.在vue中同时使用过度和动画
+eg.E:\VScode-vue\transition&&animation.html
+
+i.想同时使用动画和过渡，在enter-active-class和leave-active-class后面多加一个类:
+eg.
+enter-active-class="animated swing fade-enter-active"
+leave-active-class="animated shake fade-leave-active"
+
+ii.由于使用了过渡和动画，但俩者时长不一样:
+
+如果我们想使用过渡的时长，加上type="transition";
+
+如果想使用自定义，加上
+  ：duration="10000"(单位毫秒)
+如果想更详细，加上
+  ：duration="{enter:5000;leave:3000;}"
+  出场时长：5秒；退出时长3秒。
+
+eg.
+<transition 
+    name="fade"
+    :duration="{enter:5000,leave:3000}"
+    appear
+    enter-active-class="animated swing fade-enter-active"
+    leave-active-class="animated shake fade-leave-active"
+    appera-avtive-calss="animated swing"
+    >
+    <div v-if="show">hello world</div>
+</transition>
+
+
+
+
+///19.Vue中的js动画与Velocity.js的结合
+eg.
+i.js动画:
+出场动画：（退场动画同理，enter改成leave）
+    1.动画开始前触发before-enter事件；
+    2.动画开始触发enter事件，函数有俩个参数：
+      一个是触发事件的元素；
+      一个是触发after-enter事件的函数；(必须)
+
+eg.
+<transition
+      name="fade"
+      @before-enter="handleBeforeEnter"
+      @enter="handleEnter"
+      @after-enter="handleAfterEnter"
+    >
+      <div>hello,shuaitong</div>
+</transition>
+
+methods:{
+        handleBeforeEnter:function(el){
+          el.style.color = 'red'
+        },
+        handleEnter:function(el,done){
+          setTimeout(()=>{
+            el.style.color = 'green'
+          },2000);
+          setTimeout(()=>{
+            done()
+          },4000);
+        },
+        handleAfterEnter:function(el){
+          el.style.color = 'blue'
+        }
+      }
+
+ii.js常用动画库 Velocity.js

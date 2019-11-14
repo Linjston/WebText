@@ -1184,3 +1184,29 @@ Flex布局：
         align-self：允许单个项目与其他项目对齐方式不一样，可覆盖align-items属性
 
 
+11.display:none 和 visibility:hidden 的区别
+    给一个元素设置了display: none，那么该元素以及它的所有后代元素都会隐藏,
+    display：none会让元素从渲染树中消失，渲染的时候不占据任何空间，不在文档流中占位，浏览器也不会解析该元素；；
+    display：none是非继承属性，子孙节点消失是由于元素从渲染树中消失造成，通过修改子孙节点的属性无法显示；
+
+   给元素设置visibility: hidden也可以隐藏这个元素，但是隐藏元素仍需占用与未隐藏时一样的空间；
+   visibility:hidden是视觉上消失了，可以理解为透明度为0的效果，在文档流中占位，浏览器会解析该元素；
+   visibility：hidden不会让元素从渲染树中消失，渲染的时候仍然占据空间，只是内容不可见。
+   visibility：hidden是继承属性，子孙节点消失是由于继承了hidden，通过设置visibility：visible，可以让子孙节点显示 
+    
+
+  【使用visibility:hidden比display:none性能上要好，display:none切换显示时，页面产生回流（当页面中的一部分元素需要改变规模尺寸、布局、显示隐藏等，页面重新构建，此时就是回流。所有页面第一次加载时需要产生一次回流），而visibility切换是否显示时则不会引起回流。 display: none会引发重排，而visiibility: hidden只会引发重绘。】
+
+    
+12.将div变成一个三角形
+ <div id="triangle"></div>
+ #triangle{
+  width:0;
+  height: 0;
+  border-style: solid;
+  border-color: transparent transparent blue transparent;   
+  border-width: 0px 50px 50px 50px;
+}
+//相当与一个正方形沿着对角线分成四个三角形 ,只让底部的三角形出现，其他隐形；然后这个三角形的高由下边框的宽度决定；
+底边由左右边框的宽度相加决定
+
