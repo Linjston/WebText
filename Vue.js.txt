@@ -18,9 +18,17 @@ Vue.js
          Vue中的动画特效：
          ///16.Vue中的CSS动画原理（过渡）
          ///17.在Vue中使用Animation.css库
-         ///18.在vue中同时使用过度和动画
+         ///18.在vue中同时使用过渡和动画
          ///19.Vue中的js动画与Velocity.js的结合
+         ///20.Vue中多个元素或组件的过渡
+         ///21.Vue的列表过渡
+         ///22.Vue中的动画封装
+         ///23.单文件组件与Vue中的路由
+         ///24.多页应用和单页应用
 
+
+         ////指令
+         ////配置
 ///1简单vue实例：
 head标签中引进vue.js库
  <body>
@@ -603,7 +611,7 @@ eg.
 父组件给子组件传递插槽,插槽内容是<template></template>包裹着；
 slot-scope="props"表示子组件传进来的数据放在props中
 
-ii.子组件模板中用<slot></slot>来表示插槽，内容是父组件传过来的<template></template>
+子组件模板中用<slot></slot>来表示插槽，内容是父组件传过来的<template></template>
 同时子组件可以向插槽中传值：
 eg.
 data:function(){
@@ -620,6 +628,68 @@ template:`<div>
             </ul>
              </div>`
 传进插槽的属性item 由父组件的子组件中的template的属性slot-scope="props"接收
+2.6版本后废弃slot-scope
+
+
+
+iii.具名插槽 v-slot (缩写#,eg.#head)
+在一个组件里可以有多个template,但需要给它们命名
+eg.
+<child>
+  <template v-slot:head>
+      ....
+  </template>
+  <template v-slot:main>
+      ....
+  </template>
+</chile>
+
+在组件的模板中通过name属性使用：
+  <slot name="head"></slot>
+  <slot name="main"></slot>
+
+//一个不带 name 的 <slot>出口会带有隐含的名字“default”。
+
+
+
+iv.作用域插槽
+绑定在 <slot> 元素上的特性被称为插槽 prop。
+给 v-slot 带一个值来定义我们提供的插槽 prop 的名字：
+
+<child>
+  <template v-slot:head="slotProps">
+      {{slotProps.item}}
+  </template>
+</chile>
+
+child组件模板：
+template:`<div>
+            <ul>
+              <slot
+                name="head"
+                v-for="item in list"
+                :item="item"
+              ></slot>
+            </ul>
+             </div>`
+
+//如果是只有默认插槽可以缩写：
+eg.缩写
+<current-user #default="{ user }">
+  {{ user.firstName }}
+</current-user>
+
+//只要出现多个插槽，请始终为所有的插槽使用完整的基于 <template> 的语法：
+<current-user>
+  <template v-slot:default="slotProps">
+    {{ slotProps.user.firstName }}
+  </template>
+
+  <template v-slot:other="otherSlotProps">
+    ...
+  </template>
+</current-user>
+
 
 
 
@@ -742,7 +812,7 @@ eg.
 
 
 ///19.Vue中的js动画与Velocity.js的结合
-eg.
+eg.E:\VScode-vue\vue-js-velocity.html
 i.js动画:
 出场动画：（退场动画同理，enter改成leave）
     1.动画开始前触发before-enter事件；
@@ -778,3 +848,356 @@ methods:{
       }
 
 ii.js常用动画库 Velocity.js
+ 1.下载velocity.js库文件；
+ 2.引入库文件；
+ 3.在enter事件的函数中使用；
+ 格式：
+
+  Velocity(el(元素),{样式变化},{配置})
+
+eg.
+handleEnter:function(el,done){
+  Velocity(el,{
+      opacity:1
+  },{
+      duration:1000, //动画时长，单位ms
+      complete:done  //动画完成后触发的回调函数
+  })
+}
+
+
+
+///20.Vue中多个元素或组件的过渡
+i.多个元素过渡
+<transition 
+    mode="out-in"
+>
+  <div v-if="show" key="hello">hello world</div>
+  <div v-else key="bye">bye world</div>
+</transition>
+
+css样式：
+.v-enter,.v-leave-to{
+   opacity:0;
+}
+.v-enter-active,.v-leave-active{
+   transition:opacity 1s;
+}
+
+mode属性控制是入场动画先展示还是退场动画先展示：
+out-in:先展示退场动画，再入场动画；
+in-out:先展示入场动画，再退场动画；
+
+ii.多个组件的过渡
+同上，只不过用动态组件实现切换
+<transition 
+    mode="out-in"
+>
+  <component :is="type"></component>
+</transition>
+
+
+///21.Vue的列表过渡
+使用transition-group标签包裹多个列表项：
+相当于给每个列表项外面套上transition标签
+
+<transition-group>
+  <div v-for="item in list" :key="item.id">
+      {{item.title}}
+  <div>
+</transition-group>
+
+css样式：
+.v-enter,.v-leave-to{
+   opacity:0;
+}
+.v-enter-active,.v-leave-active{
+   transition:opacity 1s;
+}
+
+
+///22.Vue中的动画封装
+使用组件封装动画，在组件中实现动画，利用插槽将要实现动画的元素传入组件：
+eg.E:\VScode-vue\vue-Animation packaging.html
+父组件中：
+ <div id="root">
+    <fade >
+        <div>hello,shuaitong</div>
+    </fade>
+
+    <fade >
+      <h1>shuaitong</h1>>
+    </fade>
+ </div>
+
+fade组件：
+ Vue.component('fade',{
+      props:['show'],
+      template:`
+        <transition
+          appear
+          appear-active-class="v-enter-active"
+        >
+          <slot ></slot>
+        </transition>
+      `
+    })
+
+
+
+///23.单文件组件与Vue中的路由
+单文件组件：里面有三部分组成：
+模板：template
+逻辑:script
+样式：style
+（后缀：*.vue）
+
+//路由就是根据网址的不同，返回不同的内容给用户
+i.首先在main.js中的Vue实例中导入路由配置文件，并且在实例中加入该配置：
+import router from './router'
+
+new Vue({
+  el: '#app',
+  router,  //缩写，键值相同时可以省略，router:router
+  components: { App },
+  template: '<App/>'
+})
+
+ii.然后就会在router这个文件夹中搜索路由配置文件：
+文件夹中有一个index.js
+
+import Vue from 'vue'
+import Router from 'vue-router'
+import Home from '@/pages/home/Home'
+import List from '@/pages/list/List'
+// @代表src目录
+// 导入vue和vue-router模块以及要显示的单文件组件
+
+Vue.use(Router) //使用路由
+
+//路由配置,建立一个路由实例
+
+export default new Router({
+  routes: [
+    {
+      path: '/',   
+      name: 'Home',
+      component: Home
+    },
+    {
+      path: '/list',
+      name: 'List',
+      component: List
+    }
+  ]
+})
+
+
+iii.<router-view/>显示的是当前路由地址所对应的内容 
+eg.http://localhost:8080/#/list
+就会显示到组件List
+
+
+
+
+///24.多页应用和单页应用
+多页面应用：
+页面跳转->返回HTML
+优点：首屏时间快(只需要一个请求)，seo效果好
+缺点：页面切换慢
+
+单页应用：
+页面跳转->js渲染
+优点：页面切换快
+确点：首屏事件稍慢，seo差
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+////npm指令
+1.创建项目
+vue init webpack 项目名
+
+2.进入目录
+npm run dev 
+
+////配置
+1.移动端meta标签设置：
+<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+
+//作用：在移动浏览器中，当页面宽度超出设备，浏览器内部虚拟的一个页面容器，将页面容器缩放到设备那么大展示；
+
+//视口的宽度可以通过meta标签设置；
+//此属性为移动端页面视口设置；
+//width：视口的宽度，width=device-width：宽度是设备的宽度
+//initial-scale：初始化缩放，- initial-scale=1.0：不缩放
+//user-scalable：是否允许用户自行缩放，取值0或1，yes或no
+//minimum-scale：最小缩放
+//maximum-scale：最大缩放
+一般设置了不允许缩放，就没必要设置最大最小缩放了。
+
+
+2. 1rem = html font-size =50px (导入的css文件规定了)
+
+3.安装stylus 和 stylus-loader
+//在style加上lang属性，值为stylus，方便写css,
+//为了保证css样式只对该组件生效，在style加上scoped
+eg.一个大的div里面有三个小的div
+
+<style lang="stylus" scoped>
+    .header
+        display:flex
+        height: .86rem
+        line-height: .86rem
+        background:#00bcd4
+        color:#fff
+        .header-left
+            width: .64rem
+            float: left
+        .header-input
+            flex:1
+            margin-top:.12rem
+            margin-left: .2rem
+            height :.64rem
+            line-height: .64rem
+            color:#ccc
+            background: #fff
+            border-radius :.1rem
+        .header-right
+            width: 1.24rem
+            float: right
+            text-align:center
+</style>
+
+
+
+
+4.
+先使用iconfont 官网寻找图标，下载
+然后将字体文件和iconfont.css拉进项目，iconfont.css里面需要对字体文件的路劲进行修改
+最后导入iconfont.css文件
+
+eg.使用iconfont类，然后内容使用unicode代码
+<span class="iconfont">&#xe669;</span>
+
+
+5.在样式中引入*.styl文件
+eg.
+<style lang="stylus" scoped>
+@import '~@/assets/styles/varibles.styl';
+//@符合代表src目录，但是在css中前面要加上~
+ .header
+        display:flex
+        height: .86rem
+        line-height: .86rem
+        background:$bgColor
+
+在varibles.styl文件中定义：
+$bgColor = red
+
+
+6.build目录下的webpack.base.conf.js文件中
+module.exports ={
+  
+  resolve: {
+    extensions: ['.js', '.vue', '.json'],
+    alias: {
+      'vue$': 'vue/dist/vue.esm.js',
+      '@': resolve('src'),
+      'styles':resolve('src/assets/styles')
+      //自己加上自定义目录
+    }
+  }
+}
+
+7.使用轮播插件 vue-awesome-swiper
+安装：
+npm install vue-awesome-swiper@2.6.7 --save
+引入：
+import VueAwesomeSwiper from 'vue-awesome-swiper'
+引入css：
+import 'swiper/dist/css/swiper.css'
+使用插件：
+Vue.use(VueAwesomeSwiper, /* { default global options } */)
+
+
+在组件的template中加入
+  <swiper :options="swiperOption" ref="mySwiper" @someSwiperEvent="callback">
+    <!-- slides -->
+    <swiper-slide>I'm Slide 1</swiper-slide>
+    <swiper-slide>I'm Slide 2</swiper-slide>
+    <swiper-slide>I'm Slide 3</swiper-slide>
+    <swiper-slide>I'm Slide 4</swiper-slide>
+    <swiper-slide>I'm Slide 5</swiper-slide>
+    <swiper-slide>I'm Slide 6</swiper-slide>
+    <swiper-slide>I'm Slide 7</swiper-slide>
+
+    <!-- Optional controls -->
+    <div class="swiper-pagination"  slot="pagination"></div>
+    <div class="swiper-button-prev" slot="button-prev"></div>
+    <div class="swiper-button-next" slot="button-next"></div>
+    <div class="swiper-scrollbar"   slot="scrollbar"></div>
+  </swiper> 
+
+i.swiper-slide组件指的是轮播的内容，里面可以放图片,
+可以使用数组遍历：
+eg.
+<swiper-slide  v-for="item of swiperList" :key='item.id'>
+        <img class="swiper-image" :src="item.url" >     
+</swiper-slide>
+
+
+ii.下面四个div是选项控制:
+第一个是图片对应的白点栏
+第二个是上一个按钮
+第三个是下一个按钮
+第四个是滑动条
+
+iii.swiper组件中有个绑定属性:options="swiperOption"
+eg.
+data (){
+        return {
+            swiperOption: {
+                pagination:'.swiper-pagination',
+                //给name为pagination的插槽传使用的css
+                loop:true
+                //图片循环
+            }
+        }
+    }
+
+iv.解决图片加载前高度为0问题：
+ .wrapper
+        overflow hidden
+        width 100%
+        height 0
+        padding-bottom 31.25%
+      .swiper-image 
+         width 100%
+不能用hight的百分比，其对应的是父元素的高度；
+padding的百分比对应的是width。
+
+
+
+v.使用>>>穿透
+问题：
+图片对应的点的样式由以下俩个类控制，但这个俩个类都在子组件中，由于scoped，在父组件修改是没用的：
+swiper-pagination-bullet swiper-pagination-bullet-active
+
+
+解决方法：
+.wrapper >>> .swiper-pagination-bullet-active
+        background #fff ！important
+
+//让.wrapper下面所有子组件出现.swiper-pagination-bullet-active使用该样式
+
+
