@@ -287,7 +287,17 @@ constructor属性的含义就是指向该对象的构造函数，所有函数（
 
 
 ES6(2015)
-	(1). 声明方式   - let/const
+
+、、、、目录：///(1). 声明方式   - let/const
+          ///(2)字符串
+          ///(3)数组
+          ///(4)函数
+          ///(5)面向对象 
+          *****ES5：js 几种继承方式
+          ///(6).Promise
+
+
+///(1). 声明方式   - let/const
      let  ————变量不允许重复声明，但可以重复赋值 ；
       使用var:
       eg.for(var i=0;i<10;i++){}  最后i会泄露出来，为10
@@ -449,7 +459,7 @@ ES6(2015)
 
 
 
-(2)字符串
+///(2)字符串
 	a. string.charCodeAt(num)   //获取字符串中某个字符的编码
 	   eg. let a='asd';  console.log(a.charCodeAt(0));   //结果为97
 
@@ -516,7 +526,7 @@ ES6(2015)
 
       document.body.innerHTML=createNode(json);
 
-(3)数组
+///(3)数组
     find() 方法为数组中的每个元素都调用一次函数执行：
       当数组中的元素在测试条件时返回 true 时, find() 返回符合条件的元素，之后的值不会再调用执行函数。
       如果没有符合条件的元素返回 undefined
@@ -533,7 +543,7 @@ ES6(2015)
       var first = numbers.findIndex((value)=>{return value >18});
       输出：first为：3
 
-(4)函数
+///(4)函数
    a.箭头函数：
     eg. x= x=>x;
       等于
@@ -745,6 +755,7 @@ ES6(2015)
          for(var i of arr){console.log(i);}  //3,4,6,2
 
      iii.new Set() 为一个对象 ,跟数组用的多
+     Set 对象允许你存储任何类型的唯一值，无论是原始值或者是对象引用。
        eg.var set = new Set();  
         特性：禁止重复；
          set.add（1）;  
@@ -763,11 +774,15 @@ ES6(2015)
         eg.var map = new Map();
            map.set('key','value');//添加键值对  
            map.set('key2','value2'); //{'key' =>'value','key2'=>'value2'}
-           /////
+        不允许重复存key
+          map.get('key') //用key获取值
+          map.has('key') //判断键值是否存在
+          map.delete('key') //删除键值
+          map.clear()  //清除全部
 
 
 
- (5)面向对象  
+ ///(5)面向对象  
     a.结构赋值
      eg. let [a,b,c] = [10,20,30];  
      变量跟后面的结构一样就行：
@@ -904,8 +919,7 @@ ES6(2015)
     eg.
     class A {
          constructor() {
-                super();
-                console.log(super.c()); // 2
+               
           }
          c() {
               return 2;
@@ -924,7 +938,7 @@ ES6(2015)
    】
      
 
-     ES5：js 几种继承方式：
+ *****ES5：js 几种继承方式：
      方法1：构造函数继承
         function Father1(){
             this.father_Property1 = "父类属性1"
@@ -989,7 +1003,7 @@ ES6(2015)
 
 
 
- (6).Promise
+ ///(6).Promise
  Promise 是一个对象；
  
   new Promise (function(resolve,reject){
@@ -1003,7 +1017,7 @@ ES6(2015)
 
 
 Promise 静态方法：
-  Promise.resolve([..,..]).then();   //参数放在数组中
+  Promise.resolve([..,..]).then();   //多个参数放在数组中
   Promise.reject([..,...]).catch();
 
   //竞速方法：
@@ -1020,3 +1034,19 @@ Promise 静态方法：
   },new Promise(function(resolve,reject){
           setTimeout(resolve,1000);
   }]).then().catch()     //2s后运行then()  []数组中的所有promise对象一起执行
+
+
+
+(7)webwork  简易服务器
+放服务器文件夹中：
+Worker.html:
+var worker = new Worker('li.js');
+  worker.postMessage("sajf") //发数据
+
+
+li.js：
+  this.onmessage = function(res){
+      var data = res.date;
+      
+      this.postMessage(data);
+  }

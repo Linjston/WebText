@@ -1,0 +1,901 @@
+目录：、、、
+			///1.全部安装
+			///2.按需引入
+			///3.Container 布局容器
+			///4.图标使用
+			///5.按钮使用<el-button></el-button>
+			///6.文字链接
+			///7.Radio 单选框
+			///8.Checkbox 多选框
+			///9.input输入框和<el-autocomplete>
+      ///10.Select 选择器
+      ///11.Cascader 级联选择器
+
+///1.全部安装
+
+NPM安装：
+npm i element-ui -S
+
+在main.js中引入
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+Vue.use(ElementUI);
+
+
+CDN：
+目前可以通过 unpkg.com/element-ui 获取到最新版本的资源，在页面上引入 js 和 css 文件即可开始使用。
+<!-- 引入样式 -->
+<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+<!-- 引入组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+
+///2.按需引入
+首先，安装 babel-plugin-component：
+npm install babel-plugin-component -D
+
+然后，将 .babelrc 修改为：
+{
+  "presets": [["es2015", { "modules": false }]],
+  "plugins": [
+    [
+      "component",
+      {
+        "libraryName": "element-ui",
+        "styleLibraryName": "theme-chalk"
+      }
+    ]
+  ]
+}
+
+如果你只希望引入部分组件，比如 Button 和 Select，那么需要在 main.js 中写入以下内容：
+import { Button, Select } from 'element-ui';
+
+Vue.component(Button.name, Button);
+Vue.component(Select.name, Select);
+/* 或写为
+ * Vue.use(Button)
+ * Vue.use(Select)
+ */
+
+
+
+
+///3.Container 布局容器
+用于布局的容器组件，方便快速搭建页面的基本结构：
+<el-container>：外层容器。当子元素中包含 <el-header> 或 <el-footer> 时，全部子元素会垂直上下排列，否则会水平左右排列。
+
+<el-header>：顶栏容器。
+
+<el-aside>：侧边栏容器。
+
+<el-main>：主要区域容器。
+
+<el-footer>：底栏容器。
+
+以上组件采用了 flex 布局，使用前请确定目标浏览器是否兼容。此外，<el-container> 的子元素只能是后四者，后四者的父元素也只能是 <el-container>。
+
+
+
+///4.图标使用 
+直接通过设置类名为 el-icon-iconName 来使用即可
+eg.
+<i class="el-icon-edit"></i>
+<i class="el-icon-share"></i>
+<i class="el-icon-delete"></i>
+<el-button type="primary" icon="el-icon-search">搜索</el-button>
+
+<上一页  下一页>
+<el-button-group>
+  <el-button type="primary" icon="el-icon-arrow-left">上一页</el-button>
+  <el-button type="primary">下一页<i class="el-icon-arrow-right el-icon--right"></i></el-button>
+</el-button-group>
+
+
+///5.按钮使用<el-button></el-button>
+属性：	
+type	    类型	         string	   primary/success/warning/danger/info/text
+native-type	原生type属性	 string	    button / submit / reset	
+disabled	是否禁用状态	 boolean		默认值false
+icon	    图标类名	     string	
+autofocus	是否默认聚焦	 boolean		默认值false
+size		尺寸			 string		medium / small / mini
+
+<el-row>
+  <el-button>默认按钮</el-button>
+  <el-button type="primary">主要按钮</el-button>
+  <el-button type="success">成功按钮</el-button>
+  <el-button type="info">信息按钮</el-button>
+  <el-button type="warning">警告按钮</el-button>
+  <el-button type="danger">危险按钮</el-button>
+  <el-button type="text">文字按钮</el-button>（文字按钮：没有边框和背景色的按钮）
+</el-row>
+
+
+plain 是否朴素按钮		boolean	 	默认值：false (背景颜色比默认按钮浅)
+round	是否圆角按钮		boolean			  
+circle	是否圆形按钮 		boolean		      
+：loading	是否加载中状态	boolean		（按钮里面加载转圈圈）
+<el-row>
+  <el-button plain>朴素按钮</el-button>
+  <el-button type="primary" plain>主要按钮</el-button>
+  <el-button type="primary" round>主要按钮</el-button>
+  <el-button type="primary" :loading="true">加载中</el-button>
+</el-row>
+
+
+
+
+使用<el-button-group>标签来嵌套你的按钮：
+<el-button-group>
+  <el-button type="primary" icon="el-icon-edit"></el-button>
+  <el-button type="primary" icon="el-icon-share"></el-button>
+  <el-button type="primary" icon="el-icon-delete"></el-button>
+</el-button-group>
+
+
+///6.文字链接<el-link></el-link>
+属性：
+参数			说明		    类型										 
+type		类型		    string	可选值：primary/success/warning/danger/info	：underline	是否下划线	boolean	    默认值：true
+disabled	是否禁用状态	boolean		默认值：false
+href	   原生href属性  string	     	
+icon	    图标类名	    string	
+
+eg.带图标的文字链接可增强辨识度
+<div>
+  <el-link icon="el-icon-edit">编辑</el-link>
+  <el-link>查看<i class="el-icon-view el-icon--right"></i> </el-link>
+</div>
+
+无下划线：
+<el-link :underline="false">无下划线</el-link>
+
+
+///7.Radio 单选框 和Radio-Button 单选按钮框
+Radio属性：
+value/v-model	绑定值	        string/number/boolean	
+label	        Radio的value 	string / number / boolean
+disabled	    是否禁用			boolean
+border			是否显示边框		boolean
+size	        Radio的尺寸,仅在 border 为真时有效	medium / small / mini	
+name			原生 name 属性	string
+
+eg.单选框
+<template>
+  <el-radio v-model="radio" label="1">备选项</el-radio>
+  <el-radio v-model="radio" label="2">备选项</el-radio>
+</template>
+
+<script>
+  export default {
+    data () {
+      return {
+        radio: '1'
+      };
+    }
+  }
+</script>	
+
+
+Radio-group属性：
+value/v-model			绑定值			string / number / boolean
+size         单选框组尺寸，仅对按钮形式的Radio或带有边框的Radio有效	
+			 medium / small / mini
+disabled			是否禁用	boolean
+text-color	按钮形式的 Radio 激活时的文本颜色	     string  默认：#ffffff
+fill		按钮形式的 Radio 激活时的填充色和边框色 string	 默认：#409EFF
+
+eg.使用单选框组el-radio-group
+在el-radio-group中绑定v-model，在el-radio中设置好label即可，
+无需再给每一个el-radio绑定变量
+
+<template>
+  <el-radio-group v-model="radio">
+    <el-radio :label="3">备选项</el-radio>
+    <el-radio :label="6">备选项</el-radio>
+    <el-radio :label="9">备选项</el-radio>
+  </el-radio-group>
+</template>
+<script>
+  export default {
+    data () {
+      return {
+        radio: 3
+      };
+    }
+  }
+</script>
+
+
+按钮样式：将el-radio 换成 el-radio-button就行
+    <el-radio-group v-model="radio1">
+      <el-radio-button label="上海"></el-radio-button>
+      <el-radio-button label="北京"></el-radio-button>
+      <el-radio-button label="广州"></el-radio-button>
+      <el-radio-button label="深圳"></el-radio-button>
+    </el-radio-group>
+
+
+
+///8.Checkbox 多选框
+属性：
+value/v-model	绑定值			string / number / boolean
+label	       选中状态的值（只有在checkbox-group或者绑定对象类型为array时有效）	
+								string / number / boolean
+true-label		选中时的值		string / number
+false-label		没有选中时的值	string / number
+disabled		是否禁用			boolean
+border			是否显示边框		boolean
+size			Checkbox 的尺寸，仅在 border 为真时有效	
+								string	     （medium / small / mini）
+name			原生name属性		string
+checked			当前是否勾选		boolean
+:indeterminate	设置 indeterminate 状态，只负责样式控制	boolean  
+
+
+
+在el-checkbox元素中定义v-model绑定变量，
+单一的checkbox中，默认绑定变量的值会是Boolean，选中为true
+
+eg.单独使用可以表示两种状态之间的切换
+<el-checkbox v-model="checked">备选项</el-checkbox>
+<el-checkbox v-model="checked2">备选项</el-checkbox>
+ data() {
+      return {
+        checked: true,
+        checked2: false
+      };
+
+
+
+
+Checkbox-group 属性：
+value/v-model	绑定值	  				array
+size			多选框组尺寸，仅对按钮形式的 Checkbox 或带有边框的 Checkbox 有效										string	 （medium / small / mini）
+disabled		是否禁用									boolean	
+min				可被勾选的 checkbox 的最小数量			number
+max				可被勾选的 checkbox 的最大数量			number
+text-color		按钮形式的 Checkbox 激活时的文本颜色		string   （#ffffff）
+fill			按钮形式的 Checkbox 激活时的填充色和边框色	string（#409EFF）
+
+
+事件名称	 说明						回调参数
+change	 当绑定值变化时触发的事件	    更新后的值
+
+多选框组：el-checkbox-group
+checkbox-group元素能把多个 checkbox 管理为一组，只需要在 Group中使用v-model绑定Array类型的变量即可;
+
+el-checkbox 的 label属性是该 checkbox 对应的值，若该标签中无内容，则该属性也充当 checkbox 按钮后的介绍；
+
+label与数组中的元素值相对应，如果存在指定的值则为选中状态，否则为不选中。
+
+eg.适用于多个勾选框绑定到同一个数组的情景，通过是否勾选来表示这一组选项中选中的项。
+<template>
+  <el-checkbox-group v-model="checkList">
+    <el-checkbox label="复选框 A"></el-checkbox>
+    <el-checkbox label="复选框 B"></el-checkbox>
+    <el-checkbox label="复选框 C"></el-checkbox>
+    <el-checkbox label="禁用" disabled></el-checkbox>
+    <el-checkbox label="选中且禁用" disabled></el-checkbox>
+  </el-checkbox-group>
+</template>
+
+<script>
+  export default {
+    data () {
+      return {
+        checkList: ['选中且禁用','复选框 A']
+      };
+    }
+  };
+</script>
+
+
+
+:indeterminate 状态:
+:indeterminate 属性用以表示 checkbox 的不确定状态，一般用于实现全选的效果，0<当选中个数<多选框数组个数，为真
+eg.
+<template>
+  <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
+  //全选按钮有三种状态：全选，有选中，全取消，由isIndeterminate和checkAll控制
+  <div style="margin: 15px 0;"></div>
+
+  <el-checkbox-group v-model="checkedCities" 	@change="handleCheckedCitiesChange">
+    <el-checkbox v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox>
+  </el-checkbox-group>
+</template>
+<script>
+  const cityOptions = ['上海', '北京', '广州', '深圳'];
+  export default {
+    data() {
+      return {
+        checkAll: false,
+        checkedCities: ['上海', '北京'],//哪些多选项被选中
+        cities: cityOptions,   //多选项数组
+        isIndeterminate: true
+      };
+    },
+    methods: {
+      handleCheckAllChange(val) {
+        this.checkedCities = val ? cityOptions : [];
+        this.isIndeterminate = false;
+      },
+      handleCheckedCitiesChange(value) {
+        let checkedCount = value.length;
+        this.checkAll = checkedCount === this.cities.length;
+        this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
+      }
+    }
+  };
+</script>
+
+
+
+
+///9.Input 输入框 和<el-autocomplete>
+属性：
+type	类型		string	text，textarea和其他原生input的type值	   （text）
+value/v-model	绑定值					string / number	
+maxlength		原生属性，最大输入长度	number
+minlength		原生属性，最小输入长度	number
+autocomplete	原生属性，自动补全		string	   on, off	  (off)
+name			原生属性					string
+readonly		原生属性，是否只读	    boolean 	(false)
+max				原生属性，设置最大值
+min				原生属性，设置最小值
+step			原生属性，设置输入字段的合法数字间隔
+autofocus		原生属性，自动获取焦点	boolean	    (false)
+form			原生属性					string
+label			输入框关联的label文字	    string
+tabindex		输入框的tabindex			string
+placeholder		输入框占位文本			string
+clearable		是否可清空				boolean        （false）
+:disabled		禁用						boolean
+validate-event	输入时是否触发表单的校验	boolean      (true)
+resize			控制是否能被用户缩放		string	
+						(none, both, horizontal, vertical)
+
+
+size			输入框尺寸，只在 type!="textarea" 时有效	
+										string	  (medium / small / mini)
+:rows			输入框行数，只对 type="textarea"有效	  number	(2)
+autosize		自适应内容高度，只对 type="textarea" 有效,可传入对象，如，
+				{minRows: 2, maxRows: 6 }	boolean / object	(false)	
+
+
+show-word-limit	是否显示输入字数统计，只在type = "text"或type = "textarea" 					时有效					boolean 	   （false）
+show-password	是否显示切换密码图标		boolean  	   （false）
+prefix-icon		输入框头部图标			string
+suffix-icon		输入框尾部图标			string	
+
+
+eg.使用clearable属性即可得到一个可清空的输入框
+   使用show-password属性即可得到一个可切换显示隐藏的密码框
+<el-input placeholder="请输入内容"  v-model="input"  clearable></el-input>
+<el-input placeholder="请输入密码" v-model="input1" show-password></el-input>
+
+
+eg.带 icon 的输入框
+可以通过 prefix-icon 和 suffix-icon 属性在 input 组件首部和尾部增加显示图标:
+ <el-input
+    placeholder="请选择日期"
+    suffix-icon="el-icon-date"
+    v-model="input1">
+  </el-input>
+
+也可以通过 slot 来放置图标:
+<el-input
+    placeholder="请选择日期"
+    v-model="input3">
+    <i slot="suffix" class="el-input__icon el-icon-date"></i>
+  </el-input>
+  <el-input
+    placeholder="请输入内容"
+    v-model="input4">
+    <i slot="prefix" class="el-input__icon el-icon-search"></i>
+  </el-input>
+
+
+
+
+eg.可自适应文本高度的文本域
+<el-input
+  type="textarea"
+  autosize
+  placeholder="请输入内容"
+  v-model="textarea1">
+</el-input>
+<div style="margin: 20px 0;"></div>
+<el-input
+  type="textarea"
+  :autosize="{ minRows: 2, maxRows: 4}"
+  placeholder="请输入内容"
+  v-model="textarea2">
+</el-input>
+
+
+eg.输入长度限制
+maxlength 和 minlength 是原生属性，用来限制输入框的字符长度，其中字符长度是用 Javascript 的字符串长度统计的。对于类型为 text 或 textarea 的输入框，在使用 maxlength 属性限制最大输入长度的同时，可通过设置 show-word-limit 属性来展示字数统计。
+
+<el-input
+  type="text"
+  placeholder="请输入内容"
+  v-model="text"
+  maxlength="10"
+  show-word-limit
+>  
+
+
+
+
+Input Slots：
+prefix	输入框头部内容，只对 type="text" 有效
+suffix	输入框尾部内容，只对 type="text" 有效
+prepend	输入框前置内容，只对 type="text" 有效
+append	输入框后置内容，只对 type="text" 有效
+
+eg.复合型输入框
+//往插槽prepend插入内容，在input的前置
+<div>
+  <el-input placeholder="请输入内容" v-model="input1">
+    <template slot="prepend">Http://</template>
+  </el-input>
+</div>
+
+
+//往插槽append插入内容，在input的后置 
+ <el-input placeholder="请输入内容" v-model="input2">
+    <template slot="append">.com</template>
+  </el-input>
+
+//复合输入框：往input输入框前面插入一个下拉栏
+<el-input placeholder="请输入内容" v-model="input3" class="input-with-select">
+    <el-select v-model="select" slot="prepend" placeholder="请选择">
+      <el-option label="餐厅名" value="1"></el-option>
+      <el-option label="订单号" value="2"></el-option>
+      <el-option label="用户电话" value="3"></el-option>
+    </el-select>
+    <el-button slot="append" icon="el-icon-search"></el-button>
+ </el-input>
+
+
+
+Input Events：
+事件名称	说明									回调参数
+blur	在 Input 失去焦点时触发				(event: Event)
+focus	在 Input 获得焦点时触发				(event: Event)
+change	仅在输入框失去焦点或用户按下回车时触发	(value: string | number)
+input	在 Input 值改变时触发					(value: string | number)
+clear	在点击由 clearable 属性生成的清空按钮时触发	—
+
+Input Methods：
+方法名	说明						参数
+focus	使 input 获取焦点		—
+blur	使 input 失去焦点		—
+select	选中 input 中的文字		—
+
+
+
+
+
+
+<el-autocomplete>:
+
+Autocomplete Attributes:
+placeholder		输入框占位文本				string	
+name			原生属性 					string
+label			输入框关联的label文字			string
+disabled		禁用							boolean	  	(false)
+value-key		输入建议对象中用于显示的键名	string		(value)
+value			必填值，输入绑定值			string	
+prefix-icon		输入框头部图标				string	
+suffix-icon		输入框尾部图标				string	
+debounce		获取输入建议的去抖延时		number		(300)
+placement		菜单弹出位置					string	   (bottom-start)
+				top/top-start/top-end/bottom/bottom-start/bottom-end	
+
+:fetch-suggestions	返回输入建议的方法，仅当你的输入建议数据 resolve 								时，通过调用 callback(data:[]) 来返回它	
+					Function(queryString, callback)
+
+popper-class	 Autocomplete下拉列表的类名	string
+
+trigger-on-focus 是否在输入框 focus 时显示建议列表	  boolean  (true)
+
+select-when-unmatched	在输入没有任何匹配建议的情况下，按下回车是否触发 select 							事件					boolean		(false)
+
+hide-loading	是否隐藏远程加载时的加载图标	boolean 	(false)
+
+popper-append-to-body  
+				是否将下拉列表插入至 body元素。在下拉列表的定位出现问题时，可将该属性设置为 false								boolean		(true)
+
+highlight-first-item  是否默认突出显示远程搜索建议中的第一项	boolean	(false)
+
+
+Autocomplete Events:
+事件名称	说明					回调参数
+select	点击选中建议项时触发	选中建议项 (返回一个对象)
+
+Autocomplete Methods:
+方法名	说明					参数
+focus	使 input 获取焦点	-
+
+
+eg.带输入建议
+autocomplete :
+是一个可带输入建议的输入框组件，fetch-suggestions是一个返回输入建议的方法属性，
+如 querySearch(queryString, cb)，在该方法中你可以在你的输入建议数据准备好时通过 cb(data) 返回到 autocomplete 组件中。
+
+<el-row class="demo-autocomplete">
+	<el-col :span="12">
+	    <div class="sub-title">激活即列出输入建议</div>
+	    <el-autocomplete
+	      class="inline-input"
+	      v-model="state1"
+	      :fetch-suggestions="querySearch"
+	      placeholder="请输入内容"
+	      @select="handleSelect"
+	    ></el-autocomplete>
+	</el-col>
+
+	<el-col :span="12">
+    	<div class="sub-title">输入后匹配输入建议</div>
+	    <el-autocomplete
+	      class="inline-input"
+	      v-model="state2"
+	      :fetch-suggestions="querySearch"
+	      placeholder="请输入内容"
+	      :trigger-on-focus="false"
+	      @select="handleSelect"
+	    ></el-autocomplete>
+  </el-col>
+</el-row>
+
+ data() {
+      return {
+        restaurants: [],
+        state1: '',
+        state2: ''
+      };
+    }
+
+  methods: {
+      querySearch(queryString, cb) {
+        var restaurants = this.restaurants;
+        var results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
+        // 调用 callback 返回建议列表的数据
+        cb(results);
+      },
+      createFilter(queryString) {
+        return (restaurant) => {
+          return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+        };
+      },
+
+     loadAll() {
+        return [
+          { "value": "三全鲜食（北新泾店）", "address": "长宁区新渔路144号" },
+          ....
+        ]
+       },
+     handleSelect(item) {
+        console.log(item);
+      }
+    },
+    mounted() {
+      this.restaurants = this.loadAll();
+    }
+
+
+
+
+
+///10.Select 选择器
+属性：
+value/v-model		绑定值			boolean / string / number
+placeholder			占位符			string
+disabled			是否禁用			boolean
+size				输入框尺寸		string			medium/small/mini
+clearable			是否可以清空选项	boolean	    (只能用于单选false）
+
+multiple			是否多选			boolean 		（false）
+multiple-limit		多选时用户最多可以选择的项目数为0则不限制	number  （0）
+
+value-key			作为value唯一标识的键名，绑定值为对象类型时必填	
+									string	     	 (value)
+name				select input的name属性	string	
+autocomplete		select input的autocomplete 属性	string	   （off）
+
+filterable			是否可搜索		boolean			（false）
+allow-create		是否允许用户创建新条目，需配合 filterable 使用	
+									boolean	     	 （false）
+filter-method		自定义搜索方法	function	
+reserve-keyword多选且可搜索时，是否在选中一个选项后保留当前的搜索关键词                            boolean       （false）
+default-first-option  
+          在输入框按下回车，选择第一个匹配项。需配合 filterable 或 remote 使用    boolean        （false）
+
+
+remote				  是否为远程搜索	boolean		（false）
+remote-method		远程搜索方法		function	
+loading				  是否正在从远程获取数据	boolean		（false）
+loading-text		远程加载时显示的文字		string		（加载中）
+no-match-text		搜索条件无匹配时显示的文字，也可以使用slot="empty"设置													string		 （无匹配数据）
+no-data-text		选项为空时显示的文字，也可以使用slot="empty"设置	
+											string		（无数据）
+
+											
+popper-class		Select 下拉框的类名	string		
+
+
+popper-append-to-body	
+					是否将弹出框插入至 body 元素。在弹出框的定位出现问题时，可将该属性设置为 false	
+										boolean		       （true）	
+automatic-dropdown	对于不可搜索的 Select，是否在输入框获得焦点后自动弹出选项菜单										boolean	        	(false)
+
+
+Select Events:
+事件名称			说明							回调参数
+change			选中值发生变化时触发			目前的选中值
+visible-change	下拉框出现/隐藏时触发			出现则为 true，隐藏则为 false
+remove-tag		多选模式下移除tag时触发		移除的tag值
+clear			可清空的单选模式下用户点击清空按钮时触发	
+blur			当 input 失去焦点时触发		(event: Event)
+focus			当 input 获得焦点时触发		(event: Event)		
+
+
+
+Select Slots:
+name		说明
+—			Option 组件列表
+prefix		Select 组件头部内容
+empty		无选项时的列表		
+
+
+
+
+
+
+
+eg.单选择 可清空单选，禁用某些选择项,可以利用搜索功能快速查找选项
+
+为el-select添加filterable属性即可启用搜索功能。
+默认情况下，Select 会找出所有label属性包含输入值的选项。
+如果希望使用其他的搜索逻辑，可以通过传入一个filter-method来实现;filter-method为一个Function，它会在输入值发生变化时调用，参数为当前输入值。
+
+  <el-select v-model="value" placeholder="请选择"  clearable filterable>
+                    <el-option
+                      v-for="item in options"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value"
+                      :disabled="item.disabled" > 
+        <!-- 当label存在使用label的值，不存在的时候label与value值一致 -->
+                    </el-option>
+ </el-select>
+数据：
+ options: [{
+          value: '选项1',
+          label: '黄金糕'
+        }, {
+          value: '选项2',
+          label: '蚵仔煎',
+          disabled: true      //通过传给：disabled的布尔值决定禁不禁用
+        }...
+        ]
+
+
+
+eg.基础多选，适用性较广的基础多选，用 Tag 展示已选项
+ <el-select  v-model="valueArray"  multiple  placeholder="请选择">
+                  <el-option
+                      v-for="option in options"
+                      :key="option.value"
+                      :label="option.label"
+                      :value="option.value"
+                      >                   
+                  </el-option>
+ </el-select>
+v-model绑定为一个数组，加入multiple 可以多选
+【加入collapse-tags属性将它们合并为一段文字。】
+
+
+
+eg.自定义模板
+将自定义的 HTML 模板插入el-option的 slot 中即可。
+
+<el-select v-model="value" placeholder="请选择">
+    <el-option
+      v-for="item in cities"
+      :key="item.value"
+      :label="item.label"
+      :value="item.value">
+
+      <span style="float: left">{{ item.label }}</span>
+      <span style="float: right; color: #8492a6; font-size: 13px">{{ item.value }}</span>
+    </el-option>
+</el-select>
+
+
+
+Option Group Attributes:
+参数      说明              类型      可选值   默认值
+label   分组的组名         string    —   —
+disabled  是否将该分组下所有选项置为禁用 boolean   —   false
+
+eg.分组  el-option-group
+使用el-option-group对备选项进行分组，它的label属性为分组名
+
+<el-select v-model="value" placeholder="请选择">
+    <el-option-group
+      v-for="group in options"
+      :key="group.label"
+      :label="group.label">
+      <el-option
+        v-for="item in group.options"
+        :key="item.value"
+        :label="item.label"
+        :value="item.value">
+      </el-option>
+    </el-option-group>
+</el-select>
+
+
+options: [{
+          label: '热门城市',
+          options: [{
+            value: 'Shanghai',
+            label: '上海'
+          }, {
+            value: 'Beijing',
+            label: '北京'
+          }]
+        }, 
+        {
+          label: '城市名',
+          options: [{
+            value: 'Chengdu',
+            label: '成都'
+          }, {
+            value: 'Shenzhen',
+            label: '深圳'
+          }
+        }
+      ]
+
+
+
+
+eg.远程搜素
+从服务器搜索数据，输入关键字进行查找
+
+为了启用远程搜索，需要将filterable和remote设置为true，同时传入一个remote-method。remote-method为一个Function，它会在输入值发生变化时调用，参数为当前输入值。需要注意的是，如果el-option是通过v-for指令渲染出来的，此时需要为el-option添加key属性，且其值需具有唯一性，比如此例中的item.value。
+
+
+<el-select
+    v-model="value"
+    multiple
+    filterable
+    remote
+    reserve-keyword         
+    placeholder="请输入关键词"
+    :remote-method="remoteMethod"
+    :loading="loading">
+    <el-option
+      v-for="item in options"
+      :key="item.value"
+      :label="item.label"
+      :value="item.value">
+    </el-option>
+  </el-select>
+
+方法：
+mounted() {
+      this.list = this.states.map(item => {
+        return { value: `value:${item}`, label: `label:${item}` };
+      });
+    }
+//获取数据放到list数组中
+
+methods: {
+      //匹配数据，将符合的放到options数组中
+      remoteMethod(query) {
+        if (query !== '') {
+          this.loading = true;
+          setTimeout(() => {
+            this.loading = false;
+            this.options = this.list.filter(item => {
+              return item.label.toLowerCase()
+                .indexOf(query.toLowerCase()) > -1;
+            });
+          }, 200);
+        } else {
+          this.options = [];
+        }
+      }
+}
+
+
+
+
+
+
+///11.Cascader 级联选择器
+
+
+
+
+
+
+
+
+
+///12.Form 表单
+Form Attributes:
+model     表单数据对象  object    
+rules     表单验证规则  object  
+inline    行内表单模式  boolean   (false)
+size      用于控制该表单内组件的尺寸   string  medium / small / mini
+disabled  是否禁用该表单内的所有组件。若设置为 true，
+          则表单内组件上的disabled属性不再生效  boolean     (false)
+hide-required-asterisk  是否显示必填字段的标签旁边的红色星号  boolean  (false)
+show-message            是否显示校验错误信息                 boolean  (true)
+inline-message          是否以行内形式展示校验信息           boolean   (false)
+status-icon             是否在输入框中显示校验结果反馈图标    boolean   (false)
+validate-on-rule-change 是否在 rules 属性改变后立即触发一次验证 boolean  (true)
+
+label-position    
+    表单域标签的位置，如果值为 left 或者 right时，则需要设置           label-width     string     right/left/top      (right)
+label-width 
+    表单域标签的宽度，例如 '50px'。作为 Form 直接子元素的 form-item 会继承该值。支持 auto。  string  
+label-suffix  表单域标签的后缀  string 
+
+
+
+
+Form Methods：
+validate  
+      对整个表单进行校验的方法，参数为一个回调函数。该回调函数会在校验结束后被调用，并传入两个参数：是否校验成功和未通过校验的字段。若不传入回调函数，则会返回一个 promise  
+      参数:Function(callback: Function(boolean, object))
+
+validateField 
+      对部分表单字段进行校验的方法  
+      参数：Function(props: array | string, callback: Function(errorMessage: string))
+
+resetFields 对整个表单进行重置，将所有字段值重置为初始值并移除校验结果 
+
+clearValidate 
+      移除表单项的校验结果。传入待移除的表单项的 prop 属性或者 prop 组成的数组，如不传则移除整个表单的校验结果  
+      参数：Function(props: array | string)
+
+
+Form Events：
+validate  ：任一表单项被校验后触发 
+   回调参数：被校验的表单项 prop 值，校验是否通过，错误消息（如果存在）、
+
+
+
+Form-Item Attributes：
+prop   
+    表单域 model 字段，在使用 validate、resetFields                         方法的情况下，该属性是必填的  
+    string   可选值：传入Form 组件的 model 中的字段 
+label       标签文本  string  
+label-width 表单域标签的的宽度，例如 '50px'。支持 auto。  string 
+required    是否必填，如不设置，则会根据校验规则自动生成  boolean   （false）
+rules       表单验证规则  object  
+error   
+  表单域验证错误信息, 设置该值会使表单验证状态变为error，并显示该错误信息 string  
+show-message    是否显示校验错误信息   boolean     （true）
+inline-message  以行内形式展示校验信息  boolean     （false）
+size      用于控制该表单域下组件的尺寸  string      medium / small / mini 
+
+
+Form-Item Methods：
+resetField    对该表单项进行重置，将其值重置为初始值并移除校验结果  
+clearValidate 移除该表单项的校验结果
+
+
+
+
+eg.表单验证
+在 Form 组件中，每一个表单域由一个 Form-Item 组件构成，表单域中可以放置各种类型的表单控件，包括 Input、Select、Checkbox、Radio、Switch、DatePicker、TimePicker
+

@@ -51,3 +51,1061 @@ console.log('Server running at http://127.0.0.1:8888/');
 使用 node 命令执行以上的代码：
 node server.js
 Server running at http://127.0.0.1:8888/
+
+
+Node.js
+、、、目录：///1.node.js 环境配置
+		 ///2.node.js一些知识点
+		 ///3.模块成员导出
+		 ///4.Buffer操作
+		 ///5.path操作
+		 ///6.文件操作
+		 ///7.包
+		 ///8.Web开发
+
+
+///1.node.js 环境配置：
+1.
+新建目录说明:
+node_global：npm全局安装位置
+node_cache：npm缓存路径
+
+2.
+Nodejs自带npm，npm和其他未来要使用的组件都存放在“...\nodejs\node_global\node_modules”里。
+在windows环境变量重增加一个
+NODE_PATH=...\nodejs\node_global\node_modules的参数，保证未来新增的一些模块工具可以正常使用。
+
+3.
+在环境变量path中加入；...\nodejs；...\nodejs\node_global
+
+
+4.
+设置node_cache（用于npm存放一些临时文件）和node_global（全局工具文件夹）
+配置npm全局模块路径和cache默认安装位置:
+在cmd中输入一下命令：
+npm config set prefix '...\nodejs\node-global'
+npm config set cache '...\nodejs\node_cache'
+【创建的node_global(npm全局安装位置)和node_cache(npm缓存路径)与npm联系起来】
+
+
+5.修改npm镜像提高下载速度(可以使用 cnpm 或 直接设置 --registry ，推荐设置 --registry)
+
+5.1## 设置淘宝源
+npm config set registry https://registry.npm.taobao.org/
+
+## 查看源，可以看到设置过的所有的源
+npm config get registry
+
+【其实此步骤的内容就是将以下代码添加到C:\Users\用户名\.npmrc文件中:
+registry=https://registry.npm.taobao.org】
+
+5.2##cnpm
+npm install -g cnpm --registry=https://registry.npm.taobao.org
+【cnpm安装完成后，以后就可以用cnpm命令代替npm命令, 此时npm还是会用官方镜像，cnpm会用国内镜像
+如果要恢复成原来的设置，执行如下：
+npm config set registry https://registry.npmjs.org/】
+
+
+
+///2.node.js的一些知识点
+浏览器内核包括2部分核心：1.DOM渲染引擎；2.js解析器（js引擎）
+
+i.命令行方式REPL   read-eval-print-loop
+在REPL环境中，_是最后一次执行结果
+
+cmd输入node进入
+输入.exit离开
+
+ii.直接运行方式  node 文件.js
+
+
+iii.
+__dirname:当前目录路径
+__filename:包括文件名的全路径
+
+process.argv：
+argv是一个数组，数组前俩项是node.js的环境路径，当前执行js文件的路径
+从第三个参数开始，表示命令行参数
+eg.node abc.js  13 12 31
+
+iv.
+server开发和前端开发的区别:
+    服务稳定性
+        server端可能遭到各种恶意攻击和误操作
+        单个客户端可以挂掉，但服务端不行
+        PM2做进程守候
+    考虑内存和CPU（优化，扩展）
+        客户端独占一个浏览器，内存和CPU都不是问题
+        server端承载很多请求，内存和CPU都是稀缺资源
+        stream写日志是比较节省内存的（优化），redis存session（扩展）
+    日志记录
+        server端要记录日志，存储日志，分析日志，前端不用关心
+    安全
+        server端要随时准备接受各种恶意攻击：越权操作，数据库攻击
+        预防xss攻击和sql注入
+    集群和服务拆分
+        产品发展速度快，承载流量大
+
+nodejs和JavaScript的区别:
+    javascript
+        使用ESMAScript语法规范，外加web API
+        web API ： BOM DOM，实践绑定，ajax等
+    nodejs
+        使用ESMAScript语法规范，外加nodejs API
+        nodejs API：处理http请求，处理文件等
+
+v.
+前端标准的模块化规范：
+1.AMD - requirejs
+2.CMD - seajs
+
+服务器端的模块化规范：
+1.ComonJS - Node.js
+
+模块化相关的规则：
+1.如何定义模块：一个js文件就是一个模块，模块内的成员都是相互独立的；
+2.模块成员的导出和引入。
+
+已经加载的模块会缓存，通过加载路径判断
+模块文件后缀3种：.js .json .node
+当不加文件后缀时优先级：js ->json->node
+
+
+///3.模块成员导出详解
+eg.
+Hello.js:
+function Hello(){
+    console.log('我就是Hello模块')
+}
+
+
+index.js：【使用require('路径')引入模块】
+var 某某 = require(‘要引入模块的路径’);
+var index = require('./Hello.js’);
+
+
+导出方式：
+i.exports
+exports.hell = Hello; #相当于将Hello函数添加到exports对象中，起个名字叫 hell
+
+index.js中index相当于一个对象，index.hell();
+
+ii.module.exports
+module.exports = 函数名
+module.exports = Hello;
+
+index.js中index相当于有个函数名，index();
+
+
+///4.Buffer操作
+Buffer 类是一个全局变量，用于直接处理二进制数据。
+Buffer本质上就是字节数组。
+
+i.构造方法（类）
+	实例化Buffer对象
+	eg1. Buffer.alloc(size) //size是字节大小
+	let buf = Buffer.alloc(5);
+
+	eg2.Buffer.from(string)//string字符串
+	let buf = Buffer.from('hello')
+
+	eg3.Buffer.from(array)//array是8位的数组
+	let buf = Buffer.from([0x62,0x75]);
+	console.log(buf.toString());
+	//b u 
+
+
+ii.静态方法(只能通过类名调用,无法继承【static】) 
+	//Buffer.isEncoding('encoding') 查询是否支持编码方式
+	Node.js 当前支持的字符编码有：
+    	'ascii': 仅适用于 7 位 ASCII 数据。此编码速度很快，如果设置则会剥离高位。
+		'utf8': 多字节编码的 Unicode 字符。许多网页和其他文档格式都使用 UTF-8。
+    	'utf16le': 2 或 4 个字节，小端序编码的 Unicode 字符。支持代理对（U+10000 至 U+10FFFF）。
+    	'ucs2': 'utf16le' 的别名。
+    	'base64': Base64 编码。当从字符串创建 Buffer 时，此编码也会正确地接受 RFC 4648 第 5 节中指定的 “URL 和文件名安全字母”。
+    	'latin1': 一种将 Buffer 编码成单字节编码字符串的方法（由 RFC 1345 中的 IANA 定义，第 63 页，作为 Latin-1 的补充块和 C0/C1 控制码）。
+    	'binary': 'latin1' 的别名。
+    	'hex': 将每个字节编码成两个十六进制的字符。
+
+    //Buffer.isBuffer(obj) 如果 obj 是一个 Buffer，则返回 true，否则返回 false。
+
+    //Buffer.byteLength(string[, encoding])
+    【返回字符串的实际字节长度。 与 String.prototype.length 不同，后者返回字符串的字符数。】
+
+    //Buffer.concat(list[, totalLength])
+    参数：
+	    list <Buffer[]> | <Uint8Array[]> 要合并的 Buffer 数组或 Uint8Array 数组。
+	    totalLength <integer> 合并后 list 中的 Buffer 实例的总长度。
+	    返回: <Buffer>
+    eg.
+    const buf1 = Buffer.alloc(10);
+	const buf2 = Buffer.alloc(14);
+	const buf3 = Buffer.alloc(18);
+	Buffer.concat([buf1,buf2,buf3]);
+
+
+iii.实例方法
+	eg.let buf = Buffer.alloc(11);
+	//buf.write(string[, offset[, length]][, encoding])
+	参数：
+	    string <string> 要写入 buf 的字符串。
+	    offset <integer> 开始写入 string 之前要跳过的字节数。默认值: 0。
+	    length <integer> 要写入的字节数。默认值: buf.length - offset。
+	    encoding <string> string 的字符编码。默认值: 'utf8'。
+	    返回: <integer> 已写入的字节数。
+	eg.buf.write('hello',2,2);
+
+	//buf.slice([start[, end]])
+	参数：
+	    start <integer> 新 Buffer 开始的位置。默认值: 0。
+	    end <integer> 新 Buffer 结束的位置（不包含）。默认值: buf.length。
+	    返回: <Buffer>
+		【返回一个新的 Buffer，它引用与原始的 Buffer 相同的内存，但是由 start 和 end 索引进行偏移和裁剪。】
+	eg.let buf = Buffer.from('shuai');
+	   let buf1= buf.slice(1,3);  //hu
+
+
+	//buf.toString() 转化为字符串
+	//buf.toJSON()  转化为json格式的字符串，不用显示调用
+	 【当字符串化 Buffer 实例时，JSON.stringify() 会调用该函数。】
+	 	eg1.
+		const buf = Buffer.from([0x1, 0x2, 0x3, 0x4, 0x5]);
+		const json = JSON.stringify(buf);
+		console.log(json);
+		打印: {"type":"Buffer","data":[1,2,3,4,5]}
+
+		eg2.
+		const copy = JSON.parse(json, (key, value) => {
+		  return value && value.type === 'Buffer' ?
+		    Buffer.from(value.data) :
+		    value;
+		});
+		console.log(copy);
+		打印: <Buffer 01 02 03 04 05>
+
+
+///5.path操作
+path 模块提供用于处理文件路径和目录路径的实用工具。
+	i.调用api
+		const path = require('path');
+
+	ii.方法：
+//path.basename(path[, ext])
+	 参数： 	
+	    path <string>
+	    ext <string> 可选的文件扩展名。
+	    返回: <string>
+	path.basename() 方法返回 path 的最后一部分，类似于 Unix 的 basename 命令。 尾部的目录分隔符将被忽略
+	eg.
+	path.basename('/foo/bar/baz/asdf/quux.html');
+    返回: 'quux.html'
+    path.basename('/foo/bar/baz/asdf/quux.html', '.html');
+    返回: 'quux'
+    【如果 path 不是字符串或者给定了 ext 且不是字符串，则抛出 TypeError。】
+
+//path.dirname(path)
+    path.dirname() 方法返回 path 的目录名，类似于 Unix 的 dirname 命令。
+    eg.
+    path.dirname('/foo/bar/baz/asdf/quux');
+	返回: '/foo/bar/baz/asdf'
+
+//path.extname(path)
+	path.extname() 方法返回 path 的扩展名，从最后一次出现 .（句点）字符到 path 最后一部分的字符串结束。
+	【 如果在 path 的最后一部分中没有 . ，或者如果 path 的基本名称（参阅 path.basename()除了第一个字符以外没有 .，则返回空字符串。】
+	path.extname('index.');
+	 返回: '.'
+	path.extname('index');
+	 返回: ''
+	path.extname('.index');
+	 返回: ''
+
+
+//path.format(pathObject)    obj->str
+//path.parse(path)		 str->obj
+	format参数：
+	    pathObject <Object>
+	        dir <string>   文件目录路径
+	        root <string>  
+	        base <string> 
+	        name <string>
+	        ext <string>
+	    返回: <string>
+
+	parse返回对象：
+		 pathObject <Object>
+	        dir <string>   文件全路径
+	        root <string>  根路径
+	        base <string> 
+	        name <string>
+	        ext <string>
+
+
+	path.format() 方法从对象返回路径字符串，路径的格式化。与 path.parse() 相反。
+
+	当为 pathObject 提供属性时，注意以下组合，其中一些属性优先于另一些属性：
+	  如果提供了 pathObject.dir，则忽略 pathObject.root。
+      如果 pathObject.base 存在，则忽略 pathObject.ext 和 pathObject.name。
+
+    eg.
+	    path.format({
+			  root: '/ignored',
+			  dir: '/home/user/dir',
+			  base: 'file.txt'
+		});
+	 	返回: '/home/user/dir/file.txt'
+
+	eg2.
+		// 如果未指定 `base`，则使用 `name` + `ext`。
+			path.format({
+			  root: '/',
+			  name: 'file',
+			  ext: '.txt'
+			});
+		返回: '/file.txt'
+
+	eg3.const path = require('path');
+		path.parse('/home/user/dir/file.txt');
+		返回:
+		 { root: '/',
+		   dir: '/home/user/dir', //文件全路径
+		   base: 'file.txt',
+		   ext: '.txt',
+		   name: 'file' 
+		 }
+	window上：
+		path.parse('C:\\path\\dir\\file.txt');
+		返回:
+		 { root: 'C:\\',
+		   dir: 'C:\\path\\dir',
+		   base: 'file.txt',
+		   ext: '.txt',
+		   name: 'file' 
+		 }
+
+
+//path.isAbsolute(path) 检测 path 是否为绝对路径。
+	在 POSIX 上：
+		path.isAbsolute('/foo/bar'); // true
+		path.isAbsolute('/baz/..');  // true
+		path.isAbsolute('qux/');     // false
+		path.isAbsolute('.');        // false
+
+	在 Windows 上：
+		path.isAbsolute('//server');    // true
+		path.isAbsolute('\\\\server');  // true
+		path.isAbsolute('C:/foo/..');   // true
+		path.isAbsolute('C:\\foo\\..'); // true
+		path.isAbsolute('bar\\baz');    // false
+		path.isAbsolute('bar/baz');     // false
+		path.isAbsolute('.');           // false
+
+
+//path.join([...paths])
+使用平台特定的分隔符作为定界符将所有给定的 path 片段连接在一起，然后规范化生成的路径。
+
+	eg1.
+	path.join('/foo', 'bar', 'baz/asdf', 'quux', '..');
+	 返回: '/foo/bar/baz/asdf'
+	 最后的..表示返回上层路径，所以返回到quux的上层
+
+	eg2.
+	如果任何路径片段不是字符串，则抛出 TypeError。
+	path.join('foo', {}, 'bar');
+	 抛出 'TypeError: Path must be a string. Received {}'
+
+
+//path.normalize(path)
+规范化给定的 path，解析 '..' 和 '.' 片段。
+	
+	当找到多个连续的路径段分隔字符时（例如 POSIX 上的 /、Windows 上的 \ 或 /），则它们将被替换为单个平台特定的路径段分隔符（POSIX 上的 /、Windows 上的 \）。 尾部的分隔符会保留。
+	eg.
+	在 POSIX 上：
+	path.normalize('/foo/bar//baz/asdf/quux/..');
+	返回: '/foo/bar/baz/asdf'
+
+	在 Windows 上：
+	path.normalize('C:\\temp\\\\foo\\bar\\..\\');
+	返回: 'C:\\temp\\foo\\'
+
+	由于 Windows 识别多种路径分隔符，因此这些分隔符都将被替换为 Windows 首选的分隔符（\）：
+	path.win32.normalize('C:////temp\\\\/\\/\\/foo/bar');
+    返回: 'C:\\temp\\foo\\bar'
+
+
+//path.relative(from, to)
+根据当前工作目录返回 from 到 to 的相对路径。 
+如果 from 和 to 各自解析到相同的路径（分别调用 path.resolve()之后），则返回零长度的字符串。
+如果将零长度的字符串传入 from 或 to，则使用当前工作目录代替该零长度的字符串。
+
+	eg.
+	在 POSIX 上：
+	path.relative('/data/orandea/test/aaa', '/data/orandea/impl/bbb');
+	返回: '../../impl/bbb'
+
+	在 Windows 上：
+	path.relative('C:\\orandea\\test\\aaa', 'C:\\orandea\\impl\\bbb');
+    返回: '..\\..\\impl\\bbb'
+
+
+
+
+//path.resolve([...paths])
+将路径或路径片段的序列解析为绝对路径。
+
+	eg.
+	path.resolve('/foo/bar', './baz');
+    返回: '/foo/bar/baz'      
+    第一个路径从根路径开始/foo/bar 后面加上/baz
+
+	path.resolve('/foo/bar', '/tmp/file/');
+	返回: '/tmp/file'
+	第二个路径也是从根路径出发，舍弃第一个路径
+
+	如果在处理完所有给定的 path 片段之后还未生成绝对路径，则再加上当前工作目录:
+	path.resolve('wwwroot', 'static_files/png/', '../gif/image.gif');
+	如果当前工作目录是 /home/myself/node，
+    则返回 '/home/myself/node/wwwroot/static_files/gif/image.gif'
+
+
+//path.delimiter   表示环境变量分隔符（window是；linux是：）
+//path.sep         表示路径分隔符（window是\,linux是/）
+
+	eg.
+	在 POSIX 上：
+	console.log(process.env.PATH);
+	打印: '/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin'
+
+	process.env.PATH.split(path.delimiter);
+	返回: ['/usr/bin', '/bin', '/usr/sbin', '/sbin', '/usr/local/bin']
+
+	在 Windows 上：
+	console.log(process.env.PATH);
+	打印: 'C:\Windows\system32;C:\Windows;C:\Program Files\node\'
+
+	process.env.PATH.split(path.delimiter);
+	返回: ['C:\\Windows\\system32', 'C:\\Windows', 'C:\\Program Files\\node\\']
+
+
+
+
+
+///6.文件操作
+fs（文件系统）
+	i.调用api
+	fs 模块提供了一个 API，用于以模仿标准 POSIX 函数的方式与文件系统进行交互。
+	要使用此模块：   const fs = require('fs')；
+
+	所有文件系统操作都具有同步和异步的形式。
+	
+	异步的形式总是将完成回调作为其最后一个参数。 
+	传给完成回调的参数取决于具体方法，但第一个参数始终预留用于异常。 如果操作成功完成，则第一个参数将为 null 或 undefined。
+	const fs = require('fs');
+	fs.unlink('/tmp/hello', (err) => {
+	  if (err) throw err;
+	  console.log('已成功删除 /tmp/hello');
+	});
+
+
+
+	ii.方法
+文件信息获取：
+//fs.Stats类  fs.Stats 对象提供了关于文件的信息。
+	从 fs.stat()、fs.lstat() 和 fs.fstat() 及其同步的方法返回的对象都属于此类型。 如果传给这些方法的 options 中的 bigint 为 true，则数值将会为 bigint 型而不是 number 型，并且该对象将会包含额外的以 Ns 为后缀的纳秒精度的属性。
+
+	属性：
+	Stats {
+	  dev: 2114,        包含该文件的设备的数字标识符。
+	  ino: 48064969,    文件系统特定的文件索引节点编号。
+	  mode: 33188,		描述文件类型和模式的位字段。
+	  nlink: 1,			文件存在的硬链接数。
+	  uid: 85,			拥有该文件（POSIX）的用户的数字型用户标识符。
+	  gid: 100,			拥有该文件（POSIX）的群组的数字型群组标识符。
+	  rdev: 0, 			如果文件被视为特殊文件，则此值为数字型设备标识符。
+	  size: 527,		文件的大小（以字节为单位）
+	  blksize: 4096,	用于 I/O 操作的文件系统块的大小。
+	  blocks: 8,		为此文件分配的块数。
+	  						   以 POSIX 纪元以来的毫秒数表示。   
+	  atimeMs: 1318289051000.1,  	表明上次访问此文件的时间戳
+	  mtimeMs: 1318289051000.1,	 	表明上次修改此文件的时间戳
+	  ctimeMs: 1318289051000.1,	 	表明上次更改文件状态的时间戳
+	  birthtimeMs: 1318289051000.1, 表明此文件的创建时间的时间戳
+	  atime: Mon, 10 Oct 2011 23:24:11 GMT,     
+	  mtime: Mon, 10 Oct 2011 23:24:11 GMT,
+	  ctime: Mon, 10 Oct 2011 23:24:11 GMT,
+	  birthtime: Mon, 10 Oct 2011 23:24:11 GMT }
+
+bigint 的版本：
+	BigIntStats {
+	  dev: 2114n,
+	  ino: 48064969n,
+	  mode: 33188n,
+	  nlink: 1n,
+	  uid: 85n,
+	  gid: 100n,
+	  rdev: 0n,
+	  size: 527n,
+	  blksize: 4096n,
+	  blocks: 8n,
+	  atimeMs: 1318289051000n,
+	  mtimeMs: 1318289051000n,
+	  ctimeMs: 1318289051000n,
+	  birthtimeMs: 1318289051000n,           单位为纳秒
+	  atimeNs: 1318289051000000000n,
+	  mtimeNs: 1318289051000000000n,
+	  ctimeNs: 1318289051000000000n,
+	  birthtimeNs: 1318289051000000000n,
+	  atime: Mon, 10 Oct 2011 23:24:11 GMT,
+	  mtime: Mon, 10 Oct 2011 23:24:11 GMT,
+	  ctime: Mon, 10 Oct 2011 23:24:11 GMT,
+	  birthtime: Mon, 10 Oct 2011 23:24:11 GMT }
+
+
+	  方法：
+	  stats.isBlockDevice() 
+	  如果 fs.Stats 对象描述块设备，则返回 true。
+
+	  stats.isCharacterDevice()
+	  如果 fs.Stats 对象描述字符设备，则返回 true。
+
+	  stats.isDirectory()
+	  如果 fs.Stats 对象描述文件系统目录，则返回 true。
+
+	  stats.isFIFO()
+	  如果 fs.Stats 对象描述先进先出（FIFO）管道，则返回 true。
+
+	  stats.isFile()
+	  如果 fs.Stats 对象描述常规文件，则返回 true。
+
+	  stats.isSocket()
+	  如果 fs.Stats 对象描述套接字，则返回 true。
+
+	  stats.isSymbolicLink()
+	  如果 fs.Stats 对象描述符号链接，则返回 true（此方法仅在使用 fs.lstat() 时有效。）
+
+//fs.stat(path[, options], callback)
+    参数：
+    path <string> | <Buffer> | <URL>
+	options <Object>
+	  bigint <boolean> 返回的 fs.Stats 对象中的数值是否应为 bigint 型。默认值: false。
+    callback有两个参数 (err, stats)，其中 stats 是一个 fs.Stats 对象。
+
+    eg.
+    const fs=require('fs');
+    fs.stat('./data.txt',(err,stats)=>{
+        if(err) throw err;
+        if(stats.ifFire()){
+           console.log("file");
+        }
+    })
+
+
+
+读写删文件操作：
+//fs.readFile(path[, options], callback)
+	参数：
+    path <string> | <Buffer> | <URL> | <integer> 文件名或文件描述符。
+    options <Object> | <string>
+        encoding <string> | <null> 默认值: null。
+        flag <string> 参阅支持的文件系统标志。默认值: 'r'。
+    callback <Function>
+        err <Error>
+        data <string> | <Buffer>
+
+    eg.
+    const fs = require('fs');
+    const path = require('path');
+
+    let strpath = path.join(__dirname,'utf8',data.txt');
+    fs.readFile(strpath,(err,data)=>{
+    	if(err) throw;
+    	console.log(data);  使用了编码参数，结果为字符串；abc
+    						没有使用，则为Buffer实例对象；<Buffer 61 62 63>
+    })
+
+//fs.writeFile(file, data[, options], callback)
+	参数：
+    file <string> | <Buffer> | <URL> | <integer> 文件名或文件描述符。
+    data <string> | <Buffer> | <TypedArray> | <DataView>
+    options <Object> | <string>
+        encoding <string> | <null> 默认值: 'utf8'。
+        mode <integer> 默认值: 0o666。
+        flag <string> 参阅支持的文件系统标志。默认值: 'w'。
+    callback <Function>
+        err <Error>
+
+    当 file 是一个文件名时，异步地将数据写入到一个文件，如果文件已存在则覆盖该文件。 data 可以是字符串或 buffer。
+
+	当 file 是一个文件描述符时，行为类似于直接调用 fs.write()（建议使用）。 请参阅以下有关使用文件描述符的说明。
+
+    eg.如果 data 是一个 buffer，则 encoding 选项会被忽略。
+    const data = new Uint8Array(Buffer.from('Node.js中文网'));
+	fs.writeFile('文件.txt', data, (err) => {
+	  if (err) throw err;
+	  console.log('文件已被保存');
+	});
+
+	eg2.如果 options 是一个字符串，则它指定字符编码：
+	fs.writeFile('文件.txt', 'Node.js中文网', 'utf8', callback);
+
+//fs.unlink(path, callback)
+	参数：	
+    path <string> | <Buffer> | <URL>
+    callback <Function>
+        err <Error>
+	异步地删除文件或符号链接。 除了可能的异常，完成回调没有其他参数。
+
+	eg.
+	// 假设 'path/file.txt' 是常规文件。
+	fs.unlink('path/file.txt', (err) => {
+	  if (err) throw err;
+	  console.log('文件已删除');
+	});
+	fs.unlink() 不能用于目录。 要删除目录，则使用 fs.rmdir()。
+
+
+大文件操作：（流式操作）
+//fs.createReadStream(path[, options])
+//fs.createWriteStream(path[, options])
+	参数：
+	path <string> | <Buffer> | <URL>
+	options <string> | <Object>
+	    flags <string> 参阅支持的文件系统标志。默认值: 'r'。
+	    encoding <string> 默认值: null。
+	    fd <integer> 默认值: null。
+	    mode <integer> 默认值: 0o666。
+	    autoClose <boolean> 默认值: true。
+	    emitClose <boolean> 默认值: false。
+	    start <integer>
+	    end <integer> 默认值: Infinity。
+	    highWaterMark <integer> 默认值: 64 * 1024。
+	返回: <fs.ReadStream>
+
+	eg.
+	const path = require('path');
+	const fs = require('fs');
+
+	let spath = path.join(__dirname,'data.zip');
+	let dpath = path.join('C:\\User','data.zip');
+
+	let readStream = fs.createReadStream(spath);
+	let writeStream = fs.createWriteStream(dpath);
+
+	readStream.on('data', (chunk) => {
+	  console.log(`接收到 ${chunk.length} 个字节的数据`);
+	  writeStream.write(chunk);
+	});
+	//chunk是数据块 最大65535字节
+	readStream.on('end', () => {
+	  console.log('已没有数据');
+	});
+
+	【直接把输入流和输出流连接：readStream.pipe(writeStream)】
+
+
+
+目录操作：
+//创建目录
+//fs.mkdir(path[, options], callback)
+	参数：
+	path <string> | <Buffer> | <URL>
+	options <Object> | <integer>
+    	recursive <boolean> 默认值: false。
+    	mode <string> | <integer> Windows 上不支持。默认值: 0o777。
+    callback <Function>
+    	err <Error>
+    异步地创建目录。 除了可能的异常，完成回调没有其他参数。
+
+    eg.创建 /tmp/a/apple 目录，无论是否存在 /tmp 和 /tmp/a 目录。
+		fs.mkdir('/tmp/a/apple', { recursive: true }, (err) => {
+		  if (err) throw err;
+		});
+
+
+//读取目录
+//fs.readdir(path[, options], callback)
+	参数：
+	path <string> | <Buffer> | <URL>
+	options <string> | <Object>
+	    encoding <string> 默认值: 'utf8'。
+	    withFileTypes <boolean> 默认值: false。
+	callback <Function>
+	    err <Error>
+	    files <string[]> | <Buffer[]> | <fs.Dirent[]>
+	*读取目录的内容。 回调有两个参数 (err, files)，其中 files是目录中的文件名的数组（不包括 '.' 和 '..'）。
+
+	*可选的 options 参数可以是指定编码的字符串，也可以是具有 encoding 属性的对象，该属性指定用于传给回调的文件名的字符编码。 如果 encoding 设置为 'buffer'，则返回的文件名是 Buffer 对象。
+
+	*如果 options.withFileTypes 设置为 true，则 files 数组将包含 fs.Dirent 对象。
+
+	eg.
+	fs.readdir(__dirname,(err,files)=>{
+		files.forEach((item,index)=>{
+			fs.stat(path.join(__dirname,item),(err,stats)=>{
+				if(stats.isFile()){
+				    console.log(item,'文件');
+				}
+				else if(stats.isDirectory()){
+				    console.log(item,'目录');
+				}
+			})
+		})
+	})
+
+
+//删除目录
+//fs.rmdir(path[, options], callback)
+	参数：	
+    path <string> | <Buffer> | <URL>
+    options <Object>
+    	recursive <boolean> 如果为 true，则执行递归的目录删除。在递归模式中，如果 path 不存在则不报告错误，并且在失败时重试操作。默认值: false。
+        
+        maxRetries <integer> 如果遇到 EBUSY、 EMFILE、 ENFILE、 ENOTEMPTY 或 EPERM错误，则 Node.js 将会在每次尝试时以 retryDelay 毫秒的线性回退来重试该操作。 此选项表示重试的次数。如果 recursive 选项不为 true，则忽略此选项。默认值: 0。
+
+        retryDelay <integer> 重试之间等待的时间（以毫秒为单位）。如果 recursive 选项不为 true，则忽略此选项。默认值: 100。
+    callback <Function>
+        err <Error>
+
+    在文件（而不是目录）上使用 fs.rmdir() 会导致在 Windows 上出现 ENOENT 错误、在 POSIX 上出现 ENOTDIR 错误。
+
+    eg.
+    fs.mkdir(path.join(__dirname,'abc'),(err)=>{
+		console.log('创建成功');
+
+	});
+	setTimeout(()=>{
+		fs.rmdir(path.join(__dirname,'abc'),(err)=>{
+		console.log('删除成功');
+	})
+	},1000);
+
+
+
+///7.包
+ 	i.npm常用命令：
+ 	  *npm install -g 包名      (加上-g为全局安装，无指定版本号安装最新版本)
+ 	  *npm install -g 包名@版本号  （指定版本下载）    
+ 	  *npm uninstall 包名 -g    (加上-g为全局卸载)
+ 	  *npm update -g  包名      （更新包到最新版本）
+ 	  *npm init   初始化一个包
+ 	    进入包的目录，node . 运行package.json中main指向的文件
+ 	    或者
+ 	    进入包的目录，package.json中有一个脚本"scripts":{"test":node index.js}
+ 	    执行npm run test
+
+ 	  *npm install  包名 --save 生产环境（项目部署上线之后的服务器环境）
+ 	  	  向生产环境添加依赖dependencies,在package.json文件中
+ 	  *npm install --production  安装在package.json文件中dependencies的所有依赖
+ 	  如果只有npm install 就是安装所有依赖，包括生产和开发环境的依赖
+
+ 	  *npm install  包名 --save-dev 开发环境（平时开发使用的环境）
+ 	  	  向开发环境添加依赖devDependencies,在package.json文件中
+ 	  上传代码时是不会上传node_modules中的文件，所以需要根据package.json中的dependencies去下载对应的依赖
+
+
+ 	ii.yarn基本操作
+ 	  *安装  npm install -g yarn
+ 	  与npm类比：
+ 	  初始化包：npm init ;   yarn init;
+ 	  安装包： npm install xxx --save ; yarn add xxx;(生产环境)
+ 	  安装开发依赖的包： npm install xxx --save-dev;yarn add xxx -dev
+ 	  全局安装： npm install -g xxx; yarn global add xxx;
+ 	  移除包： npm uninstall xxx ; yarn remove xxx;
+ 	  更新包： npm update xxx; yarn upgrade xxx;
+ 	  设置下载镜像地址：npm（yarn） config set registry url;
+ 	  安装所有依赖：npm（yarn) install;
+ 	  执行包：npm（yarn) run ; 
+
+
+ 	iii.自定义包
+ 	  *包的规范：
+ 	  		package.json必须位于顶层目录下；
+ 	  		二进制文件应该放在bin目录下；
+ 	  		js代码应该放在lib目录下；
+ 	  		文档应该在doc目录下；
+ 	  		单元测试应该在test目录下。
+
+ 	  *package.json字段介绍：
+ 	  		name:包的名称，小写；
+ 	  		description:包的描述；
+ 	  		version:版本；
+ 	  		keyword：关键字数组，用于搜素；
+ 	  		maintainers:维护者数组，每个元素要包括name,email,web字段；
+ 	  		contributers:贡献者数组，格式同上，包的作者作为第一个元素；
+ 	  		main:入口文件；
+ 	  		bugs：提交bug的地址；
+ 	  		licenses:许可证数组，每个元素要包含type(许可证名称)和url许可证文本链接；
+ 	  		repositories:仓库托管地址数组，要有type、url和path相对于仓库的路径；
+ 	  		dependencise:包生产环境的依赖；
+ 	  		devDependencise:包开发环境的依赖。
+
+
+///8.Web开发
+	
+//http.Server类
+    'checkContinue' 事件：
+    	每次收到 HTTP Expect: 100-continue 的请求时都会触发。 						 如果未监听此事件，服务器将自动响应 100 Continue。
+		处理此事件时，如果客户端应继续发送请求主体，则调用 response.writeContinue()，如果客户端不应继续发送请求主体，则生成适当的 HTTP 响应（例如 400 Bad Request）。
+		在触发和处理此事件时，不会触发 'request' 事件。
+
+    'checkExpectation' 事件：
+    	每次收到带有 HTTP Expect 请求头的请求时触发，其中值不是 100-continue。 如果未监听此事件，则服务器将根据需要自动响应 417 Expectation Failed。	
+		在触发和处理此事件时，不会触发 'request' 事件。
+
+    'clientError' 事件：
+    	如果客户端连接触发 'error' 事件，则会在此处转发。 此事件的监听器负责关闭或销毁底层套接字。 
+ 
+		此事件保证传入 <net.Socket> 类（<stream.Duplex> 的子类）的实例，除非用户指定了 <net.Socket> 以外的套接字类型。
+
+		默认行为是尝试使用 HTTP 400 Bad Request 关闭套接字、或者在 HPE_HEADER_OVERFLOW 错误的情况下尝试关闭 HTTP 431 Request Header Fields Too Large。 如果套接字不可写，则会被立即销毁。
+
+		eg.用户可能希望使用自定义 HTTP 响应更优雅地关闭套接字，而不是突然切断连接。
+		const http = require('http');
+		const server = http.createServer((req, res) => {
+		  res.end();
+		});
+		server.on('clientError', (err, socket) => {
+		  socket.end('HTTP/1.1 400 Bad Request\r\n\r\n');
+		});
+		server.listen(8000);
+
+		socket 是发生错误的 net.Socket 对象。
+			当 'clientError' 事件发生时，没有 request 或 response 对象，因此必须将发送的任何 HTTP 响应（包括响应头和有效负载）直接写入 socket 对象。 必须注意确保响应是格式正确的 HTTP 响应消息。
+
+		err 是 Error 实例，有以下两个额外的部分：
+		    bytesParsed: Node.js 可能正确解析的请求包的字节数。
+		    rawPacket: 当前请求的原始数据包。
+		
+    'close' 事件:当服务器关闭时触发。
+
+    'connect' 事件:
+    	每次客户端请求 HTTP CONNECT 方法时触发。 如果未监听此事件，则请求 CONNECT 方法的客户端将关闭其连接。
+
+		此事件保证传入 <net.Socket> 类（<stream.Duplex> 的子类）的实例，除非用户指定了 <net.Socket> 以外的套接字类型。
+
+		触发此事件后，请求的套接字将没有'data'事件监听器，这意味着它需要绑定才能处理发送到该套接字上的服务器的数据。
+
+    'connection' 事件:
+    	建立新的 TCP 流时会触发此事件。 socket 通常是 net.Socket 类型的对象。 通常用户无需访问此事件。 特别是，由于协议解析器附加到套接字的方式，套接字将不会触发 'readable' 事件。 也可以通过 request.connection 访问 socket。
+
+		用户也可以显式触发此事件，以将连接注入 HTTP 服务器。 在这种情况下，可以传入任何 Duplex 流。
+
+		如果在此处调用 socket.setTimeout()，则当套接字已提供请求时（如果 server.keepAliveTimeout 为非零），超时将会被 server.keepAliveTimeout 替换。
+
+		此事件保证传入 <net.Socket> 类（<stream.Duplex> 的子类）的实例，除非用户指定了 <net.Socket> 以外的套接字类型。
+
+    'request' 事件:
+    	每次有请求时都会触发。 每个连接可能有多个请求（在 HTTP Keep-Alive 连接的情况下）。
+
+    'upgrade' 事件:
+    	每次客户端请求 HTTP 升级时发出。 监听此事件是可选的，客户端无法坚持更改协议。
+
+		触发此事件后，请求的套接字将没有 'data' 事件监听器，这意味着它需要绑定才能处理发送到该套接字上的服务器的数据。
+
+		此事件保证传入 <net.Socket> 类（<stream.Duplex> 的子类）的实例，除非用户指定了 <net.Socket> 以外的套接字类型。
+
+    server.close([callback]): 	
+    	callback <Function> 当 server 被关闭时调用。
+    	返回: <net.Server>
+    	阻止 server 接受新的连接并保持现有的连接。 该函数是异步的，server将在所有连接结束后关闭并触发 'close' 事件。
+    	可选的 callback 将在 'close' 事件发生时被调用。 
+    	与 'close' 事件不同的是，如果 server 在关闭时未打开，回调函数被调用时会传入一个 Error 对象作为唯一参数。
+
+
+    server.headersTimeout: 
+    	<number> 默认值: 40000。
+    	限制解析器等待接收完整 HTTP 请求头的时间。
+
+    server.listen(port,ip,callback)：监听服务器端口,id为监听的ip地址；
+
+    server.listening: <boolean> 表明服务器是否正在监听连接。
+
+    server.maxHeadersCount:
+	    <number> 默认值: 2000。
+		限制最大传入请求头数。 如果设置为 0，则不会应用任何限制。
+
+    server.setTimeout([msecs][, callback]):
+    	msecs <number> 默认值: 120000（2 分钟）。
+    	返回: <http.Server>
+
+    	设置套接字的超时值，并在服务器对象上触发 'timeout' 事件，如果发生超时，则将套接字作为参数传入。
+		如果服务器对象上有 'timeout' 事件监听器，则将使用超时的套接字作为参数调用它。
+		默认情况下，服务器的超时值为 2 分钟，如果超时，套接字会自动销毁。 但是，如果将回调分配给服务器的 'timeout' 事件，则必须显式处理超时。
+
+    server.timeout:
+		<number> 超时时间（以毫秒为单位）。默认值: 120000（2 分钟）。
+		认定套接字超时的不活动毫秒数。
+		值为 0 将禁用传入连接的超时行为。
+		套接字超时逻辑在连接时设置，因此更改此值仅影响到服务器的新连接，而不影响任何现有连接
+
+    server.keepAliveTimeout:
+		<number> 超时时间（以毫秒为单位）。默认值: 5000（5 秒）。
+		服务器在完成写入最后一个响应之后，在销毁套接字之前需要等待其他传入数据的非活动毫秒数。 如果服务器在保持活动超时被触发之前接收到新数据，它将重置常规非活动超时，即 server.timeout。
+		值为 0 将禁用传入连接上的保持活动超时行为。 
+		值为 0 使得 http 服务器的行为与 8.0.0 之前的 Node.js 版本类似，后者没有保持活动超时。
+
+		套接字超时逻辑在连接时设置，因此更改此值仅影响到服务器的新连接，而不影响任何现有连接。
+		
+//http.IncomingMessage类
+
+	
+//http.ServerResponse类			
+	    'close' 事件
+	    'finish' 事件
+	    response.addTrailers(headers)
+	    response.connection
+	    response.cork()
+	    response.end([data[, encoding]][, callback])
+	    response.flushHeaders()
+	    response.getHeader(name)
+	    response.getHeaderNames()
+	    response.getHeaders()
+	    response.hasHeader(name)
+	    response.headersSent
+	    response.removeHeader(name)
+	    response.sendDate
+	    response.setHeader(name, value)
+	    response.setTimeout(msecs[, callback])
+	    response.socket
+	    response.statusCode
+	    response.statusMessage
+	    response.uncork()
+	    response.writableEnded
+	    response.writableFinished
+	    response.write(chunk[, encoding][, callback])
+	    response.writeContinue()
+	    
+	response.writeHead(statusCode[, statusMessage][, headers]):
+	    参数：	    	
+		    statusCode <number>
+		    statusMessage <string>
+		    headers <Object>
+		 返回: <http.ServerResponse>
+
+		向请求发送响应头。 状态码是一个 3 位的 HTTP 状态码，如 404。 最后一个参数 headers 是响应头。 可以可选地将用户可读的 statusMessage 作为第二个参数。
+		返回对 ServerResponse 的引用，以便可以链式调用。
+
+		eg.
+		const body = 'hello world';
+		response.writeHead(200, {
+		    'Content-Length': Buffer.byteLength(body),
+		    'Content-Type': 'text/plain'
+		  }).end(body);
+
+		此方法只能在消息上调用一次，并且必须在调用 response.end() 之前调用。
+		如果在调用此方法之前调用了 response.write() 或 response.end()，则将计算隐式或可变的响应头并调用此函数。	
+		当使用 response.setHeader() 设置响应头时，则与传给 response.writeHead() 的任何响应头合并，且 response.writeHead() 的优先。
+
+		如果调用此方法并且尚未调用 response.setHeader()，则直接将提供的响应头值写入网络通道而不在内部进行缓存，响应头上的 response.getHeader() 将不会产生预期的结果。 如果需要渐进的响应头填充以及将来可能的检索和修改，则改用 response.setHeader()。
+
+	    eg2.
+	    // 返回 content-type = text/plain
+		const server = http.createServer((req, res) => {
+		  res.setHeader('Content-Type', 'text/html');
+		  res.setHeader('X-Foo', 'bar');
+		  res.writeHead(200, { 'Content-Type': 'text/plain' });
+		  res.end('ok');
+		});
+
+
+    response.writeProcessing()
+
+
+i.初步实现静态服务器
+//创建服务器
+//http.createServer([options][, requestListener])
+	参数：
+    options <Object>
+        IncomingMessage <http.IncomingMessage> 指定要使用的 IncomingMessage 类。用于扩展原始的 IncomingMessage。默认值: IncomingMessage。
+
+        ServerResponse <http.ServerResponse> 指定要使用的 ServerResponse 类。用于扩展原始的 ServerResponse。默认值: ServerResponse。
+
+        insecureHTTPParser <boolean> 使用不安全的 HTTP 解析器，当为 true 时接受无效的 HTTP 请求头。应避免使用不安全的解析器。有关更多信息，参阅 --insecure-http-parser。默认值: false。
+    requestListener <Function>
+    返回: <http.Server>
+    	返回新的 http.Server 实例。
+
+
+    eg.
+    const http = require('http');
+    let server = http.createServer();
+    server.on('request',(req,res)=>{
+    	res.end('hello');
+    });
+    server.listen(3000);
+
+    或者
+    let server = http.createServer((req,res)=>{
+    	res.end('ok');
+    }).listen(3000);
+
+
+//处理请求路径的分发
+	*req对象是Class:http.IncomingMessage的实例对象
+	*res对象是Class:http.ServerResponse的实例对象
+
+	req.url可以获取URL中端口之后的路径
+	eg.
+	const http = require('http');
+	let server = http.createServer((req,res)=>{
+	    	if(req.url.startsWith('/index')){
+	    		res.end('index');
+	    	}
+	    	else{
+	    		res.end('no');
+	    	}
+	    }).listen(3000);
+
+
+
+ii.动态服务器
+//get 参数处理
+//url.parse(urlString[, parseQueryString[, slashesDenoteHost]])
+  【将整个url转化为一个url对象】
+
+//url.format(urlObject)
+  【将url对象转换为url字符串】
+
+eg.
+	const url = require('url');
+	let str = 'http://www.baidu.com：3000/abd/acc?a=1&key=123';
+	let ret = url.parse(str,true);
+	 //加上true,会将query字符串转化为对象
+	console.log(ret);
+
+	输出：
+	Url {
+		  protocol: 'http:',
+		  slashes: true,
+		  auth: null,
+		  host: 'www.baidu.com:3000',
+		  port: '3000',
+		  hostname: 'www.baidu.com',
+		  hash: null,
+		  search: '?a=1&key=123',
+		  query: [Object: null prototype] { a: '1', key: '123' },
+		  pathname: '/abd/acc',
+		  path: '/abd/acc?a=1&key=123',
+		  href: 'http://www.baidu.com:3000/abd/acc?a=1&key=123' }
+
+	eg2.
+	let obj = {
+		  protocol: 'http:',
+		  slashes: true,
+		  auth: null,
+		  host: 'www.baidu.com:3000',
+		  port: '3000',
+		  hostname: 'www.baidu.com',
+		  hash: null,
+		  search: '?a=1&key=123',
+		  query: [Object: null prototype] { a: '1', key: '123' },
+		  pathname: '/abd/acc',
+		  path: '/abd/acc?a=1&key=123',
+		  href: 'http://www.baidu.com:3000/abd/acc?a=1&key=123' };
+
+	 let str = url.format(obj);
+	 console.log(str);
+	 输出：http://www.baidu.com:3000/abd/acc?a=1&key=123
+
+
+  
+//post参数处理
